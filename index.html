@@ -64,7 +64,16 @@
     .brand-copy strong { font-family: var(--serif); font-size: 15px; font-weight: 700; letter-spacing: .04em; }
     .brand-copy span { margin-top: 4px; color: #c2cbbb; font-size: 10px; text-transform: uppercase; }
     .header-right { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
-    .callsign-help { width: 150px; margin: 0; color: #c2cbbb; font-size: 10px; line-height: 1.35; }
+    .callsign-info { display: flex; flex: 0 1 150px; flex-direction: column; gap: 6px; min-width: 0; }
+    .callsign-help { width: 100%; margin: 0; color: #c2cbbb; font-size: 10px; line-height: 1.35; }
+    .id-gender-control { display: flex; align-items: center; flex: 0 0 auto; }
+    .id-gender-options { display: flex; gap: 2px; padding: 3px; background: rgba(0,0,0,.18); border: 1px solid rgba(255,255,255,.22); border-radius: 3px; }
+    .id-gender-button { min-height: 27px; padding: 4px 8px; border: 0; border-radius: 2px; font-size: 10px; font-weight: 700; }
+    .id-gender-button[data-id-gender="male"] { color: #c0d0da; background: rgba(75, 103, 123, .22); }
+    .id-gender-button[data-id-gender="female"] { color: #d8bac1; background: rgba(126, 79, 92, .22); }
+    .id-gender-button[data-id-gender="male"][aria-pressed="true"] { color: #f0f4f6; background: #4c6678; }
+    .id-gender-button[data-id-gender="female"][aria-pressed="true"] { color: #f8eff1; background: #78515d; }
+    .id-gender-button:focus-visible { outline: 2px solid #e3c522; outline-offset: 2px; }
     .main-nav { display: flex; gap: 19px; }
     .main-nav a { color: #e5e8df; font-size: 12px; text-decoration: none; }
     .main-nav a:hover { color: white; text-decoration: underline; text-underline-offset: 4px; }
@@ -340,7 +349,8 @@
       .site-header { padding: 9px 14px; }
       .header-inner { flex-wrap: wrap; gap: 8px; }
       .header-right { flex: 1; gap: 10px; }
-      .callsign-help { width: 130px; font-size: 9px; }
+      .callsign-info { flex-basis: 130px; }
+      .callsign-help { font-size: 9px; }
       .callsign-patch { width: 68px; height: 68px; }
       .callsign-value, .callsign-patch input { font-size: 14px; }
       .hero { grid-template-columns: 1fr; min-height: 290px; }
@@ -360,7 +370,7 @@
       .brand-copy strong { font-size: 12px; }
       .brand-copy span { font-size: 8px; }
       .header-right { flex-basis: 100%; justify-content: flex-start; gap: 8px; padding-left: 43px; }
-      .callsign-help { flex-basis: 100%; width: auto; max-width: 280px; margin-left: 0; }
+      .callsign-info { flex-basis: 180px; }
       .view-tabs { gap: 5px; }
       .nav-tab { min-height: 33px; padding: 6px 8px; font-size: 10px; }
       .callsign-patch { width: 60px; height: 60px; }
@@ -410,7 +420,15 @@
       <label class="callsign-patch" title="Your callsign is saved in this browser">
         <span class="callsign-designator"><span class="callsign-value" id="callsign-preview" aria-hidden="true">241S</span><input id="callsign" list="callsign-options" maxlength="5" placeholder="1S" aria-label="Callsign identifier after 24"></span>
       </label>
-      <p class="callsign-help">Type letters or numbers after 24 to personalize your callsign. It saves in this browser.</p>
+      <div class="callsign-info">
+        <p class="callsign-help">Type letters or numbers after 24 to personalize your callsign. It saves in this browser.</p>
+        <div class="id-gender-control" role="group" aria-label="Character model IDs">
+          <div class="id-gender-options">
+            <button class="id-gender-button" type="button" data-id-gender="male" aria-pressed="true">Male</button>
+            <button class="id-gender-button" type="button" data-id-gender="female" aria-pressed="false">Female</button>
+          </div>
+        </div>
+      </div>
 <!--       <datalist id="callsign-options">
         <option value="1S" label="Sam"></option>
         <option value="1A" label="Adam"></option>
@@ -485,7 +503,7 @@
 
       <div class="section-heading" id="equipment-section">
         <div><span class="section-kicker">02 / Loadout</span><h2>Equipment</h2></div>
-        <p>ID's subject to out-of-date information after game updates. Currently male only.</p>
+        <p>Model and texture IDs match the selected character model. Verify IDs after game updates.</p>
       </div>
       <div class="catalog-grid" id="equipment-list"></div>
 
@@ -712,7 +730,7 @@
       { name: "Scuba Cylinder", category: 'Team Equipment', image: 'https://i.postimg.cc/T3c0vPL9/scubacylinder.png', description: 'A diving cylinder or diving gas cylinder is a gas cylinder used to store and transport high pressure gas used in diving operations.', slot: 'Undershirts', model: '243', texture: '0' },
       { name: "Tattoo Cover", category: 'Team Equipment', image: 'https://i.postimg.cc/x1mLTbDC/tattoocover.png', description: 'Black, green, tan, or white tattoo covers for concealing sleeve tattoos during operations.', slot: 'Armor/Masks', model: '74 (Armor) / 237 (Masks)', texture: 'MULTI' },
 
-    ].map(item => ({ model: '', texture: '', ...item }));
+    ].map(item => ({ model: '', texture: '', modelF: '', textureF: '', ...item }));
     const weapons = [
       { name: 'Carbine Rifle', image: 'https://i.postimg.cc/prbHKyLf/carbinerifle.png', description: 'Hawk & Little Carbine Rifle; authorized 5.56x45mm NATO carbine rifle.', take: '1' },
       { name: 'Remington Shotgun', image: 'https://i.postimg.cc/PJWkyhCR/remington-shotgun.png', description: 'Remington 870; authorized for law enforcement use.', take: '2' },
@@ -785,7 +803,9 @@
       { name: 'sitguninspect', description: 'Sit looking at long gun.' },
       { name: '/ca tablet ub fkneel1 slf', description: 'CORE reviewing.' }
     ].sort((left, right) => left.name.localeCompare(right.name, undefined, { numeric: true, sensitivity: 'base' }));
-    const storageKeys = { callsign: 'seb-callsign', customs: 'seb-customs', uniforms: 'seb-uniforms' };
+    const storageKeys = { callsign: 'seb-callsign', customs: 'seb-customs', uniforms: 'seb-uniforms', gender: 'seb-id-gender' };
+    let selectedIdGender = loadStored(storageKeys.gender, 'male');
+    if (!['male', 'female'].includes(selectedIdGender)) selectedIdGender = 'male';
     let activeFormat = 'incident';
     let toastTimer;
 
@@ -801,6 +821,31 @@
       }, { once: true }));
     }
 
+    function renderEquipment() {
+      const equipmentList = document.getElementById('equipment-list');
+      equipmentList.innerHTML = equipment.map(item => {
+        const selectedModel = selectedIdGender === 'female' ? item.modelF : item.model;
+        const selectedTexture = selectedIdGender === 'female' ? item.textureF : item.texture;
+        const hasMaleIds = Boolean(item.model || item.texture);
+        const femaleIdsUnavailable = selectedIdGender === 'female' && !selectedModel && !selectedTexture && hasMaleIds;
+        const metadata = [
+          item.category,
+          item.slot,
+          selectedModel && `MODEL — ${selectedModel}`,
+          selectedTexture && `TEXTURE — ${selectedTexture}`,
+          femaleIdsUnavailable && 'FEMALE IDS UNAVAILABLE',
+          item.take && `/tw ${item.take}`
+        ].filter(Boolean).join(' · ');
+        const searchText = [item.category, item.slot, item.name, item.nickname, item.description, selectedModel, selectedTexture, item.take].join(' ');
+        return `
+          <article class="catalog-card searchable" data-search="${escapeHtml(searchText)}">
+            <div class="catalog-image"><img src="${escapeHtml(item.image)}" alt="Image of ${escapeHtml(item.name)}"></div>
+            <div class="catalog-content"><div class="catalog-meta">${escapeHtml(metadata)}</div><h3>${escapeHtml(item.name)}</h3>${item.nickname ? `<p class="catalog-nickname">${escapeHtml(item.nickname)}</p>` : ''}<p class="catalog-description">${escapeHtml(item.description)}</p></div>
+          </article>`;
+      }).join('');
+      addCatalogImageFallbacks(equipmentList);
+    }
+
     function renderCatalog() {
       const glossaryList = document.getElementById('glossary-list');
       glossaryList.innerHTML = glossary.length ? glossary.map(item => {
@@ -810,13 +855,7 @@
             <div class="catalog-content"><h3>${escapeHtml(item.term)}</h3><p class="catalog-description">${escapeHtml(description)}</p></div>
           </article>`;
       }).join('') : '<div class="empty-state">No glossary entries have been added yet.</div>';
-      const equipmentList = document.getElementById('equipment-list');
-      equipmentList.innerHTML = equipment.map(item => `
-        <article class="catalog-card searchable" data-search="${escapeHtml([item.category, item.slot, item.name, item.nickname, item.description, item.model, item.texture, item.take].join(' '))}">
-          <div class="catalog-image"><img src="${escapeHtml(item.image)}" alt="Image of ${escapeHtml(item.name)}"></div>
-          <div class="catalog-content"><div class="catalog-meta">${escapeHtml([item.category, item.slot, item.model && `MODEL — ${item.model}`, item.texture && `TEXTURE — ${item.texture}`, item.take && `/tw ${item.take}`].filter(Boolean).join(' · '))}</div><h3>${escapeHtml(item.name)}</h3>${item.nickname ? `<p class="catalog-nickname">${escapeHtml(item.nickname)}</p>` : ''}<p class="catalog-description">${escapeHtml(item.description)}</p></div>
-        </article>`).join('');
-      addCatalogImageFallbacks(equipmentList);
+      renderEquipment();
       const weaponList = document.getElementById('weapon-list');
       weaponList.innerHTML = weapons.map(item => `
         <article class="catalog-card searchable" data-search="${escapeHtml([item.name, item.description, item.take].join(' '))}">
@@ -1060,6 +1099,19 @@
       event.target.value = event.target.value.toUpperCase();
       localStorage.setItem(storageKeys.callsign, event.target.value);
       updateCallsignPreview(event.target.value);
+    });
+    const idGenderButtons = document.querySelectorAll('[data-id-gender]');
+    function selectIdGender(gender) {
+      if (!['male', 'female'].includes(gender)) return;
+      selectedIdGender = gender;
+      saveStored(storageKeys.gender, gender);
+      idGenderButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.idGender === gender)));
+      renderEquipment();
+      applySearch();
+    }
+    idGenderButtons.forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.idGender === selectedIdGender));
+      button.addEventListener('click', () => selectIdGender(button.dataset.idGender));
     });
     document.querySelectorAll('[data-view-target]').forEach(button => button.addEventListener('click', () => {
       const selectedView = button.dataset.viewTarget;
