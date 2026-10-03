@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#29382c">
+  <title>Special Enforcement Bureau | Field Reference</title>
+  <link rel="icon" type="image/png" href="gfx/seblogo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202923;
+      --muted: #69736b;
+      --paper: #f1f1e9;
+      --panel: #fafaf5;
+      --green: #35483a;
+      --green-deep: #26372b;
+      --green-light: #dce3d9;
+      --orange: #b65a38;
+      --line: #d7dbd1;
+      --shadow: 0 14px 38px rgba(31, 42, 33, .09);
+      --serif: Georgia, 'Times New Roman', serif;
+      --sans: 'Trebuchet MS', 'Arial Narrow', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    button { cursor: pointer; }
+    .site-header {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      padding: 0 clamp(16px, 5vw, 72px);
+      color: #f7f6ef;
+      background: var(--green-deep);
+      border-bottom: 3px solid #77836e;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: min(100%, 1240px);
+      min-height: 96px;
+      margin: 0 auto;
+    }
+    .brand-lockup { display: flex; align-items: center; gap: 12px; min-width: 0; text-decoration: none; }
+    .brand-lockup img { width: 39px; height: 39px; object-fit: contain; }
+    .brand-copy { display: grid; line-height: 1.08; }
+    .brand-copy strong { font-family: var(--serif); font-size: 15px; font-weight: 700; letter-spacing: .04em; }
+    .brand-copy span { margin-top: 4px; color: #c2cbbb; font-size: 10px; text-transform: uppercase; }
+    .header-right { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
+    .callsign-help { width: 150px; margin: 0; color: #c2cbbb; font-size: 10px; line-height: 1.35; }
+    .main-nav { display: flex; gap: 19px; }
+    .main-nav a { color: #e5e8df; font-size: 12px; text-decoration: none; }
+    .main-nav a:hover { color: white; text-decoration: underline; text-underline-offset: 4px; }
+    .callsign-patch {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 39px;
+      padding: 5px 12px 5px 6px;
+      color: #20271f;
+      background: #ecebdd;
+      border: 1px solid #c5c8b9;
+      border-radius: 3px;
+      box-shadow: inset 0 0 0 2px rgba(48, 62, 49, .08);
+    }
+    .patch-star { color: #68745f; font-size: 18px; }
+    .callsign-patch input { width: 105px; padding: 0; color: #26372b; background: transparent; border: 0; outline: 0; font-weight: 800; letter-spacing: .04em; }
+    .callsign-patch input::placeholder { color: #74806f; }
+    .patch-label { color: #616c5d; font-size: 9px; text-transform: uppercase; }
+    .view-tabs { display: flex; align-items: center; gap: 8px; }
+    .nav-tab { min-height: 36px; padding: 7px 12px; color: #dfe6da; background: transparent; border: 1px solid rgba(255,255,255,.25); border-radius: 3px; font-size: 11px; font-weight: 700; }
+    .nav-tab[aria-selected="true"] { color: #1e2b20; background: #dce4d3; border-color: #dce4d3; }
+    .view-tabs .nav-tab { white-space: nowrap; }
+    main { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      align-items: center;
+      min-height: 270px;
+      margin: 26px 0 0;
+      padding: clamp(28px, 5vw, 58px);
+      overflow: hidden;
+      color: #f6f4eb;
+      background: #35483a;
+      border-radius: 3px;
+      isolation: isolate;
+      animation: arrive .65s ease-out both;
+    }
+    .hero::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background: repeating-linear-gradient(135deg, transparent 0 16px, rgba(255,255,255,.025) 16px 17px), linear-gradient(105deg, rgba(27,42,31,.35), transparent 70%);
+      content: '';
+    }
+    .hero-logo {
+      position: absolute;
+      z-index: -1;
+      top: 50%;
+      right: 20%;
+      width: min(30vw, 280px);
+      max-height: 260px;
+      object-fit: contain;
+      opacity: .13;
+      transform: translate(50%, -50%);
+      filter: grayscale(.3);
+    }
+    .hero-copy { max-width: 650px; }
+    .hero-copy h1 { max-width: none; margin-bottom: 8px; font-family: var(--serif); font-size: 48px; font-style: italic; font-weight: 700; line-height: 1.02; }
+    .hero-copy .hero-tagline { margin: 0 0 16px; color: #e3c522; font-family: var(--serif); font-size: 23px; font-style: italic; font-weight: 700; line-height: 1.2; }
+    .hero-copy .hero-description { max-width: 510px; margin: 0 0 24px; color: #dce1d6; font-size: 14px; line-height: 1.65; }
+    .eyebrow { margin: 0 0 9px; color: #c8d1bd; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 630px; margin-bottom: 12px; font-family: var(--serif); font-size: clamp(34px, 5vw, 52px); font-weight: 500; line-height: 1.04; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .button-link, .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color .16s ease, transform .16s ease;
+    }
+    .button-link:hover, .button:hover { transform: translateY(-1px); }
+    .button-link.primary, .button.primary { color: #28352b; background: #e7e8da; }
+    .button-link.secondary { color: white; border-color: rgba(255,255,255,.4); }
+    .button { color: white; background: var(--green); }
+    .button.secondary { color: var(--green); background: transparent; border-color: var(--line); }
+    .button.danger { background: #8c4533; }
+    .button.small { min-height: 33px; padding: 6px 10px; font-size: 11px; }
+    .hero-stamp { justify-self: end; width: min(22vw, 205px); max-height: 205px; object-fit: contain; opacity: .9; }
+    .resource-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 0; min-height: 56px; padding: 12px 18px; background: #e2e5db; border-bottom: 1px solid #cdd4c8; }
+    .resource-strip > span { margin-right: 12px; color: #657064; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .resource-strip a { padding: 0 10px; color: #344638; font-size: 12px; text-decoration: none; }
+    .resource-strip a + a { border-left: 1px solid #aeb8a9; }
+    .resource-strip a:hover { color: var(--orange); text-decoration: underline; }
+    .hero-team-links .team-link { display: inline-flex; align-items: center; gap: 5px; padding: 0 10px; }
+    .hero-team-links .team-link + .team-link { border-left: 1px solid rgba(220,229,213,.35); }
+    .hero-team-links .team-link a { padding: 0; }
+    .hero .hero-team-links { grid-column: 1 / -1; min-height: 40px; padding: 10px 0 0; border: 0; border-top: 1px solid rgba(220,229,213,.24); background: transparent; }
+    .hero .hero-section-links { min-height: 36px; padding-top: 7px; }
+    .section { padding: 62px 0 0; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .section-heading h2 { margin-bottom: 12px; font-family: var(--serif); font-size: 29px; font-weight: 500; }
+    .section-heading p { margin-bottom: 13px; color: var(--muted); font-size: 12px; }
+    .section-kicker { display: block; margin-bottom: 5px; color: var(--orange); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .search-row { display: flex; align-items: center; gap: 12px; margin: 20px 0 22px; }
+    .search-field { position: relative; flex: 1; }
+    .search-field span { position: absolute; top: 50%; left: 13px; color: #717a70; transform: translateY(-50%); }
+    .search-field input { width: 100%; min-height: 44px; padding: 10px 40px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 3px; outline: none; }
+    .search-field input:focus, input:focus, textarea:focus, select:focus { border-color: #70826d; box-shadow: 0 0 0 3px rgba(82, 108, 82, .12); }
+    .search-count { min-width: 76px; color: var(--muted); font-size: 11px; text-align: right; }
+    .search-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; margin: 0 0 26px; }
+    .search-results-heading { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .search-results-heading h2 { margin: 0; font-family: var(--serif); font-size: 24px; font-weight: 500; }
+    .search-results-heading span { color: var(--muted); font-size: 11px; }
+    .search-results .catalog-card, .search-results .animation-card { animation: none; }
+    .search-result-note { min-height: auto; }
+    .catalog-card.search-result-note { grid-template-columns: minmax(0, 1fr); }
+    .search-result-note .catalog-content { padding-top: 2px; }
+    .resource-link { display: inline-flex; align-items: center; gap: 8px; min-height: 37px; padding: 7px 11px; color: #344638; background: #e6e9df; border: 1px solid #cbd2c7; border-radius: 3px; font-size: 11px; text-decoration: none; }
+    .resource-link:hover { background: #d8e0d5; }
+    .catalog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+    .catalog-card { display: grid; grid-template-columns: 104px minmax(0, 1fr); min-height: 130px; padding: 12px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid #78846f; border-radius: 3px; box-shadow: 0 3px 13px rgba(31,42,33,.035); animation: arrive .35s ease-out both; }
+    .catalog-card.glossary-card { grid-template-columns: minmax(0, 1fr); min-height: 65px; padding-top: 6px; padding-bottom: 6px; }
+    .catalog-image { display: grid; place-items: center; min-height: 104px; padding: 7px; overflow: hidden; background: #e5e8df; border: 1px solid #d2d8cf; }
+    .catalog-image img { width: 100%; height: 100px; object-fit: contain; }
+    .catalog-image img { cursor: zoom-in; }
+    .catalog-image img.image-unavailable { padding: 18px; opacity: .48; }
+    .catalog-image .image-fallback { color: #56664f; font-size: 30px; }
+    .image-preview { position: fixed; z-index: 30; top: 50%; left: 50%; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; width: min(560px, 84vw); height: min(620px, 76vh); margin: 0; padding: 12px; overflow: hidden; color: var(--ink); background: rgba(20, 33, 23, .98); border: 1px solid #7c8b70; border-radius: 3px; box-shadow: 0 18px 60px rgba(0,0,0,.55); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, -47%) scale(.97); transition: opacity .14s ease, transform .14s ease, visibility .14s ease; }
+    .image-preview.visible { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+    .image-preview img { width: 100%; height: 100%; min-height: 0; object-fit: contain; background: rgba(0,0,0,.22); }
+    .image-preview figcaption { overflow: hidden; color: #dce5d5; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .catalog-content { min-width: 0; padding: 2px 3px 2px 14px; }
+    .catalog-meta { min-height: 17px; margin-bottom: 4px; color: #687366; font-size: 10px; font-weight: 800; }
+    .catalog-content h3 { margin-bottom: 2px; font-family: var(--serif); font-size: 17px; line-height: 1.2; }
+    .catalog-nickname { margin-bottom: 5px; color: #53674f; font-size: 12px; font-style: italic; }
+    .catalog-description { margin-bottom: 0; color: #5e685f; font-size: 11px; }
+    .take-code { display: inline-block; margin: 0 0 5px; padding: 2px 6px; color: #e9ecdf; background: #35483a; font-size: 10px; font-weight: 800; }
+    .animation-card { display: flex; align-items: center; justify-content: space-between; gap: 15px; min-height: 66px; padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 3px; }
+    .animation-copy { min-width: 0; }
+    .animation-name { padding: 0; color: #344638; background: none; border: 0; font-family: var(--serif); font-size: 16px; font-weight: 700; text-align: left; text-decoration: underline; text-decoration-color: #aeb9a8; text-underline-offset: 3px; }
+    .animation-name:hover { color: var(--orange); }
+    .animation-description { margin: 3px 0 0; color: #687166; font-size: 11px; }
+    .empty-state { grid-column: 1 / -1; padding: 25px; color: var(--muted); background: rgba(255,255,255,.48); border: 1px dashed var(--line); font-size: 13px; text-align: center; }
+    .personal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; align-items: start; }
+    .personal-section { min-width: 0; }
+    .personal-section .section-heading { margin-bottom: 15px; }
+    .personal-section .section-heading h2 { font-size: 25px; }
+    .add-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 13px; }
+    .add-row input, .add-row select { flex: 1; min-width: 125px; }
+    input, textarea, select { width: 100%; min-height: 37px; padding: 8px 10px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 3px; outline: none; }
+    textarea { min-height: 96px; resize: vertical; }
+    .area-block { margin-bottom: 13px; padding: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 3px; }
+    .area-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
+    .area-heading h3 { margin: 0; font-size: 13px; }
+    .slot-row { display: grid; grid-template-columns: minmax(60px, .45fr) minmax(0, 1fr) 32px; gap: 7px; margin-top: 7px; }
+    .slot-row input { min-width: 0; min-height: 35px; font-size: 11px; }
+    .slot-remove { width: 32px; min-height: 35px; color: #854533; background: transparent; border: 1px solid #e0c9c1; border-radius: 3px; font-size: 18px; }
+    .slot-remove:hover { background: #f8e9e3; }
+    .slot-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 9px; color: var(--muted); font-size: 10px; }
+    .quiet-note { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
+    .format-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(290px, .8fr); gap: 18px; align-items: start; }
+    .format-panel { min-width: 0; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-top: 3px solid #78846f; border-radius: 3px; }
+    .format-panel h3 { margin-bottom: 13px; font-family: var(--serif); font-size: 21px; font-weight: 500; }
+    .format-tabs { display: flex; gap: 6px; margin-bottom: 17px; }
+    .format-tab { min-height: 36px; padding: 7px 12px; color: #4b5d4b; background: transparent; border: 1px solid var(--line); border-radius: 3px; font-size: 11px; font-weight: 700; }
+    .format-tab[aria-selected="true"] { color: white; background: var(--green); border-color: var(--green); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    .form-field { min-width: 0; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field label, .member-label { display: block; margin-bottom: 4px; color: #596459; font-size: 10px; font-weight: 800; }
+    .form-field input, .form-field textarea { font-size: 12px; }
+    .member-list { display: grid; gap: 7px; }
+    .member-row { display: grid; grid-template-columns: 1fr 34px; gap: 6px; }
+    .member-row input { min-width: 0; font-size: 12px; }
+    .output-panel { position: sticky; top: 86px; }
+    .output-panel textarea { min-height: 430px; color: #e5e9df; background: #26372b; border-color: #26372b; font-family: Consolas, monospace; font-size: 11px; line-height: 1.55; }
+    .output-panel textarea:focus { border-color: #83967f; }
+    .output-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .form-actions { margin-top: 15px; }
+    .form-hint { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
+    .site-footer { display: flex; justify-content: space-between; gap: 15px; margin-top: 65px; padding: 20px 0 28px; color: #667066; border-top: 1px solid var(--line); font-size: 10px; }
+    .site-footer a { color: #ff8a24; font-weight: 700; text-underline-offset: 2px; -webkit-text-stroke: .35px #080a08; paint-order: stroke fill; }
+    .toast { position: fixed; z-index: 20; right: 18px; bottom: 18px; max-width: min(340px, calc(100% - 36px)); padding: 11px 15px; color: white; background: #26372b; border: 1px solid #758570; border-radius: 3px; box-shadow: var(--shadow); font-size: 12px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .18s ease, transform .18s ease; }
+    .toast.visible { opacity: 1; transform: translateY(0); }
+    .back-to-top { position: fixed; z-index: 25; right: 22px; bottom: 68px; display: grid; place-items: center; width: 46px; height: 46px; padding: 0; color: #17241a; background: #e3c522; border: 1px solid #090b08; border-radius: 50%; box-shadow: 0 4px 14px rgba(0,0,0,.4); font-size: 25px; font-weight: 700; line-height: 1; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
+    .back-to-top.visible { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+    .back-to-top:hover { background: #f0d638; }
+    .back-to-top:focus-visible { outline: 2px solid #f4f0db; outline-offset: 3px; }
+    .hidden { display: none !important; }
+    :root {
+      color-scheme: dark;
+      --ink: #e8ede4;
+      --muted: #b2beb0;
+      --paper: #18251b;
+      --panel: rgba(38, 54, 41, .96);
+      --green: #52694f;
+      --green-deep: #152219;
+      --green-light: #dce5d5;
+      --orange: #d4a176;
+      --line: #4d614f;
+      --shadow: 0 14px 38px rgba(0, 0, 0, .28);
+    }
+    html { background: #17241a; }
+    body { min-height: 100vh; color: var(--ink); background: transparent; }
+    body::before {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      background-color: #17241a;
+      background-image: linear-gradient(rgba(20, 33, 23, .84), rgba(20, 33, 23, .88)), url('gfx/seblogo.png');
+      background-position: center, center;
+      background-repeat: no-repeat;
+      background-size: cover, min(94vw, 940px) auto;
+      content: '';
+      pointer-events: none;
+    }
+    .site-header { background: rgba(21, 34, 25, .97); }
+    .header-right { flex-wrap: wrap; }
+    .main-nav { display: none; }
+    .callsign-patch {
+      position: relative;
+      width: 78px;
+      height: 78px;
+      padding: 0;
+      overflow: hidden;
+      color: #22241d;
+      background: #46513a url('gfx/callsign_4.jpg') center / cover no-repeat;
+      border: 1px solid #a4a991;
+      border-radius: 2px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.28);
+    }
+    .callsign-designator { position: absolute; inset: 0; display: grid; place-items: center; width: 100%; height: 100%; }
+    .callsign-value { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; color: #e3c522; font-family: 'Black Ops One', Impact, sans-serif; font-size: 16px; font-weight: 400; line-height: 1; letter-spacing: 0; -webkit-text-stroke: .45px #080a08; paint-order: stroke fill; text-shadow: 0 1px 2px rgba(0,0,0,.8); transform: translateY(18px); pointer-events: none; }
+    .callsign-patch input { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; min-height: 0; padding: 18px 0 0; color: transparent; -webkit-text-fill-color: transparent; caret-color: #e3c522; background: transparent; border: 0; text-align: center; font-family: 'Black Ops One', Impact, sans-serif; font-size: 16px; font-weight: 400; line-height: 1; letter-spacing: 0; }
+    .patch-label { display: none; }
+    .hero { background: rgba(42, 61, 45, .9); border: 1px solid rgba(194, 208, 187, .14); }
+    .hero::before { background: repeating-linear-gradient(135deg, transparent 0 16px, rgba(255,255,255,.025) 16px 17px), linear-gradient(105deg, rgba(19,32,22,.34), transparent 70%); }
+    .hero-logo { display: none; }
+    .resource-strip { color: var(--ink); background: rgba(31, 47, 34, .92); border-color: var(--line); }
+    .hero .hero-team-links { background: transparent; border: 0; border-top: 1px solid rgba(220,229,213,.24); }
+    .resource-strip > span, .section-heading p, .catalog-meta, .catalog-description, .animation-description, .quiet-note, .form-hint, .site-footer { color: var(--muted); }
+    .resource-strip a, .resource-link { color: #e3eadc; }
+    .resource-strip a + a { border-color: #596b58; }
+    .resource-link { background: rgba(47, 66, 49, .95); border-color: var(--line); }
+    .resource-link:hover { background: #405941; }
+    .section-heading { border-color: var(--line); }
+    .catalog-card, .animation-card, .area-block, .format-panel { color: var(--ink); background: var(--panel); border-color: var(--line); }
+    .catalog-image { background: #1c2a20; border-color: #4b5e4b; }
+    .catalog-content h3, .animation-name { color: #e9eee5; }
+    .catalog-nickname { color: #b9c9ae; }
+    .animation-name { text-decoration-color: #82957e; }
+    .animation-name:hover { color: var(--orange); }
+    .area-heading h3 { color: var(--ink); }
+    .slot-remove { color: #e4aa8e; border-color: #76574b; }
+    .slot-remove:hover { background: #523b34; }
+    input, textarea, select, .search-field input { color: var(--ink); background: #1c2a20; border-color: #526552; }
+    input::placeholder, textarea::placeholder { color: #9dab9a; }
+    .form-field label, .member-label { color: #c5d0c2; }
+    .button.secondary { color: #e4ece0; border-color: #61745f; }
+    .button.secondary:hover { background: #3b513b; }
+    .button-link.primary { color: #203023; background: #dce5d5; }
+    .button-link.secondary { color: #f1f4ed; border-color: rgba(255,255,255,.46); }
+    .output-panel textarea { color: #e5e9df; background: #152219; border-color: #152219; }
+    .site-footer { border-color: var(--line); }
+    .site-footer a { color: #ff8a24; -webkit-text-stroke: .35px #080a08; paint-order: stroke fill; }
+    .empty-state { color: #c0cbbd; background: rgba(34, 50, 37, .92); border-color: var(--line); }
+    .toast { color: white; background: #18271c; border-color: #667b62; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 760px) {
+      .site-header { padding: 9px 14px; }
+      .header-inner { flex-wrap: wrap; gap: 8px; }
+      .header-right { flex: 1; gap: 10px; }
+      .callsign-help { width: 130px; font-size: 9px; }
+      .callsign-patch { width: 68px; height: 68px; }
+      .callsign-value, .callsign-patch input { font-size: 14px; }
+      .hero { grid-template-columns: 1fr; min-height: 290px; }
+      .hero-stamp { justify-self: start; width: 112px; max-height: 112px; margin-top: 16px; }
+      .hero-logo { right: 12%; width: min(52vw, 240px); }
+      .catalog-grid, .personal-grid { grid-template-columns: 1fr; }
+      .image-preview { width: min(460px, 90vw); height: min(540px, 72vh); }
+      .back-to-top { right: 14px; bottom: 62px; width: 42px; height: 42px; }
+      .format-layout { grid-template-columns: 1fr; }
+      .output-panel { position: static; }
+      .output-panel textarea { min-height: 300px; }
+    }
+    @media (max-width: 480px) {
+      main { width: min(100% - 24px, 1120px); }
+      .header-inner { align-items: flex-start; }
+      .brand-lockup img { width: 32px; height: 32px; }
+      .brand-copy strong { font-size: 12px; }
+      .brand-copy span { font-size: 8px; }
+      .header-right { flex-basis: 100%; justify-content: flex-start; gap: 8px; padding-left: 43px; }
+      .callsign-help { flex-basis: 100%; width: auto; max-width: 280px; margin-left: 0; }
+      .view-tabs { gap: 5px; }
+      .nav-tab { min-height: 33px; padding: 6px 8px; font-size: 10px; }
+      .callsign-patch { width: 60px; height: 60px; }
+      .callsign-value, .callsign-patch input { font-size: 12px; }
+      .hero { margin-top: 14px; padding: 26px 20px; }
+      h1 { font-size: 36px; }
+      .hero-copy h1 { font-size: 36px; }
+      .hero-copy .hero-tagline { font-size: 20px; }
+      .resource-strip { padding-left: 9px; }
+      .resource-strip > span { width: 100%; margin-bottom: 5px; }
+      .resource-strip a { padding: 0 7px; font-size: 10px; }
+      .section { padding-top: 45px; }
+      .section-heading { display: block; }
+      .section-heading h2 { font-size: 26px; }
+      .search-row { align-items: flex-start; flex-direction: column; }
+      .search-field { width: 100%; }
+      .search-count { text-align: left; }
+      .catalog-card { grid-template-columns: 82px minmax(0, 1fr); padding: 8px; }
+      .search-results { grid-template-columns: 1fr; }
+      .catalog-image { min-height: 88px; }
+      .catalog-image img { height: 82px; }
+      .catalog-content { padding-left: 10px; }
+      .catalog-content h3 { font-size: 15px; }
+      .catalog-description { font-size: 10px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-field.full { grid-column: auto; }
+      .format-panel { padding: 13px; }
+      .site-footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+    <a class="brand-lockup" href="#top" aria-label="SEB Field Reference home">
+      <img src="gfx/seblogo.png" alt="">
+      <span class="brand-copy"><strong>LOS SANTOS COUNTY SHERIFF'S DEPARTMENT</strong><span>Special Enforcement Bureau · Field Reference</span></span>
+    </a>
+    <div class="header-right">
+      <nav class="view-tabs" role="tablist" aria-label="Field guide section">
+        <button class="nav-tab" id="resources-tab" type="button" role="tab" aria-selected="true" aria-controls="resources-view" data-view-target="resources">🧭 SEB Resources</button>
+        <button class="nav-tab" id="formats-tab" type="button" role="tab" aria-selected="false" aria-controls="formats-view" data-view-target="formats">📝 Paperwork Generators</button>
+      </nav>
+      <label class="callsign-patch" title="Your callsign is saved in this browser">
+        <span class="callsign-designator"><span class="callsign-value" id="callsign-preview" aria-hidden="true">241S</span><input id="callsign" list="callsign-options" maxlength="5" placeholder="1S" aria-label="Callsign identifier after 24"></span>
+      </label>
+      <p class="callsign-help">Type letters or numbers after 24 to personalize your callsign. It saves in this browser.</p>
+<!--       <datalist id="callsign-options">
+        <option value="1S" label="Sam"></option>
+        <option value="1A" label="Adam"></option>
+        <option value="1B" label="Boy"></option>
+        <option value="1D" label="David"></option>
+        <option value="1E" label="Edward"></option>
+        <option value="1F" label="Frank"></option>
+        <option value="1H" label="Henry"></option>
+        <option value="1J" label="John"></option>
+        <option value="0R1" label="R1"></option>
+        <option value="0R2" label="R2"></option>
+        <option value="0R3" label="R3"></option>
+        <option value="0K91" label="K9-1"></option>
+        <option value="0K92" label="K9-2"></option>
+        <option value="0K93" label="K9-3"></option>
+      </datalist> -->
+    </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Los Santos County · Special Enforcement Bureau</p>
+        <h1 id="hero-title">SHERIFF'S 24</h1>
+        <h2 class="hero-tagline">RULERS OF THE NIGHT</h2>
+        <p class="hero-description">The Special Enforcement Bureau shall provide a variety of specialized tactical, rescue, and counter-terrorism support services to Sheriff's Department personnel and the County. The primary goal of SEB is to save lives. As such, its expertise is in solving dangerous situations through experience, training, and the use of highly specialized weapons and equipment.</p>
+        <div class="hero-actions">
+          <button class="button-link primary" type="button" data-view-target="resources">🧭 SEB Resources</button>
+          <button class="button-link secondary" type="button" data-view-target="formats">📝 Paperwork Generators</button>
+        </div>
+      </div>
+      <img class="hero-stamp" src="gfx/sed3.png" alt="Los Santos County Sheriff's Department Special Weapons Team SEB badge">
+      <nav class="resource-strip hero-team-links" aria-label="Team links">
+        <span>TEAM LINKS</span>
+        <div class="team-link"><span aria-hidden="true">📋</span><a href="https://lssd.gta.world/viewtopic.php?t=26016" data-resource-placeholder>SEB: Reference Manual</a></div>
+        <div class="team-link"><span aria-hidden="true">🗺️</span><a href="https://docs.google.com/spreadsheets/d/1jJFC9-c2xmW4rMvGKRXDH1GTEXAAZuKqlykBqS9A4i8/edit?gid=952360740#gid=952360740" data-resource-placeholder>SEB: Uniforms Spreadsheet</a></div>
+        <div class="team-link"><span aria-hidden="true">👥</span><a href="https://fp.booskit.dev/lssd/roster?roster=SOD" data-resource-placeholder>SEB: Roster</a></div>
+        <div class="team-link"><span aria-hidden="true">📡</span><a href="https://lssd.gta.world/viewtopic.php?t=35031" data-resource-placeholder>SEB: Orders Book</a></div>
+      </nav>
+      <nav class="resource-strip hero-team-links hero-section-links" aria-label="Reference sections">
+        <span>SECTIONS</span>
+        <div class="team-link"><a href="#glossary-section" data-section-target>Glossary</a></div>
+        <div class="team-link"><a href="#equipment-section" data-section-target>Equipment</a></div>
+        <div class="team-link"><a href="#weapons-section" data-section-target>Weapons</a></div>
+        <div class="team-link"><a href="#animations-section"" data-section-target>Animations</a></div>
+        <div class="team-link"><a href="#personal" data-section-target>Personal Kit</a></div>
+<!--         <div class="team-link"><a href="#customs-section" data-section-target>Customs</a></div>
+        <div class="team-link"><a href="#uniforms-section" data-section-target>Uniforms</a></div> -->
+      </nav>
+    </section>
+
+    <div class="page-view" id="resources-view" role="tabpanel" aria-labelledby="resources-tab">
+    <section class="section" id="resources" aria-labelledby="resources-title">
+      <div class="section-heading">
+        <div><span class="section-kicker">Field reference</span><h2 id="resources-title">SEB Resources</h2></div>
+        <p>Search the reference by name, take number, model, or description.</p>
+      </div>
+      <div class="search-row">
+        <label class="search-field"><span aria-hidden="true">⌕</span><input id="catalog-search" type="search" placeholder="Search glossary, equipment, weapons, animations, and personal kit" aria-label="Search all reference entries"></label>
+        <span class="search-count" id="search-count" aria-live="polite"></span>
+      </div>
+      <div id="search-results" class="search-results hidden" aria-live="polite"></div>
+
+      <div id="catalog-sections">
+      <div class="section-heading" id="glossary-section">
+        <div><span class="section-kicker">01 / Field Terms</span><h2>Glossary</h2></div>
+        <p>Key terms SEB members should know.</p>
+      </div>
+      <div class="catalog-grid" id="glossary-list"><div class="empty-state">No glossary entries have been added yet.</div></div>
+      <br />
+
+      <div class="section-heading" id="equipment-section">
+        <div><span class="section-kicker">02 / Loadout</span><h2>Equipment</h2></div>
+        <p>ID's subject to out-of-date information after game updates. Currently male only.</p>
+      </div>
+      <div class="catalog-grid" id="equipment-list"></div>
+
+      <div class="section-heading" id="weapons-section" style="margin-top:38px">
+        <div><span class="section-kicker">03 / Armory</span><h2>Weapons</h2></div>
+        <p>See Bureau Orders for the latest information on weapon availability and specifications.</p>
+      </div>
+      <div class="catalog-grid" id="weapon-list"></div>
+
+      <div class="section-heading" style="margin-top:38px">
+        <div><span class="section-kicker" id="animations-section">04 / Movement</span><h2>Animations</h2></div>
+        <p>Select an animation name to copy its command.</p>
+      </div>
+      <div class="catalog-grid" id="animation-list"></div>
+      </div>
+    </section>
+
+    <section class="section" id="personal" aria-labelledby="personal-title">
+      <div class="section-heading">
+        <div><!-- <span class="section-kicker">Saved on this device</span> --><h2 id="personal-title">Personal Kit</h2></div>
+        <p>Customs and uniforms save in your browser as a personal kit reference. Don't forget to /kit off.</p>
+      </div>
+      <div class="personal-grid">
+        <section class="personal-section" id="customs-section" aria-labelledby="customs-title">
+          <div class="section-heading"><div><span class="section-kicker">Up to 5 customs slots per slot</span><h2 id="customs-title">Customs</h2></div></div>
+          <div class="add-row">
+            <select id="new-area-name" aria-label="Choose a clothing area">
+              <option value="" disabled selected>Select Clothing Slot</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Armour">Armour</option>
+              <option value="Bracelets">Bracelets</option>
+              <option value="Decals">Decals</option>
+              <option value="Ears">Ears</option>
+              <option value="Glasses">Glasses</option>
+              <option value="Hands">Hands</option>
+              <option value="Hats">Hats</option>
+              <option value="Masks">Masks</option>
+              <option value="Pants">Pants</option>
+              <option value="Shirts">Shirts</option>
+              <option value="Shoes">Shoes</option>
+              <option value="Undershirt">Undershirt</option>
+              <option value="Watches">Watches</option>
+            </select>
+            <button class="button small" id="add-area" type="button">＋ Add Slot</button>
+          </div>
+          <div id="custom-areas"></div>
+          <p class="quiet-note">Add clothing slots such as Armour, Hat, Decals, Glasses, or Hands. Each slot holds up to five customs.</p>
+        </section>
+        <section class="personal-section" id="uniforms-section" aria-labelledby="uniforms-title">
+          <div class="section-heading"><div><span class="section-kicker">Up to 40 slots</span><h2 id="uniforms-title">Uniforms</h2></div></div>
+          <div class="add-row">
+            <button class="button small" id="add-uniform" type="button">＋ Add Uniform Slot</button>
+            <span class="search-count" id="uniform-count"></span>
+          </div>
+          <div id="uniform-slots"></div>
+          <p class="quiet-note">Enter the in-game slot and a short description. Empty slots are not shown.</p>
+        </section>
+      </div>
+    </section>
+    </div>
+
+    <div class="page-view hidden" id="formats-view" role="tabpanel" aria-labelledby="formats-tab" aria-hidden="true">
+    <section class="section" id="formats" aria-labelledby="formats-title">
+      <div class="section-heading">
+        <div><span class="section-kicker">Ready to paste</span><h2 id="formats-title">Format Tools</h2></div>
+        <p>Build a report, then copy the generated BBCode to your forum post.</p>
+      </div>
+      <div class="format-tabs" role="tablist" aria-label="Report type">
+        <button class="format-tab" type="button" id="incident-tab" role="tab" aria-selected="true" aria-controls="incident-form">Incident Log</button>
+        <button class="format-tab" type="button" id="schedule-tab" role="tab" aria-selected="false" aria-controls="schedule-form">Training Schedule</button>
+        <button class="format-tab" type="button" id="attendance-tab" role="tab" aria-selected="false" aria-controls="attendance-form">Training Attendance</button>
+      </div>
+      <div class="format-layout">
+        <div class="format-panel" id="incident-form" role="tabpanel" aria-labelledby="incident-tab">
+          <h3>Incident Log</h3>
+          <div class="form-grid">
+            <div class="form-field"><label for="incident-id">Incident Number</label><input id="incident-id" placeholder="IL#YY-XXX"></div>
+            <div class="form-field"><label for="incident-date">Date &amp; Time</label><input id="incident-date" placeholder="DD/MMM/YYYY - HH:HH"></div>
+            <div class="form-field"><label for="incident-location">Location</label><input id="incident-location" placeholder="Address, area, city"></div>
+            <div class="form-field"><label for="incident-type">Type of Incident</label><input id="incident-type" placeholder="Barricaded, 998, hostage..."></div>
+            <div class="form-field"><label for="incident-requesting">Station/Unit Requesting</label><input id="incident-requesting" placeholder="OSS, MCB, DVS..."></div>
+            <div class="form-field"><label for="incident-ic">Incident Commander</label><input id="incident-ic" placeholder="Name Lastname"></div>
+            <div class="form-field"><label for="incident-tc">Tactical Commander</label><input id="incident-tc" placeholder="Name Lastname"></div>
+            <div class="form-field"><label for="incident-scout">Designated Scout</label><input id="incident-scout" placeholder="Name Lastname"></div>
+            <div class="form-field full"><span class="member-label">Responding Personnel</span><div class="member-list" id="incident-members"></div><button class="button secondary small" type="button" data-add-member="incident-members">＋ Add member</button></div>
+            <div class="form-field full"><label for="incident-narrative">Incident Narrative &amp; External References</label><textarea id="incident-narrative" placeholder="List the incident details and any external references."></textarea></div>
+          </div>
+          <div class="form-actions"><button class="button" id="generate-incident" type="button">Generate Incident BBCode</button></div>
+        </div>
+
+        <div class="format-panel hidden" id="schedule-form" role="tabpanel" aria-labelledby="schedule-tab">
+          <h3>Training Schedule</h3>
+          <div class="form-grid">
+            <div class="form-field full"><label for="schedule-name">Training Name</label><input id="schedule-name" placeholder="TRAINING NAME HERE"></div>
+            <div class="form-field"><label for="schedule-details">Detail(s) Assigned</label><input id="schedule-details" placeholder="CSD, ESD, SED"></div>
+            <div class="form-field"><label for="schedule-date">Date/Time of Training</label><input id="schedule-date" placeholder="DD/MMM/YYYY - HH:MM"></div>
+            <div class="form-field full"><label for="schedule-type">Type of Training</label><input id="schedule-type" placeholder="Active Shooters, Hostage Situations, Hardstops, Ambushes, Armed Barricaded Interiors, AIROPS, LRT, CNT"></div>
+            <div class="form-field"><label for="schedule-organizer">Organizer</label><input id="schedule-organizer" placeholder="NAMES HERE"></div>
+            <div class="form-field"><label for="schedule-location">Location</label><input id="schedule-location" placeholder="LOCATION HERE"></div>
+          </div>
+          <div class="form-actions"><button class="button" id="generate-schedule" type="button">Generate Schedule BBCode</button></div>
+        </div>
+
+        <div class="format-panel hidden" id="attendance-form" role="tabpanel" aria-labelledby="attendance-tab">
+          <h3>Training Attendance</h3>
+          <div class="form-grid">
+            <div class="form-field full"><span class="member-label">Instructor(s)</span><div class="member-list" id="attendance-instructors"></div><button class="button secondary small" type="button" data-add-member="attendance-instructors" data-member-placeholder="FIRSTNAME LASTNAME">＋ Add instructor</button></div>
+            <div class="form-field full"><span class="member-label">Team Members</span><div class="member-list" id="attendance-team-members"></div><button class="button secondary small" type="button" data-add-member="attendance-team-members" data-member-placeholder="FIRSTNAME LASTNAME">＋ Add team member</button></div>
+            <div class="form-field full"><span class="member-label">Other Participants (Suspects/Civilians)</span><div class="member-list" id="attendance-other-participants"></div><button class="button secondary small" type="button" data-add-member="attendance-other-participants" data-member-placeholder="FIRSTNAME LASTNAME">＋ Add participant</button></div>
+          </div>
+          <div class="form-actions"><button class="button" id="generate-attendance" type="button">Generate Attendance BBCode</button></div>
+        </div>
+
+        <aside class="format-panel output-panel">
+          <h3>Generated BBCode</h3>
+          <textarea id="bbcode-output" aria-label="Generated BBCode" placeholder="Your formatted report will appear here." spellcheck="false"></textarea>
+          <div class="output-actions">
+            <button class="button small" id="copy-bbcode" type="button">⧉ Copy BBCode</button>
+            <button class="button secondary small" id="clear-bbcode" type="button">Clear Output</button>
+          </div>
+          <p class="form-hint">Generated text follows the SEB report template. Review names and dates before posting.</p>
+        </aside>
+      </div>
+    </section>
+    </div>
+
+    <footer class="site-footer">
+      <span>Los Santos County Sheriff's Department · Special Enforcement Bureau</span>
+      <span>Like my work and want to support me? Shoot me <a href="https://ucp.gta.world/view/user/33836">world points</a> or a <a href="https://www.paypal.com/donate/?business=8NZSXB8H2D9MS&no_recurring=0&item_name=I+try+to+make+useful+stuff.+Thanks+for+helping+me+out+as+I+look+for+employment.&currency_code=USD">donation</a>.</span>
+      <span>Created by <a href="https://lssd.gta.world/memberlist.php?mode=viewprofile&u=1638" data-credit-placeholder>Inked</a> for the best bureau in the world.</span>
+    </footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top" title="Back to top"><span aria-hidden="true">↑</span></button>
+  <figure class="image-preview" id="image-preview" aria-hidden="true">
+    <img id="image-preview-photo" alt="">
+    <figcaption id="image-preview-caption"></figcaption>
+  </figure>
+
+  <script>
+    const glossary = [
+      { term: 'Charlie Ocean', definition: 'A phonetic phrase to refer to a \"Call Out\" or deployment of SEB personnel.' },
+      { term: 'Tactical Commander', definition: 'The team member responsible for overseeing and coordinating tactical operations within an incident.' },
+      { term: 'Designated Scout', definition: 'The team member whom prepares and executes tactical plans authorized by the Tactical Commander.' },
+      { term: 'Point Man', definition: 'The team member who leads the formation and is responsible for navigating and identifying threats during tactical operations. They must make quick decisions to ensure the safety and effectiveness of the team.' },
+      { term: 'Breacher', definition: 'The team member responsible for gaining entry to a structure or area, typically using specialized tools or explosives.' },
+      { term: 'Cover (Assignment)', definition: 'In the context of team assignments, the team member responsible for providing lethal cover to the CORE camera operator or other specific team assignments during a tactical operation.'},
+      { term: 'CORE Camera Operator "Cam" (Assignment)', definition: 'The team member responsible for operating the CORE camera system, capturing real-time footage of tactical operations while coordinating with the team for optimal coverage.' },
+      { term: 'Tactical Support Patrol (TSP)', definition: 'A patrol in which SEB personnel provide tactical support and reinforcement to ongoing operations or incidents.\n Low-Risk, Medium Risk, and High-Risk TSPs may be authorized. See manual for details. Low-Risk TSPs immediately authorized during weekends. Phase Mobilizations may automatically authorize TSPs.' },
+      { term: 'Crime Suppression Patrol (CSP)', definition: 'A type of patrol that SEB personnel may conduct to proactively address and reduce criminal activity within the jurisdiction. These patrols are less-restrictive than TSPs and permanently authorized except when a Phase Mobilization is active, during which assets shall transition to a TSP. See manual for details.' },
+      { term: 'Dive Team', definition: 'A specialized team within SEB responsible for underwater operations, including search and rescue, evidence recovery, and tactical interventions in aquatic environments.' },
+      { term: 'Long Rifle Team (LRT)', definition: 'A specialized team within SEB responsible for engaging targets at long distances with precision rifles, providing overwatch and support during tactical operations.' },
+      { term: '417 Boy (417B)', definition: 'A term used to refer to a Barricaded Suspects incident.'}
+    ];
+    const equipment = [
+      { name: 'Team Wendy EXFIL Ballistic SL', category: 'Uniforms / PPE', image: 'https://i.postimg.cc/yYJX3yd5/opplanet-team-wendy-exfil-ballistic-sl-helmet-led-left-eye-dominant-retention-green-2xl-76-72s-e72-l.png', description: 'Ranger-green ballistic helmet with EXFIL Rail 3.0 and CAM FIT retention system. The manual lists NIJ Level III-A protection.', slot: 'Hats', model: '116 / 117 (w/ battery)', texture: '1 (GREEN)' },
+      { name: 'Ballistic Eyewear (EYEPRO)', category: 'Uniforms / PPE', image: 'https://i.postimg.cc/7YCMJn6p/VGST1410T-34F.png', description: 'Protective glasses, sunglasses, or goggles. Ballistic eyewear must meet military impact-protection standards.', slot: 'Glasses', model: '67', texture: '0' },
+      { name: 'L3Harris BNVD-1531 Dual Nods', category: 'Uniforms / PPE', image: 'https://pbs.twimg.com/media/B6CvN3gCEAAj-8-.jpg:large', description: 'Dual-tube night-vision device with adjustable diopter and an onboard IR illuminator.', slot: "Glasses", model: "113 (up) / 114 (down)" },
+      { name: 'Radio Earpiece', category: 'Uniforms / PPE', image: 'https://www.workingthedoors.co.uk/wp-content/uploads/2020/06/dreamstime_m_1876505-768x1024.jpg', description: 'Radio-worn earpiece for clear team communications while retaining awareness of ambient sound.', slot: 'Mask', model: '314', texture: '0' },
+      { name: 'AVON C50 CBRN Mask', category: 'Uniforms / PPE', image: 'https://i.postimg.cc/657L4f3H/41Ru-B85rz-FL-AC-2020-01-31T111443-213-33256.png', description: 'Protective mask intended for CBRN and toxic industrial hazard environments; compatible with helmets and protective clothing.', slot: '/equipment gasmask' },
+      { name: 'APV QR Tactical Vest & Protective Gear', category: 'Uniforms / PPE', image: 'https://i.imgur.com/vODIsNz.png', description: 'Quick-release carrier configured with upper-arm protection, side-plate pouches, and rifle-threat plates.', slot: 'Armor', model: '121 / 122 (shoulders)', texture: '1' },
+      { name: 'Crye Precision G3 Combat Shirt', category: 'Uniforms / PPE', image: 'https://i.imgur.com/i0FXiTq.png', description: 'Combat shirt designed to be worn under body armor, with lightweight torso fabric and reinforced ripstop sleeves.', slot: 'Shirts', model: '689', texture: '2 (SED) / 3 (CSD) / 4 (ESD)' },
+      { name: 'Crye Precision G3 Combat Pants', category: 'Uniforms / PPE', image: 'https://i.imgur.com/ByahTwC.png', description: 'Combat pants with stretch panels, multiple pockets, adjustable waist, and removable knee-pad compatibility.', slot: 'Pants', model: '293', texture: '1' },
+      { name: 'G3 Combat Shirt (Rolled Sleeves)', category: 'Uniforms / PPE', image: 'https://i.imgur.com/i0FXiTq.png', description: 'Short-sleeve variant of the Battle Dress Uniform combat shirt.', slot: 'Shirts', model: '846', texture: '2 (SED) / 3 (CSD) / 4 (ESD)' },
+
+
+      /* CLOTHING EQUIPMENT (MOVED TO A LINK TO SPREADSHEET FOR SPACE)  */
+
+      /*   { name: 'Tactical Gloves', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Warm-climate tactical gloves providing protection against cuts, punctures, abrasion, and heat.', slot: 'Torso', model: '96', texture: '0' }, */
+      /*       { name: 'Tan Combat Boots', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Tan tactical boots approved for law-enforcement and field use; the manual permits them with Class B and BDU uniforms.' }, */
+     /*  { name: 'Team Wendy EXFIL Ballistic SL (NODS Battery Pack)', category: 'Uniforms / PPE', image: 'https://www.teamwendy.com/TeamWendy/media/TeamWendyMediaLibrary/Products/Helmets/EXFIL%20Ballistic%20SL/TW_BALLISTIC_SL_RANGER_GREEN_ANGLE_1.jpg?height=340&width=470', description: 'EXFIL helmet configuration with NODS battery pack.', slot: 'Hats', model: '117', texture: '1 (GREEN)' }, */
+    /*  { name: 'Combat Jacket', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Combat jacket authorized with tan or black texture variations.', slot: 'Shirts', model: '848', texture: '3 (TAN) / 4 (BLACK)' },
+      { name: 'T-Shirts', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'T-shirt texture options listed for ESD, CSD, all members, black, instructors, and ESD dive.', slot: 'Shirts', model: '787', texture: '0 (ESD) / 1 (CSD) / 2 (ALL) / 3 (BLACK) / 4 (INSTRUCTOR) / 5 (ESD DIVE)' },
+      { name: 'Belt without Taser', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Tactical belt configured without a Taser.', slot: 'Undershirts', model: '239', texture: '0' },
+      { name: 'Belt with Baton, without Taser', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Belt with a visible extendable baton and no Taser.', slot: 'Undershirts', model: '242, 294', texture: '0' },
+      { name: 'Belt with Thigh Bag', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Tactical belt configured with a thigh bag.', slot: 'Undershirts', model: '305', texture: '0' },
+      { name: 'ESD Minimalist Belt (Multitool)', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Belt with two magazine pouches, multitool, and handcuffs.', slot: 'Undershirts', model: '267' },
+      { name: 'ESD Minimalist Belt (Radio)', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Belt with two magazine pouches and a radio.', slot: 'Undershirts', model: '260' },
+      { name: 'Comtac Hearing Protection', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Optional Comtac hearing protection.', slot: 'Ears', model: '55', texture: '1' },
+      { name: 'Tattoo Sleeves', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Sleeves listed as an authorized option.', slot: 'Mask', model: '237', texture: 'All authorized' },
+      { name: 'Old SEB Vest', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'SEB vest listed for CBRN use.', slot: 'Armor', model: '121', texture: '1' },
+      { name: 'Old SEB Vest with Shoulder Pads', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Old SEB vest configuration with shoulder pads.', slot: 'Armor', model: '122', texture: '1' },
+      { name: 'New SEB Vest (DIVE)', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'New SEB vest configuration listed for DIVE.', slot: 'Armor', model: '155', texture: '2' },
+      { name: 'RATS Bag', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'ESD medical bag.', slot: 'Decals', model: '355', texture: '0' },
+      { name: 'Lapel Microphone', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Lapel microphone listed for ESD.', slot: 'Decals', model: '342', texture: '0' },
+      { name: 'Collar Insignias', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Insignias worn on the collar of G3s or BDUs.', slot: 'Decals', model: '197' },
+      { name: 'CBRN Shirt', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'CBRN shirt listed on the male DIVE/CBRN sheet.', slot: 'Shirts', model: '67', texture: '1' },
+      { name: 'DIVE Shirt', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Neoprene shirt.', slot: 'Shirts', model: '53', texture: '0' },
+      { name: 'Air Tank (CBRN)', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'CBRN air tank.', slot: 'Undershirts', model: '242', texture: '0' },
+      { name: 'Air Tank (DIVE)', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Diving oxygen tank.', slot: 'Undershirts', model: '243', texture: '0' },
+      { name: 'CBRN Pants', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'CBRN pants.', slot: 'Pants', model: '40', texture: '1' },
+      { name: 'DIVE Pants', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Neoprene pants.', slot: 'Pants', model: '94', texture: '0' },
+      { name: 'CBRN Shoes', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'CBRN shoes.', slot: 'Shoes', model: '62', texture: '0' },
+      { name: 'DIVE Fins', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Diving fins.', slot: 'Shoes', model: '67', texture: '0' },
+      { name: 'DIVE Respirator', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Diving respirator and regulator.', slot: 'Glasses', model: '26', texture: '0' },
+      { name: 'Balaclava', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Black balaclava listed for DIVE.', slot: 'Mask', model: '185', texture: '0' },
+      { name: 'Crew Chief Helmet with Face Guard', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Aircrew helmet with protective face guard.', slot: 'Hats', model: '375', texture: '1' },
+      { name: 'Crew Chief Helmet without Face Guard', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Aircrew helmet without protective face guard.', slot: 'Hats', model: '376', texture: '1' },
+      { name: 'SAR Helmet', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'SCUBAPRO Search & Rescue helmet.', slot: 'Hats', model: '287', texture: '1, 2' },
+      { name: 'ESD Goggles', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'Protective goggles listed for ESD.', slot: 'Glasses', model: '91', texture: '0, 1' },
+      { name: 'Class 3 Rescue Harness', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'ESD rescue harness.', slot: 'Armor', model: '124' },
+      { name: 'Class 2 Rescue Harness', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'ESD rescue harness.', slot: 'Armor', model: '123' },
+      { name: 'RATS Trauma Bag', category: 'Uniforms / PPE', image: 'gfx/seblogo.png', description: 'ESD medical jump bag.', slot: 'Decals', model: '342', texture: '0' }, */
+
+      { name: 'CORE Articulating Scope Inspection Kit', category: 'Team Equipment', image: 'https://www.tacticalelectronics.com/wp-content/uploads/CORE-Tactical-Kit_2_FeatureProduct-1.png', description: 'Inspection camera system with observation options and accessories for viewing concealed or obstructed spaces. Use in accordance with team training and policy.', slot: "/snakecam" },
+      { name: 'CORE Monitor', category: 'Team Equipment', image: 'https://www.tacticalelectronics.com/wp-content/uploads/2017-Action-_0959-1024x683.jpg', description: 'Five-inch monitor worn on the forearm to receive the inspection scope’s secure live view.', slot: "/snakecam" },
+      { name: 'Protech Body Bunker Level IIIA Shield', category: 'Team Equipment', image: 'https://i.imgur.com/iAsotKz.png', description: 'Viewport-equipped ballistic shield with stand-alone and multi-position carrying options.', slot: "/takeshield" },
+      { name: 'Blackhawk Dynamic Entry Hallagan Tool', category: 'Team Equipment', image: 'https://i.postimg.cc/c4KMtBHT/blackhawk-dynamic-entry-stainless-hallagan-tool-special-operations-tactical-gear-australia-1200x.png', description: 'Insulated stainless-steel entry tool with a guarded grip and anti-slip working surfaces.', take: "15" },
+      { name: 'Blackhawk CQB Ram', category: 'Team Equipment', image: 'https://i.postimg.cc/wTtcRQvw/20000-13-blackhawk-dynamic-entrty-cqb-ramme.png', description: 'Compact, non-conductive breaching ram intended for lightweight doors and confined working spaces.' },
+      { name: "Blackhawk Dynamic Entry Thor's Hammer", category: 'Team Equipment', image: 'https://i.postimg.cc/DyWd4PZj/BLKDETH.png', description: 'Versatile battering tool listed for entry operations against lightweight doors.', take: "16" },
+      { name: 'Bosch GBH Li-ion SDS Plus Hammer Drill', category: 'Team Equipment', image: 'https://i.postimg.cc/ZnN82JXP/drill.png', description: 'Cordless drill with hammer and chiseling modes, electronic cell protection, and mechanical safety clutch.' },
+      { name: 'Genesis C365 Hydraulic Cutter', category: 'Team Equipment', image: 'https://i.postimg.cc/cLg9ZNw6/st-tool-f.jpg', description: 'Hydraulic cutter with forged-steel blades, variable-speed control, and a rotating or removable handle.' },
+      { name: 'Plastic Explosive Frame / Door Charge', category: 'Team Equipment', image: 'https://www.ebad.com/wp-content/uploads/2020/04/ACE-sliding-charge-NEW.png', description: 'Specialized breaching equipment. Use only by certified personnel under current department policy.' },
+      { name: 'MagnumUSA MAG9000 Cutting System', category: 'Team Equipment', image: 'https://i.imgur.com/6SVpiKE.png', description: 'Backpack-worn thermal cutting system for trained operators.' },
+      { name: 'Snypex Knight 1800 LRF Binoculars', category: 'Team Equipment', image: 'https://i.postimg.cc/ZK9FvxRQ/SNYPEX-KNIGHT-LRF-8X-42-LASER-RANGE-FINDER-BINOCULARS-600x.png', description: 'Rangefinding binoculars with coated lenses and rain and reflection modes.', slot: "/binoculars" },
+      { name: 'Blackhawk Tactical Rappelling Harness', category: 'Team Equipment', image: 'https://i.imgur.com/WB0BQw2.png', description: 'Adjustable harness for approved rappelling and attachment applications.', slot: "Armor", model: "123/124" },
+      { name: "Rapid Assault Tools 16' Telescoping Ladder", category: 'Team Equipment', image: 'https://i.imgur.com/Hxg8reV.png', description: 'Portable 16-foot tactical telescoping ladder with a carrying kit.' },
+      { name: "Phantom Sniper Pack, Coyote Brown", category: 'Team Equipment', image: 'https://i.ibb.co/M5pD36mD/seblrt.png', description: 'Pack designed for sniper with easy drag-bag conversion and can contain a long rifle, bi/tripod, and associated long-rifle gear. The bag may also be used as a makeshift brace.' },
+      { name: "Deathgrip Infinite Tripod", category: 'Team Equipment', image: 'https://i.ibb.co/F4chg8Nm/sebtripod.png', description: 'Rigid and adjustable support system for a marksman rifle, allowing the operator to maintain a consistent firing position and reducing movement and fatigue during extended overwatch assignments. Collapses and fits inside Phantom Pack.' },
+      { name: "Reactor-2 3/2mm Back Zip Full Wetsuit (Black)", category: 'Team Equipment', image: 'https://i.postimg.cc/YC7RPF9D/wetsuit.png', description: 'Wetsuit worn by SEB personnel during maritime operations. Provides body temperature insulation.', slot: 'Torso/Pants', model: '53/94', texture: '0' },
+      { name: "Ocean Reef Space Extender", category: 'Team Equipment', image: 'https://i.postimg.cc/GmjKnp8x/extender.png', description: 'Directional exhaust valve, scratch resistant diving mask. Diving Mask system; the Space Extender, is the mask for the avid diver, advanced adventurer and diving professional.', slot: 'Glasses', model: '26', texture: '0' },
+      { name: "Tecline Rubber Fins Jetstream", category: 'Team Equipment', image: 'https://i.postimg.cc/y8TjCNgj/fins.png', description: 'Diving fins improve movement in the water. Allowing to reach the objective safely and fast.', slot: 'Shoes', model: '67', texture: '0' },
+      { name: "Regulator", category: 'Team Equipment', image: 'https://i.postimg.cc/L8VDFsYB/regulator.png', description: 'A diving regulator is a pressure regulator that controls the pressure of breathing gas for diving.', slot: 'Glasses', model: '26', texture: '0' },
+      { name: "Scuba Cylinder", category: 'Team Equipment', image: 'https://i.postimg.cc/T3c0vPL9/scubacylinder.png', description: 'A diving cylinder or diving gas cylinder is a gas cylinder used to store and transport high pressure gas used in diving operations.', slot: 'Undershirts', model: '243', texture: '0' },
+
+    ].map(item => ({ model: '', texture: '', ...item }));
+    const weapons = [
+      { name: 'Carbine Rifle', image: 'https://i.postimg.cc/prbHKyLf/carbinerifle.png', description: 'Hawk & Little Carbine Rifle; authorized 5.56x45mm NATO carbine rifle.', take: '1' },
+      { name: 'Remington Shotgun', image: 'https://i.postimg.cc/PJWkyhCR/remington-shotgun.png', description: 'Remington 870; authorized for law enforcement use.', take: '2' },
+      { name: 'Sniper Rifle', image: 'https://i.postimg.cc/3NXH17y5/sniper-rifle.png', description: 'Only used by Long Rifle Team.', take: '3' },
+      { name: 'SMG', image: 'https://i.postimg.cc/prftCx9N/smg.png', description: 'Vom Feuer SMG; authorized 9x19mm Parabellum submachine gun.', take: '4' },
+      { name: 'Beanbag Shotgun', image: 'https://i.postimg.cc/d3PYGDV8/beanbag-shotgun.png', description: 'Beanbag shotgun; authorized for law enforcement use.', take: '5' },
+      { name: 'Carbine Rifle Mk2', image: 'https://i.postimg.cc/d3PYGDVR/carbine-rifle-mk2.png', description: 'Vom Feuer Carbine Rifle Mk II; authorized 5.56x45mm NATO carbine rifle.', take: '6' },
+      { name: 'Combat Shotgun', image: 'https://i.postimg.cc/tJQjF74t/combat-shotgun.png', description: 'Combat shotgun; authorized for law enforcement use.', take: '7' },
+      { name: 'Hunting Rifle', image: 'https://i.postimg.cc/zvZrT3Gt/hunting-rifle.png', description: 'Hunting rifle; authorized for recreational use.', take: '8' },
+      { name: 'Navy Carbine Rifle', image: 'https://i.postimg.cc/zvZrT3fY/navy-carbine.png', description: 'Hawk & Little Navy Carbine; authorized 5.56x45mm NATO carbine rifle.', take: '9' },
+      { name: 'Combat Rifle', image: 'https://i.postimg.cc/XqSb9XYg/combat-rifle.png', description: 'Hawk & Little Combat Rifle; authorized 5.56x45mm NATO carbine rifle.', take: '10' },
+      { name: 'Tactical Rifle', image: 'https://i.postimg.cc/qqsdw0td/tactical-rifle.png', description: 'Hawk & Little Tactical Rifle; authorized 5.56x45mm NATO tactical rifle.', take: '11' },
+      { name: 'Tactical SMG', image: 'https://i.postimg.cc/wMXd2Htp/tactical-smg.png', description: 'Hawk & Little Tactical SMG; authorized 9x19mm Parabellum submachine gun.', take: '12' },
+      { name: 'Marksman Rifle', image: 'https://i.postimg.cc/WzLv0t4R/marksman-rifle.png', description: 'Hawk & Little Marksman Rifle; authorized 7.62x51mm NATO precision rifle.', take: '13' },
+      { name: 'Sledge Hammer', image: 'https://i.postimg.cc/wMXd2H1C/sledgehammer.png', description: 'Standard sledge hammer for general use.', take: '16' },
+      { name: 'Halligan', image: 'https://i.postimg.cc/fynNYkR8/halligan.png', description: 'Standard Halligan tool for breaching and rescue operations.', take: '17' },
+      { name: 'Breaching Shotgun', image: 'https://i.postimg.cc/KjS2t48T/breaching-shotgun.png', description: 'Specialized breaching shotgun for law enforcement use.', take: '18' },
+      { name: '40mm Less-Lethal Launcher', image: 'https://i.postimg.cc/905hyzQy/40mm.png', description: '40mm less-lethal launcher for law enforcement use.', take: '19' },
+      { name: 'Maestro M4 Super 90', image: 'https://i.postimg.cc/Y0KHQjCJ/maestro-super-90.png', description: 'Maestro M4 Super 90; authorized for law enforcement use.', take: '20' },
+      { name: 'Vom Feuer M4', image: 'https://i.postimg.cc/brxjg8Gz/vfm4.png', description: 'Vom Feuer M4; authorized 5.56x45mm NATO carbine rifle.', take: '21' },
+      { name: 'Vom Feuer Operator', image: 'https://i.postimg.cc/zvC175Lf/vf-operator.png', description: 'Vom Feuer Operator; Authorized 5.56x45mm NATO carbine rifle.', take: '22' },
+      { name: 'Vom Feuer VF416', image: 'https://i.postimg.cc/vTrdhM1b/vf416.png', description: 'Authorized 5.56x45mm NATO carbine rifle.', take: '23' },
+      { name: 'Vom Feuer VFMP5', image: 'https://i.postimg.cc/MH785xcZ/vfmp5.png', description: 'Authorized 9x19mm submachine gun. The reference specifies a shoulder stock for field use.', take: '24' },
+      { name: 'Vom Feuer VFMP5K', image: 'https://i.postimg.cc/MH785xcZ/vfmp5.png', description: 'Authorized 9x19mm submachine gun.', take: '25' },
+      { name: 'Vom Feuer VFMP5SD', image: 'https://i.postimg.cc/MH785xcZ/vfmp5.png', description: 'Authorized 9x19mm submachine gun. The reference specifies a shoulder stock for field use.', take: '26' },
+      { name: 'Vom Feuer VFMP5C', image: 'https://i.postimg.cc/MH785xcZ/vfmp5.png', description: 'Authorized 9x19mm submachine gun.', take: '27' },
+      { name: 'Vom Feuer VF417', image: 'https://i.postimg.cc/Y06wRk4k/vf417.png', description: 'Authorized 7.62x51mm NATO precision/long rifle.', take: '28' },
+      { name: 'Shrewsbury 870 Classic', image: 'https://i.postimg.cc/tJ3Hkysf/shrewsbury-870-classic.png', description: 'Shrewsbury 870 Classic; authorized for law enforcement use.', take: '29' },
+      { name: 'Maestro 1301', image: 'https://i.postimg.cc/8cQSLszx/maestro-1301.png', description: 'Maestro 1301; authorized for law enforcement use.', take: '30' },
+      { name: 'Vom Feuer VFMP7', image: 'https://i.postimg.cc/GtF1KrBm/vfmp7.png', description: 'Authorized 4.6x30mm submachine gun.', take: '31' },
+      { name: 'Shrewsbury M24', image: 'https://i.postimg.cc/qqVT2gvD/m24.png', description: 'Only used by Long Rifle Team.', take: '32' },
+      { name: 'Duke Hunter 700', image: 'https://i.postimg.cc/rsXk5zwQ/duke-700.png', description: 'Only used by Long Rifle Team.', take: '33' },
+      { name: 'Precision Carbine', image: 'https://i.postimg.cc/6qrNcw81/precision-carbine.png', description: 'DO NOT USE', take: '34' }
+    ];
+    const animations = [
+      { name: 'tactical1', description: 'Kneel pistol lowready.' },
+      { name: 'tactical10', description: 'Kneel rifle aiming.' },
+      { name: 'tactical11', description: 'Standing rifle lowready.' },
+      { name: 'tactical12', description: 'Standing rifle high port.' },
+      { name: 'tactical13', description: 'Standing rifle one hand low.' },
+      { name: 'tactical14', description: 'Gripping vest collar.' },
+      { name: 'tactical15', description: 'Signal: LEFT HAND SIDEWAYS.' },
+      { name: 'tactical16', description: 'Signal: HALT.' },
+      { name: 'tactical17', description: 'Signal: FORWARD (low).' },
+      { name: 'tactical18', description: 'Signal: REGROUP.' },
+      { name: 'tactical19', description: 'Signal: OK.' },
+      { name: 'tactical2', description: 'Kneel holding pistol lowready.' },
+      { name: 'tactical20', description: 'Signal: POINT BACKWARDS.' },
+      { name: 'tactical21', description: 'Signal: POINT FORWARDS.' },
+      { name: 'tactical22', description: 'Signal: POINT LEFT.' },
+      { name: 'tactical23', description: 'Signal: POINT RIGHT.' },
+      { name: 'tactical3', description: 'Kneel pistol aiming.' },
+      { name: 'tactical4', description: 'Kneel rifle lowready.' },
+      { name: 'tactical5', description: 'Rifle hold by pistol grip.' },
+      { name: 'tactical6/7', description: 'Hugging rifle by pistol grip.' },
+      { name: 'tactical8', description: 'Standing pistol aim.' },
+      { name: 'tactical9', description: 'Kneel pistol whilst using lapel.' },
+      { name: 'aim3', description: 'Aiming long gun.' },
+      { name: 'copaim', description: 'Pistol lowready.' },
+      { name: 'idle53', description: 'Inked\'s shuffle on his feet with other animations.' },
+      { name: 'leoholsterhalt', description: 'Hand on holster + palm forward.' },
+      { name: 'leoholsterwalk', description: 'Hand on holster.' },
+      { name: 'leomegaphone', description: 'Hold gun + megaphone.' },
+      { name: 'leomic', description: 'Lapel/vest PTT.' },
+      { name: 'leoradio1', description: 'Hold APX to face crossed.' },
+      { name: 'leoradio2', description: 'Hold APX to face, one hand.' },
+      { name: 'leoradio3', description: 'Hold APX crouched with gun.' },
+      { name: 'leotorchhigh', description: 'Flashlight standard.' },
+      { name: 'leotorchlow', description: 'Flashlight pointed down.' },
+      { name: 'sitguninspect', description: 'Sit looking at long gun.' },
+      { name: '/ca tablet ub fkneel1 slf', description: 'CORE reviewing.' }
+    ].sort((left, right) => left.name.localeCompare(right.name, undefined, { numeric: true, sensitivity: 'base' }));
+    const storageKeys = { callsign: 'seb-callsign', customs: 'seb-customs', uniforms: 'seb-uniforms' };
+    let activeFormat = 'incident';
+    let toastTimer;
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    }
+
+    function addCatalogImageFallbacks(container) {
+      container.querySelectorAll('.catalog-image img').forEach(image => image.addEventListener('error', () => {
+        image.src = 'gfx/seblogo.png';
+        image.alt = `SEB emblem placeholder for ${image.alt.replace(/^(Image of|Placeholder image for) /, '')}`;
+        image.classList.add('image-unavailable');
+      }, { once: true }));
+    }
+
+    function renderCatalog() {
+      const glossaryList = document.getElementById('glossary-list');
+      glossaryList.innerHTML = glossary.length ? glossary.map(item => {
+        const description = item.description ?? item.definition ?? '';
+        return `
+          <article class="catalog-card glossary-card searchable" data-search="${escapeHtml([item.term, description].join(' '))}">
+            <div class="catalog-content"><h3>${escapeHtml(item.term)}</h3><p class="catalog-description">${escapeHtml(description)}</p></div>
+          </article>`;
+      }).join('') : '<div class="empty-state">No glossary entries have been added yet.</div>';
+      const equipmentList = document.getElementById('equipment-list');
+      equipmentList.innerHTML = equipment.map(item => `
+        <article class="catalog-card searchable" data-search="${escapeHtml([item.category, item.slot, item.name, item.nickname, item.description, item.model, item.texture, item.take].join(' '))}">
+          <div class="catalog-image"><img src="${escapeHtml(item.image)}" alt="Image of ${escapeHtml(item.name)}"></div>
+          <div class="catalog-content"><div class="catalog-meta">${escapeHtml([item.category, item.slot, item.model && `MODEL — ${item.model}`, item.texture && `TEXTURE — ${item.texture}`, item.take && `/tw ${item.take}`].filter(Boolean).join(' · '))}</div><h3>${escapeHtml(item.name)}</h3>${item.nickname ? `<p class="catalog-nickname">${escapeHtml(item.nickname)}</p>` : ''}<p class="catalog-description">${escapeHtml(item.description)}</p></div>
+        </article>`).join('');
+      addCatalogImageFallbacks(equipmentList);
+      const weaponList = document.getElementById('weapon-list');
+      weaponList.innerHTML = weapons.map(item => `
+        <article class="catalog-card searchable" data-search="${escapeHtml([item.name, item.description, item.take].join(' '))}">
+          <div class="catalog-image"><img src="${escapeHtml(item.image)}" alt="Placeholder image for ${escapeHtml(item.name)}"></div>
+          <div class="catalog-content"><div class="take-code">/tw ${escapeHtml(item.take)}</div><h3>${escapeHtml(item.name)}</h3>${item.description ? `<p class="catalog-description">${escapeHtml(item.description)}</p>` : ''}</div>
+        </article>`).join('');
+      addCatalogImageFallbacks(weaponList);
+      document.getElementById('animation-list').innerHTML = animations.map((item, index) => `
+        <article class="animation-card searchable" data-search="${escapeHtml([item.name, item.description].join(' '))}">
+          <div class="animation-copy"><button class="animation-name" type="button" data-animation="${index}" title="Copy animation name">${escapeHtml(item.name)}</button><p class="animation-description">${escapeHtml(item.description)}</p></div><span aria-hidden="true">⧉</span>
+        </article>`).join('');
+    }
+
+    const imagePreview = document.getElementById('image-preview');
+    const imagePreviewPhoto = document.getElementById('image-preview-photo');
+    const imagePreviewCaption = document.getElementById('image-preview-caption');
+    document.addEventListener('pointerover', event => {
+      if (!(event.target instanceof Element)) return;
+      const image = event.target.closest('.catalog-image img');
+      if (!image) return;
+      imagePreviewPhoto.src = image.currentSrc || image.src;
+      imagePreviewCaption.textContent = image.alt.replace(/^(Image of|SEB emblem placeholder for)\s*/, '');
+      imagePreview.classList.add('visible');
+      imagePreview.setAttribute('aria-hidden', 'false');
+    });
+    document.addEventListener('pointerout', event => {
+      if (!(event.target instanceof Element) || !event.target.closest('.catalog-image img')) return;
+      if (event.relatedTarget instanceof Element && event.relatedTarget.closest('.catalog-image img')) return;
+      imagePreview.classList.remove('visible');
+      imagePreview.setAttribute('aria-hidden', 'true');
+    });
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 2300);
+    }
+
+    function loadStored(key, fallback) {
+      try {
+        const stored = localStorage.getItem(key);
+        return stored ? JSON.parse(stored) : fallback;
+      } catch { return fallback; }
+    }
+
+    function saveStored(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); }
+      catch { showToast('This browser could not save the changes.'); }
+    }
+
+    let customs = loadStored(storageKeys.customs, []);
+    let uniforms = loadStored(storageKeys.uniforms, []);
+
+    function persistCustoms() { saveStored(storageKeys.customs, customs); }
+    function persistUniforms() { saveStored(storageKeys.uniforms, uniforms); }
+
+    function renderCustoms() {
+      const host = document.getElementById('custom-areas');
+      host.innerHTML = customs.map((area, areaIndex) => `
+        <section class="area-block searchable" data-search="${escapeHtml([area.name, ...(area.slots || []).flatMap(slot => [slot.slot, slot.description])].join(' '))}">
+          <div class="area-heading"><h3>${escapeHtml(area.name)} <span class="search-count">${(area.slots || []).length}/5</span></h3><button class="slot-remove" type="button" data-remove-area="${areaIndex}" aria-label="Remove ${escapeHtml(area.name)} area" title="Remove area">×</button></div>
+          ${(area.slots || []).map((slot, slotIndex) => `<div class="slot-row"><input value="${escapeHtml(slot.slot)}" placeholder="Slot" aria-label="${escapeHtml(area.name)} slot" data-custom-field="slot" data-area="${areaIndex}" data-slot="${slotIndex}"><input value="${escapeHtml(slot.description)}" placeholder="Item in this slot" aria-label="${escapeHtml(area.name)} slot description" data-custom-field="description" data-area="${areaIndex}" data-slot="${slotIndex}"><button class="slot-remove" type="button" data-remove-custom="${areaIndex}:${slotIndex}" aria-label="Remove slot">×</button></div>`).join('')}
+          <div class="slot-footer"><button class="button secondary small" type="button" data-add-custom="${areaIndex}" ${area.slots.length >= 5 ? 'disabled' : ''}>＋ Add slot</button></div>
+        </section>`).join('');
+      applySearch();
+    }
+
+    function renderUniforms() {
+      const host = document.getElementById('uniform-slots');
+      host.innerHTML = uniforms.map((slot, index) => `
+        <section class="area-block searchable" data-search="${escapeHtml([slot.slot, slot.description].join(' '))}">
+          <div class="area-heading"><h3>Uniform ${index + 1}</h3><button class="slot-remove" type="button" data-remove-uniform="${index}" aria-label="Remove uniform ${index + 1}" title="Remove slot">×</button></div>
+          <div class="slot-row"><input value="${escapeHtml(slot.slot)}" placeholder="Slot number or name" aria-label="Uniform slot designation" data-uniform-field="slot" data-uniform="${index}"><input value="${escapeHtml(slot.description)}" placeholder="Uniform description" aria-label="Uniform description" data-uniform-field="description" data-uniform="${index}"><span></span></div>
+        </section>`).join('');
+      document.getElementById('uniform-count').textContent = `${uniforms.length}/40 slots`;
+      document.getElementById('add-uniform').disabled = uniforms.length >= 40;
+      applySearch();
+    }
+
+    function applySearch() {
+      const query = document.getElementById('catalog-search').value.trim().toLocaleLowerCase();
+      const sourceSelector = '#glossary-list .searchable, #equipment-list .searchable, #weapon-list .searchable, #animation-list .searchable, #custom-areas .searchable, #uniform-slots .searchable';
+      const entries = [...document.querySelectorAll(sourceSelector)];
+      const results = document.getElementById('search-results');
+      const catalogSections = document.getElementById('catalog-sections');
+      const personalSection = document.getElementById('personal');
+      const count = document.getElementById('search-count');
+
+      if (!query) {
+        results.replaceChildren();
+        results.classList.add('hidden');
+        catalogSections.classList.remove('hidden');
+        personalSection.classList.remove('hidden');
+        entries.forEach(entry => entry.classList.remove('hidden'));
+        count.textContent = '';
+        return;
+      }
+
+      const categories = {
+        'glossary-list': 'Glossary',
+        'equipment-list': 'Equipment',
+        'weapon-list': 'Weapons',
+        'animation-list': 'Animations',
+        'custom-areas': 'Customs',
+        'uniform-slots': 'Uniforms'
+      };
+      const matches = entries.filter(entry => (entry.dataset.search || '').toLocaleLowerCase().includes(query));
+      entries.forEach(entry => entry.classList.add('hidden'));
+      catalogSections.classList.add('hidden');
+      personalSection.classList.add('hidden');
+      results.replaceChildren();
+      results.classList.remove('hidden');
+      count.textContent = `${matches.length} match${matches.length === 1 ? '' : 'es'}`;
+
+      const heading = document.createElement('div');
+      heading.className = 'search-results-heading';
+      const title = document.createElement('h2');
+      title.textContent = 'Search results';
+      const total = document.createElement('span');
+      total.textContent = `${matches.length} match${matches.length === 1 ? '' : 'es'}`;
+      heading.append(title, total);
+      results.append(heading);
+
+      if (!matches.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'No matching entries.';
+        results.append(empty);
+        return;
+      }
+
+      for (const entry of matches) {
+        const category = categories[entry.parentElement.id];
+        if (category === 'Customs' || category === 'Uniforms') {
+          const card = document.createElement('article');
+          card.className = 'catalog-card search-result-note';
+          const content = document.createElement('div');
+          content.className = 'catalog-content';
+          const meta = document.createElement('div');
+          meta.className = 'catalog-meta';
+          meta.textContent = category;
+          const itemTitle = document.createElement('h3');
+          itemTitle.textContent = entry.querySelector('.area-heading h3').innerText.trim();
+          const detail = document.createElement('p');
+          detail.className = 'catalog-description';
+          const values = [...entry.querySelectorAll('.slot-row input')].map(input => input.value.trim()).filter(Boolean);
+          detail.textContent = values.join(' · ') || 'No slot details entered.';
+          content.append(meta, itemTitle, detail);
+          card.append(content);
+          results.append(card);
+        } else {
+          const card = entry.cloneNode(true);
+          card.classList.remove('hidden', 'searchable');
+          results.append(card);
+        }
+      }
+    }
+
+    function addMember(containerId, value = '', placeholder = 'Deputy Sheriff Name Lastname') {
+      const row = document.createElement('div');
+      row.className = 'member-row';
+      row.innerHTML = `<input placeholder="${escapeHtml(placeholder)}" aria-label="Member name" value="${escapeHtml(value)}"><button class="slot-remove" type="button" aria-label="Remove member">×</button>`;
+      row.querySelector('button').addEventListener('click', () => row.remove());
+      document.getElementById(containerId).append(row);
+    }
+
+    function value(id) { return document.getElementById(id).value.trim(); }
+    function addLine(lines, label, content) { lines.push(`[b]${label}:[/b] ${content}`); }
+
+    function generateIncident() {
+      const personnel = [...document.querySelectorAll('#incident-members input')].map(input => input.value.trim()).filter(Boolean);
+      const lines = [
+        '[divbox=white][center][sebheader][/center]', '[hr][/hr]',
+        `[divbox=black][color=white][b][center]${value('incident-id') || 'IL#YY-XXX'}[/center][/b][/color][/divbox]`,
+        '[table=Arial][tr]', `[td][b]DATE & TIME:[/b] ${value('incident-date') || 'DD/MMM/YYYY - HH:HH'}[/td]`, `[td][b]LOCATION:[/b] ${value('incident-location') || 'ADDRESS, AREA, CITY'}[/td]`, '[/tr]', '[tr]',
+        `[td][b]TYPE OF INCIDENT:[/b] ${value('incident-type') || 'BARRICADED, 998, HOSTAGE...'}[/td]`, `[td][b]STATION/UNIT REQUESTING:[/b] ${value('incident-requesting') || 'OSS, MCB, DVS...'}[/td]`, '[/tr][/table]', '', '[size=85][u][b]SCENE COMMAND[/b][/u]', '[list]',
+        `[*][b]Incident Commander:[/b] ${value('incident-ic') || 'Name Lastname'}`,
+        `[*][b]Tactical Commander:[/b] ${value('incident-tc') || 'Name Lastname'}`,
+        `[*][b]Designated Scout:[/b] ${value('incident-scout') || 'Name Lastname'}`,
+        '[/list]', '[u][b]RESPONDING PERSONNEL[/b][/u]', '[list]',
+        ...(personnel.length ? personnel.map(name => `[*]${name}`) : ['[*]Deputy Sheriff Name Lastname', '[*]Deputy Sheriff Name Lastname', '[*]Deputy Sheriff Name Lastname']),
+        '[/list][/size]', '', '[divbox=white][center][b]INCIDENT NARRATIVE & EXTERNAL REFERENCES[/b][/center]', '[size=85]', value('incident-narrative'), '', '[/size][/divbox][/divbox]'
+      ];
+      document.getElementById('bbcode-output').value = lines.join('\n');
+      showToast('Incident BBCode generated.');
+    }
+
+    function generateTrainingSchedule() {
+      const lines = [
+        '[divbox=white][color=transparent].[/color]',
+        '[center][img]https://i.imgur.com/NsD8TiX.png[/img]',
+        '[color=transparent].[/color]',
+        '[color=#000000][font=Arial][i][size=85][b]"WARRIORS OF THE NIGHT"[/b][/size][/i][/font][/color][/center]',
+        '[color=transparent].[/color]', '[hr][/hr]',
+        '[center][size=150][b][color=#000000][font=Arial]TRAINING SCHEDULE[/color][/b][/size][/center]', '[hr][/hr]', '',
+        `[b][u]${value('schedule-name') || 'TRAINING NAME HERE'}[/u][/b]`, '',
+        `[b]Detail(s) Assigned:[/b] ${value('schedule-details') || 'CSD, ESD, SED'}`,
+        `[b]Date/Time of Training:[/b] ${value('schedule-date') || 'DD/MMM/YYYY - HH:MM'}`,
+        `[b]Type of Training:[/b] ${value('schedule-type') || 'Active Shooters, Hostage Situations, Hardstops, Ambushes, Armed Barricaded Interiors, AIROPS, LRT, CNT'}`,
+        `[b]Organizer:[/b] ${value('schedule-organizer') || 'NAMES HERE'}`,
+        `[b]Location:[/b] ${value('schedule-location') || 'LOCATION HERE'}`,
+        '[/divbox]'
+      ];
+      document.getElementById('bbcode-output').value = lines.join('\n');
+      showToast('Training schedule BBCode generated.');
+    }
+
+    function memberListLines(containerId, fallbackCount) {
+      const members = [...document.querySelectorAll(`#${containerId} input`)].map(input => input.value.trim()).filter(Boolean);
+      const entries = members.length ? members : Array(fallbackCount).fill('FIRSTNAME LASTNAME');
+      return ['[list]', ...entries.map(name => `[*] ${name}`), '[/list]'];
+    }
+
+    function generateTrainingAttendance() {
+      const lines = [
+        '[divbox=white][color=transparent].[/color]',
+        '[center][img]https://i.imgur.com/NsD8TiX.png[/img]',
+        '[color=transparent].[/color]',
+        '[color=#000000][font=Arial][i][size=85][b]"WARRIORS OF THE NIGHT"[/b][/size][/i][/font][/color][/center]',
+        '[color=transparent].[/color]', '[hr][/hr]',
+        '[center][size=150][b][color=#000000][font=Arial]TRAINING ATTENDANCE[/color][/b][/size][/center]', '[hr][/hr]', '',
+        '[b][u]Attendance:[/u][/b]', '',
+        '[b]Instructor(s):[/b]', '', ...memberListLines('attendance-instructors', 3), '',
+        '[b]Team Members:[/b]', '', ...memberListLines('attendance-team-members', 7), '',
+        '[b]Other Participants (Suspects/Civilians):[/b]', '', ...memberListLines('attendance-other-participants', 3),
+        '[/divbox]'
+      ];
+      document.getElementById('bbcode-output').value = lines.join('\n');
+      showToast('Training attendance BBCode generated.');
+    }
+
+    const callsignInput = document.getElementById('callsign');
+    const callsignPreview = document.getElementById('callsign-preview');
+    const savedCallsign = localStorage.getItem(storageKeys.callsign) || '';
+    callsignInput.value = savedCallsign.startsWith('24') ? savedCallsign.slice(2) : savedCallsign;
+    function updateCallsignPreview(suffix) { callsignPreview.textContent = `24${suffix.toUpperCase() || '1S'}`; }
+    updateCallsignPreview(callsignInput.value);
+    callsignInput.addEventListener('input', event => {
+      event.target.value = event.target.value.toUpperCase();
+      localStorage.setItem(storageKeys.callsign, event.target.value);
+      updateCallsignPreview(event.target.value);
+    });
+    document.querySelectorAll('[data-view-target]').forEach(button => button.addEventListener('click', () => {
+      const selectedView = button.dataset.viewTarget;
+      for (const view of ['resources', 'formats']) {
+        const isSelected = view === selectedView;
+        document.getElementById(`${view}-view`).classList.toggle('hidden', !isSelected);
+        document.getElementById(`${view}-view`).setAttribute('aria-hidden', String(!isSelected));
+      }
+      document.querySelectorAll('[role="tab"][data-view-target]').forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.viewTarget === selectedView)));
+      document.querySelectorAll('.hero-actions [data-view-target]').forEach(action => {
+        const isSelected = action.dataset.viewTarget === selectedView;
+        action.classList.toggle('primary', isSelected);
+        action.classList.toggle('secondary', !isSelected);
+      });
+    }));
+    const backToTopButton = document.getElementById('back-to-top');
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      backToTopButton.classList.toggle('visible', !entry.isIntersecting);
+    }, { threshold: 0 });
+    heroObserver.observe(document.querySelector('.hero'));
+    backToTopButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.querySelectorAll('[data-section-target]').forEach(link => link.addEventListener('click', event => {
+      event.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      document.getElementById('resources-tab').click();
+      const search = document.getElementById('catalog-search');
+      if (search.value) {
+        search.value = '';
+        applySearch();
+      }
+      history.replaceState(null, '', link.getAttribute('href'));
+      requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }));
+    document.getElementById('catalog-search').addEventListener('input', applySearch);
+    document.getElementById('generate-incident').addEventListener('click', generateIncident);
+    document.getElementById('generate-schedule').addEventListener('click', generateTrainingSchedule);
+    document.getElementById('generate-attendance').addEventListener('click', generateTrainingAttendance);
+    document.getElementById('clear-bbcode').addEventListener('click', () => { document.getElementById('bbcode-output').value = ''; });
+    document.getElementById('copy-bbcode').addEventListener('click', async () => {
+      const output = document.getElementById('bbcode-output');
+      if (!output.value) { showToast('Generate a report before copying.'); return; }
+      try { await navigator.clipboard.writeText(output.value); showToast('BBCode copied to clipboard.'); }
+      catch { output.select(); document.execCommand('copy'); showToast('BBCode copied to clipboard.'); }
+    });
+
+    for (const tabName of ['incident', 'schedule', 'attendance']) {
+      document.getElementById(`${tabName}-tab`).addEventListener('click', () => {
+        activeFormat = tabName;
+        for (const name of ['incident', 'schedule', 'attendance']) {
+          const selected = name === tabName;
+          document.getElementById(`${name}-tab`).setAttribute('aria-selected', String(selected));
+          document.getElementById(`${name}-form`).classList.toggle('hidden', !selected);
+        }
+      });
+    }
+    document.querySelectorAll('[data-add-member]').forEach(button => button.addEventListener('click', () => addMember(button.dataset.addMember, '', button.dataset.memberPlaceholder)));
+    addMember('incident-members'); addMember('incident-members'); addMember('incident-members');
+    for (let index = 0; index < 3; index++) addMember('attendance-instructors', '', 'FIRSTNAME LASTNAME');
+    for (let index = 0; index < 7; index++) addMember('attendance-team-members', '', 'FIRSTNAME LASTNAME');
+    for (let index = 0; index < 3; index++) addMember('attendance-other-participants', '', 'FIRSTNAME LASTNAME');
+
+    document.getElementById('add-area').addEventListener('click', () => {
+      const select = document.getElementById('new-area-name');
+      const name = select.value;
+      if (!name) { select.focus(); showToast('Select a clothing area first.'); return; }
+      if (customs.some(area => area.name.toLocaleLowerCase() === name.toLocaleLowerCase())) { showToast('That clothing area already exists.'); return; }
+      customs.push({ name, slots: [] });
+      select.value = '';
+      persistCustoms(); renderCustoms();
+    });
+    document.getElementById('add-uniform').addEventListener('click', () => {
+      if (uniforms.length >= 40) { showToast('Uniform slots are limited to 40.'); return; }
+      uniforms.push({ slot: '', description: '' });
+      persistUniforms(); renderUniforms();
+      document.querySelector('#uniform-slots .area-block:last-child input').focus();
+    });
+    document.addEventListener('click', event => {
+      const target = event.target;
+      if (target.matches('[data-add-custom]')) {
+        const area = customs[Number(target.dataset.addCustom)];
+        if (area && area.slots.length < 5) { area.slots.push({ slot: '', description: '' }); persistCustoms(); renderCustoms(); }
+      }
+      if (target.matches('[data-remove-area]')) { customs.splice(Number(target.dataset.removeArea), 1); persistCustoms(); renderCustoms(); }
+      if (target.matches('[data-remove-custom]')) {
+        const [areaIndex, slotIndex] = target.dataset.removeCustom.split(':').map(Number);
+        customs[areaIndex].slots.splice(slotIndex, 1); persistCustoms(); renderCustoms();
+      }
+      if (target.matches('[data-remove-uniform]')) { uniforms.splice(Number(target.dataset.removeUniform), 1); persistUniforms(); renderUniforms(); }
+      if (target.matches('[data-animation]')) {
+        const animation = animations[Number(target.dataset.animation)];
+        navigator.clipboard.writeText(animation.name).then(() => showToast(`Copied ${animation.name}.`)).catch(() => showToast('Clipboard access is unavailable.'));
+      }
+    });
+    document.addEventListener('input', event => {
+      const target = event.target;
+      if (target.matches('[data-custom-field]')) {
+        const { area, slot, customField } = target.dataset;
+        customs[Number(area)].slots[Number(slot)][customField] = target.value;
+        persistCustoms();
+        const row = target.closest('.area-block');
+        row.dataset.search = [customs[Number(area)].name, ...customs[Number(area)].slots.flatMap(item => [item.slot, item.description])].join(' ');
+        applySearch();
+      }
+      if (target.matches('[data-uniform-field]')) {
+        uniforms[Number(target.dataset.uniform)][target.dataset.uniformField] = target.value;
+        persistUniforms();
+        target.closest('.area-block').dataset.search = [uniforms[Number(target.dataset.uniform)].slot, uniforms[Number(target.dataset.uniform)].description].join(' ');
+        applySearch();
+      }
+    });
+
+    renderCatalog();
+    renderCustoms();
+    renderUniforms();
+  </script>
+</body>
+</html>
