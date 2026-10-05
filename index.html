@@ -170,6 +170,12 @@
     .hero-team-links .team-link { display: inline-flex; align-items: center; gap: 5px; padding: 0 10px; }
     .hero-team-links .team-link + .team-link { border-left: 1px solid rgba(220,229,213,.35); }
     .hero-team-links .team-link a { padding: 0; }
+    .hero-team-links .quick-link-group { display: grid; grid-template-columns: 42px minmax(0, 1fr); align-items: start; gap: 8px; width: 100%; padding: 5px 0; border-bottom: 1px solid rgba(220,229,213,.18); }
+    .hero-team-links .quick-link-group > strong { color: #dce5d5; font-size: 10px; line-height: 1.5; }
+    .hero-team-links .quick-link-items { display: flex; flex-wrap: wrap; gap: 6px 12px; min-width: 0; }
+    .hero-team-links .quick-link-items .team-link { padding: 0; }
+    .hero-team-links .quick-link-items .team-link + .team-link { border-left: 0; }
+    .hero .hero-team-links:not(.hero-section-links) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 7px; }
     .hero .hero-team-links { grid-column: 1 / -1; min-height: 40px; padding: 10px 0 0; border: 0; border-top: 1px solid rgba(220,229,213,.24); background: transparent; }
     .hero .hero-section-links { min-height: 36px; padding-top: 7px; }
     .section { padding: 62px 0 0; }
@@ -228,16 +234,21 @@
     .area-block { margin-bottom: 13px; padding: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 3px; }
     .area-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
     .area-heading h3 { margin: 0; font-size: 13px; }
-    .slot-row { display: grid; grid-template-columns: minmax(60px, .45fr) minmax(0, 1fr) 32px; gap: 7px; margin-top: 7px; }
+    .slot-row { display: grid; grid-template-columns: minmax(60px, .45fr) minmax(0, 1fr) auto; gap: 7px; margin-top: 7px; }
     .slot-row input { min-width: 0; min-height: 35px; font-size: 11px; }
     .slot-remove { width: 32px; min-height: 35px; color: #854533; background: transparent; border: 1px solid #e0c9c1; border-radius: 3px; font-size: 18px; }
     .slot-remove:hover { background: #f8e9e3; }
+    .slot-actions, .slot-heading-actions { display: flex; align-items: center; gap: 3px; }
+    .slot-move { width: 28px; min-height: 35px; padding: 4px; color: #435746; background: transparent; border: 1px solid var(--line); border-radius: 3px; font-size: 13px; }
+    .slot-move:hover:not(:disabled) { background: #e5ebdf; }
+    .slot-move:disabled { opacity: .4; cursor: not-allowed; }
+    .slot-heading-actions .slot-move { min-height: 30px; }
     .slot-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 9px; color: var(--muted); font-size: 10px; }
     .quiet-note { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
     .format-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(290px, .8fr); gap: 18px; align-items: start; }
     .format-panel { min-width: 0; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-top: 3px solid #78846f; border-radius: 3px; }
     .format-panel h3 { margin-bottom: 13px; font-family: var(--serif); font-size: 21px; font-weight: 500; }
-    .format-tabs { display: flex; gap: 6px; margin-bottom: 17px; }
+    .format-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 17px; }
     .format-tab { min-height: 36px; padding: 7px 12px; color: #4b5d4b; background: transparent; border: 1px solid var(--line); border-radius: 3px; font-size: 11px; font-weight: 700; }
     .format-tab[aria-selected="true"] { color: white; background: var(--green); border-color: var(--green); }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
@@ -462,12 +473,24 @@
         </div>
       </div>
       <img class="hero-stamp" src="gfx/sed3.png" alt="Los Santos County Sheriff's Department Special Weapons Team SEB badge">
-      <nav class="resource-strip hero-team-links" aria-label="Team links">
-        <span>TEAM LINKS</span>
-        <div class="team-link"><span aria-hidden="true">📋</span><a href="https://lssd.gta.world/viewtopic.php?t=26016" data-resource-placeholder>SEB: Reference Manual</a></div>
-        <div class="team-link"><span aria-hidden="true">🗺️</span><a href="https://docs.google.com/spreadsheets/d/1jJFC9-c2xmW4rMvGKRXDH1GTEXAAZuKqlykBqS9A4i8/edit?gid=952360740#gid=952360740" data-resource-placeholder>SEB: Uniforms Spreadsheet</a></div>
-        <div class="team-link"><span aria-hidden="true">👥</span><a href="https://fp.booskit.dev/lssd/roster?roster=SOD" data-resource-placeholder>SEB: Roster</a></div>
-        <div class="team-link"><span aria-hidden="true">📡</span><a href="https://lssd.gta.world/viewtopic.php?t=35031" data-resource-placeholder>SEB: Orders Book</a></div>
+      <nav class="resource-strip hero-team-links" aria-label="Quick links">
+        <span>QUICK LINKS</span>
+        <div class="quick-link-group"><strong>SEB</strong><div class="quick-link-items">
+          <div class="team-link"><span aria-hidden="true">📋</span><a href="https://lssd.gta.world/viewtopic.php?t=26016" data-resource-placeholder>SEB: Reference Manual</a></div>
+          <div class="team-link"><span aria-hidden="true">🗺️</span><a href="https://docs.google.com/spreadsheets/d/1jJFC9-c2xmW4rMvGKRXDH1GTEXAAZuKqlykBqS9A4i8/edit?gid=952360740#gid=952360740" data-resource-placeholder>SEB: Uniforms Spreadsheet</a></div>
+          <div class="team-link"><span aria-hidden="true">👥</span><a href="https://fp.booskit.dev/lssd/roster?roster=SOD" data-resource-placeholder>SEB: Roster</a></div>
+          <div class="team-link"><span aria-hidden="true">📡</span><a href="https://lssd.gta.world/viewtopic.php?t=35031" data-resource-placeholder>SEB: Orders Book</a></div>
+          <div class="team-link"><span aria-hidden="true">🌊</span><a href="https://lssd.gta.world/viewtopic.php?t=28362">Maritime Operations</a></div>
+          <div class="team-link"><span aria-hidden="true">🗣️</span><a href="https://lssd.gta.world/viewtopic.php?t=6064">Crisis Negotiation Manual</a></div>
+          <div class="team-link"><span aria-hidden="true">🚁</span><a href="https://lssd.gta.world/viewtopic.php?t=27037">Air Operations Manual</a></div>
+        </div></div>
+        <div class="quick-link-group"><strong>SED</strong><div class="quick-link-items">
+          <div class="team-link"><span aria-hidden="true">🎯</span><a href="https://lssd.gta.world/viewtopic.php?t=32646">Long Rifle Team Manual</a></div>
+        </div></div>
+        <div class="quick-link-group"><strong>ESD</strong><div class="quick-link-items">
+          <div class="team-link"><span aria-hidden="true">📋</span><a href="https://lsfd.gta.world/LSCC/protocols">ESD: Protocols</a></div>
+        </div></div>
+        <div class="quick-link-group"><strong>CSD</strong><div class="quick-link-items"></div></div>
       </nav>
       <nav class="resource-strip hero-team-links hero-section-links" aria-label="Reference sections">
         <span>SECTIONS</span>
@@ -575,6 +598,8 @@
         <button class="format-tab" type="button" id="incident-tab" role="tab" aria-selected="true" aria-controls="incident-form">Incident Log</button>
         <button class="format-tab" type="button" id="schedule-tab" role="tab" aria-selected="false" aria-controls="schedule-form">Training Schedule</button>
         <button class="format-tab" type="button" id="attendance-tab" role="tab" aria-selected="false" aria-controls="attendance-form">Training Attendance</button>
+        <button class="format-tab" type="button" id="ground-rescue-tab" role="tab" aria-selected="false" aria-controls="ground-rescue-form">Ground Rescue Log</button>
+        <button class="format-tab" type="button" id="air-rescue-tab" role="tab" aria-selected="false" aria-controls="air-rescue-form">Air Rescue 5 Log</button>
       </div>
       <div class="format-layout">
         <div class="format-panel" id="incident-form" role="tabpanel" aria-labelledby="incident-tab">
@@ -615,6 +640,41 @@
             <div class="form-field full"><span class="member-label">Other Participants (Suspects/Civilians)</span><div class="member-list" id="attendance-other-participants"></div><button class="button secondary small" type="button" data-add-member="attendance-other-participants" data-member-placeholder="FIRSTNAME LASTNAME">＋ Add participant</button></div>
           </div>
           <div class="form-actions"><button class="button" id="generate-attendance" type="button">Generate Attendance BBCode</button></div>
+        </div>
+
+        <div class="format-panel hidden" id="ground-rescue-form" role="tabpanel" aria-labelledby="ground-rescue-tab">
+          <h3>Ground Rescue Deployment Log</h3>
+          <div class="form-grid">
+            <div class="form-field"><label for="ground-date">Date &amp; Time</label><input id="ground-date" placeholder="DD/MMM/YY"></div>
+            <div class="form-field"><label for="ground-activation">Rescue Activation No.</label><input id="ground-activation" placeholder="YY-NO (E.G 22-001)"></div>
+            <div class="form-field"><label for="ground-location">Location</label><input id="ground-location" placeholder="ADDRESS, AREA, CITY"></div>
+            <div class="form-field"><label for="ground-type">Type of Incident</label><input id="ground-type" placeholder="TACTICAL / RESCUE / MEDICAL"></div>
+            <div class="form-field"><label for="ground-requesting">Station/Unit Requesting</label><input id="ground-requesting" placeholder="UNIT or STATION (E.G OSS or 60D)"></div>
+            <div class="form-field"><label for="ground-authorized">Authorized By</label><input id="ground-authorized" placeholder="ESD LT/SGT/Crew Chief"></div>
+            <div class="form-field"><label for="ground-ic">Incident Commander</label><input id="ground-ic" placeholder="Name Lastname"></div>
+            <div class="form-field"><label for="ground-crew-chief">Crew Chief</label><input id="ground-crew-chief" placeholder="Name Lastname"></div>
+            <div class="form-field full"><span class="member-label">Responding Personnel</span><div class="member-list" id="ground-members"></div><button class="button secondary small" type="button" data-add-member="ground-members">＋ Add deputy</button></div>
+            <div class="form-field full"><label for="ground-narrative">Incident Narrative &amp; External References</label><textarea id="ground-narrative" placeholder="List as needed."></textarea></div>
+          </div>
+          <div class="form-actions"><button class="button" id="generate-ground-rescue" type="button">Generate Ground Rescue BBCode</button></div>
+        </div>
+
+        <div class="format-panel hidden" id="air-rescue-form" role="tabpanel" aria-labelledby="air-rescue-tab">
+          <h3>Air Rescue 5 Deployment Log</h3>
+          <div class="form-grid">
+            <div class="form-field"><label for="air-date">Date &amp; Time</label><input id="air-date" placeholder="DD/MMM/YY"></div>
+            <div class="form-field"><label for="air-activation">Air Rescue Activation No.</label><input id="air-activation" placeholder="YY-NO (E.G 22-001)"></div>
+            <div class="form-field"><label for="air-location">Location</label><input id="air-location" placeholder="ADDRESS, AREA, CITY"></div>
+            <div class="form-field"><label for="air-type">Type of Incident</label><input id="air-type" placeholder="TACTICAL / RESCUE / MEDICAL"></div>
+            <div class="form-field"><label for="air-requesting">Station/Unit Requesting</label><input id="air-requesting" placeholder="UNIT or STATION (E.G OSS or 60D)"></div>
+            <div class="form-field"><label for="air-authorized">Authorized By</label><input id="air-authorized" placeholder="AERO DESK"></div>
+            <div class="form-field"><label for="air-pilot">Pilot-in-Charge</label><input id="air-pilot" placeholder="Name Lastname"></div>
+            <div class="form-field"><label for="air-copilot">Co-Pilot</label><input id="air-copilot" placeholder="Name Lastname"></div>
+            <div class="form-field"><label for="air-crew-chief">Crew Chief</label><input id="air-crew-chief" placeholder="Name Lastname"></div>
+            <div class="form-field full"><span class="member-label">Responding Personnel</span><div class="member-list" id="air-members"></div><button class="button secondary small" type="button" data-add-member="air-members">＋ Add deputy</button></div>
+            <div class="form-field full"><label for="air-narrative">Incident Narrative &amp; External References</label><textarea id="air-narrative" placeholder="List as needed."></textarea></div>
+          </div>
+          <div class="form-actions"><button class="button" id="generate-air-rescue" type="button">Generate Air Rescue BBCode</button></div>
         </div>
 
         <aside class="format-panel output-panel">
@@ -668,6 +728,10 @@
       { name: 'Crye Precision G3 Combat Shirt', category: 'Uniforms / PPE', image: 'https://i.imgur.com/i0FXiTq.png', description: 'Combat shirt designed to be worn under body armor, with lightweight torso fabric and reinforced ripstop sleeves.', slot: 'Shirts', model: '689', texture: '2 (SED) / 3 (CSD) / 4 (ESD)' },
       { name: 'Crye Precision G3 Combat Pants', category: 'Uniforms / PPE', image: 'https://i.imgur.com/ByahTwC.png', description: 'Combat pants with stretch panels, multiple pockets, adjustable waist, and removable knee-pad compatibility.', slot: 'Pants', model: '293', texture: '1' },
       { name: 'G3 Combat Shirt (Rolled Sleeves)', category: 'Uniforms / PPE', image: 'https://i.imgur.com/i0FXiTq.png', description: 'Short-sleeve variant of the Battle Dress Uniform combat shirt.', slot: 'Shirts', model: '846', texture: '2 (SED) / 3 (CSD) / 4 (ESD)' },
+      { name: 'LifePak 15', nickname: '', category: 'Team Equipment', image: 'https://i.postimg.cc/MGNVncjS/lifepak15.png', description: '', slot: '/rb', model: '', texture: '', modelF: '', textureF: '' },
+      { name: 'M9 Medical Bag', nickname: '', category: 'Team Equipment', image: 'https://i.postimg.cc/tgwWs1VX/m9medicalbag.png', description: 'Large medical bag for mass casualty incidents and bleed control.', slot: 'Decals', model: '313', texture: '0', modelF: '', textureF: '' },
+      { name: 'Oxygen/Airway Bag', nickname: '', category: 'Team Equipment', image: 'https://i.postimg.cc/QMw1FBWs/oxygenairwaybag.png', description: '', slot: '/rb', model: '', texture: '', modelF: '', textureF: '' },
+      { name: 'RATS Trauma Bag', nickname: '', category: 'Team Equipment', image: 'https://i.postimg.cc/jjmPDWJx/ratspack.png', description: '', slot: 'Decals', model: '355', texture: '0', modelF: '', textureF: '' },
 
 
       /* CLOTHING EQUIPMENT (MOVED TO A LINK TO SPREADSHEET FOR SPACE)  */
@@ -913,13 +977,20 @@
 
     function persistCustoms() { saveStored(storageKeys.customs, customs); }
     function persistUniforms() { saveStored(storageKeys.uniforms, uniforms); }
+    function moveArrayItem(items, index, offset) {
+      const targetIndex = index + offset;
+      if (targetIndex < 0 || targetIndex >= items.length) return -1;
+      const [item] = items.splice(index, 1);
+      items.splice(targetIndex, 0, item);
+      return targetIndex;
+    }
 
     function renderCustoms() {
       const host = document.getElementById('custom-areas');
       host.innerHTML = customs.map((area, areaIndex) => `
         <section class="area-block searchable" data-search="${escapeHtml([area.name, ...(area.slots || []).flatMap(slot => [slot.slot, slot.description])].join(' '))}">
           <div class="area-heading"><h3>${escapeHtml(area.name)} <span class="search-count">${(area.slots || []).length}/5</span></h3><button class="slot-remove" type="button" data-remove-area="${areaIndex}" aria-label="Remove ${escapeHtml(area.name)} area" title="Remove area">×</button></div>
-          ${(area.slots || []).map((slot, slotIndex) => `<div class="slot-row"><input value="${escapeHtml(slot.slot)}" placeholder="Slot" aria-label="${escapeHtml(area.name)} slot" data-custom-field="slot" data-area="${areaIndex}" data-slot="${slotIndex}"><input value="${escapeHtml(slot.description)}" placeholder="Item in this slot" aria-label="${escapeHtml(area.name)} slot description" data-custom-field="description" data-area="${areaIndex}" data-slot="${slotIndex}"><button class="slot-remove" type="button" data-remove-custom="${areaIndex}:${slotIndex}" aria-label="Remove slot">×</button></div>`).join('')}
+          ${(area.slots || []).map((slot, slotIndex) => `<div class="slot-row"><input value="${escapeHtml(slot.slot)}" placeholder="Slot" aria-label="${escapeHtml(area.name)} slot" data-custom-field="slot" data-area="${areaIndex}" data-slot="${slotIndex}"><input value="${escapeHtml(slot.description)}" placeholder="Item in this slot" aria-label="${escapeHtml(area.name)} slot description" data-custom-field="description" data-area="${areaIndex}" data-slot="${slotIndex}"><div class="slot-actions"><button class="slot-move" type="button" data-move-custom="${areaIndex}:${slotIndex}" data-move-direction="-1" aria-label="Move ${escapeHtml(area.name)} slot ${slotIndex + 1} up" title="Move up" ${slotIndex === 0 ? 'disabled' : ''}>↑</button><button class="slot-move" type="button" data-move-custom="${areaIndex}:${slotIndex}" data-move-direction="1" aria-label="Move ${escapeHtml(area.name)} slot ${slotIndex + 1} down" title="Move down" ${slotIndex === area.slots.length - 1 ? 'disabled' : ''}>↓</button><button class="slot-remove" type="button" data-remove-custom="${areaIndex}:${slotIndex}" aria-label="Remove ${escapeHtml(area.name)} slot ${slotIndex + 1}" title="Remove slot">×</button></div></div>`).join('')}
           <div class="slot-footer"><button class="button secondary small" type="button" data-add-custom="${areaIndex}" ${area.slots.length >= 5 ? 'disabled' : ''}>＋ Add slot</button></div>
         </section>`).join('');
       applySearch();
@@ -929,7 +1000,7 @@
       const host = document.getElementById('uniform-slots');
       host.innerHTML = uniforms.map((slot, index) => `
         <section class="area-block searchable" data-search="${escapeHtml([slot.slot, slot.description].join(' '))}">
-          <div class="area-heading"><h3>Uniform ${index + 1}</h3><button class="slot-remove" type="button" data-remove-uniform="${index}" aria-label="Remove uniform ${index + 1}" title="Remove slot">×</button></div>
+          <div class="area-heading"><h3>Uniform ${index + 1}</h3><div class="slot-heading-actions"><button class="slot-move" type="button" data-move-uniform="${index}" data-move-direction="-1" aria-label="Move uniform ${index + 1} up" title="Move up" ${index === 0 ? 'disabled' : ''}>↑</button><button class="slot-move" type="button" data-move-uniform="${index}" data-move-direction="1" aria-label="Move uniform ${index + 1} down" title="Move down" ${index === uniforms.length - 1 ? 'disabled' : ''}>↓</button><button class="slot-remove" type="button" data-remove-uniform="${index}" aria-label="Remove uniform ${index + 1}" title="Remove slot">×</button></div></div>
           <div class="slot-row"><input value="${escapeHtml(slot.slot)}" placeholder="Slot number or name" aria-label="Uniform slot designation" data-uniform-field="slot" data-uniform="${index}"><input value="${escapeHtml(slot.description)}" placeholder="Uniform description" aria-label="Uniform description" data-uniform-field="description" data-uniform="${index}"><span></span></div>
         </section>`).join('');
       document.getElementById('uniform-count').textContent = `${uniforms.length}/40 slots`;
@@ -1089,6 +1160,75 @@
       showToast('Training attendance BBCode generated.');
     }
 
+    function respondingPersonnel(containerId, fallbackCount) {
+      const names = [...document.querySelectorAll(`#${containerId} input`)].map(input => input.value.trim()).filter(Boolean);
+      return names.length ? names : Array(fallbackCount).fill('Deputy Name Lastname');
+    }
+
+    function generateGroundRescue() {
+      const lines = [
+        '[hr][/hr]',
+        '[center][b][size=125]LOS SANTOS COUNTY SHERIFF\'S DEPARTMENT\nSPECIAL ENFORCEMENT BUREAU[/size][/b]',
+        '[size=110]GROUND RESCUE DEPLOYMENT LOG[/size][/center]',
+        '[hr][/hr]',
+        '[divbox=black][color=white][b][center]INCIDENT INFORMATION[/center][/b][/color][/divbox]',
+        '[table=Arial][tr]',
+        '[td][b]DATE & TIME:[/b][/td]', '[td][b]RESCUE ACTIVATION NO.:[/b][/td]', '[td][b]LOCATION:[/b][/td]',
+        '[/tr]', '[tr]',
+        `[td]${value('ground-date') || 'DD/MMM/YY'}[/td]`, `[td]${value('ground-activation') || 'YY-NO (E.G 22-001)'}[/td]`, `[td]${value('ground-location') || 'ADDRESS, AREA, CITY'}[/td]`,
+        '[/tr]', '[tr]',
+        '[td][b]TYPE OF INCIDENT:[/b][/td]', '[td][b]STATION/UNIT REQUESTING:[/b][/td]', '[td][b]AUTHORIZED BY:[/b][/td]',
+        '[/tr]', '[tr]',
+        `[td]${value('ground-type') || 'TACTICAL / RESCUE / MEDICAL'}[/td]`, `[td]${value('ground-requesting') || 'UNIT or STATION (E.G OSS or 60D)'}[/td]`, `[td]${value('ground-authorized') || 'ESD LT/SGT/Crew Chief'}[/td]`,
+        '[/tr][/table]', '',
+        '[divbox=black][color=white][b][center]PERSONNEL[/center][/b][/color][/divbox]',
+        '[divbox=white][center][size=85][b]PERSONNEL LOG[/b][/size][/center]', '[size=85]',
+        '[u][b]COMMANDING PERSONNEL[/b][/u]', '[list]',
+        `[*][b]Incident Commander:[/b] ${value('ground-ic')}`,
+        `[*][b]Crew Chief:[/b] ${value('ground-crew-chief')}`,
+        '[/list]', '[u][b]RESPONDING PERSONNEL[/b][/u]', '[list]',
+        ...respondingPersonnel('ground-members', 3).map(name => `[*]${name}`),
+        '[/list][/size]', '[/divbox]', '',
+        '[divbox=black][color=white][b][center]NARRATIVE[/center][/b][/color][/divbox]',
+        '[divbox=white][center][size=85][b]INCIDENT NARRATIVE & EXTERNAL REFERENCES[/b][/size][/center]',
+        '[size=85]', value('ground-narrative'), '', '[/size][/divbox]'
+      ];
+      document.getElementById('bbcode-output').value = lines.join('\n');
+      showToast('Ground rescue BBCode generated.');
+    }
+
+    function generateAirRescue() {
+      const lines = [
+        '[hr][/hr]',
+        '[center][b][size=125]LOS SANTOS COUNTY SHERIFF\'S DEPARTMENT\nSPECIAL ENFORCEMENT BUREAU[/size][/b]',
+        '[size=110]AIR RESCUE 5 DEPLOYMENT LOG[/size][/center]',
+        '[hr][/hr]',
+        '[divbox=black][color=white][b][center]INCIDENT INFORMATION[/center][/b][/color][/divbox]',
+        '[table=Arial][tr]',
+        '[td][b]DATE & TIME:[/b][/td]', '[td][b]AIR RESCUE ACTIVATION NO.:[/b][/td]', '[td][b]LOCATION:[/b][/td]',
+        '[/tr]', '[tr]',
+        `[td]${value('air-date') || 'DD/MMM/YY'}[/td]`, `[td]${value('air-activation') || 'YY-NO (E.G 22-001)'}[/td]`, `[td]${value('air-location') || 'ADDRESS, AREA, CITY'}[/td]`,
+        '[/tr]', '[tr]',
+        '[td][b]TYPE OF INCIDENT:[/b][/td]', '[td][b]STATION/UNIT REQUESTING:[/b][/td]', '[td][b]AUTHORIZED BY:[/b][/td]',
+        '[/tr]', '[tr]',
+        `[td]${value('air-type') || 'TACTICAL / RESCUE / MEDICAL'}[/td]`, `[td]${value('air-requesting') || 'UNIT or STATION (E.G OSS or 60D)'}[/td]`, `[td]${value('air-authorized') || 'AERO DESK'}[/td]`,
+        '[/tr][/table]', '',
+        '[divbox=black][color=white][b][center]PERSONNEL[/center][/b][/color][/divbox]',
+        '[divbox=white][center][size=85][b]PERSONNEL LOG[/b][/size][/center]', '[size=85][u][b]HELICOPTER PERSONNEL[/b][/u]', '[list]',
+        `[*][b]Pilot-in-Charge:[/b] ${value('air-pilot') || 'Name Lastname'}`,
+        `[*][b]Co-Pilot:[/b] ${value('air-copilot') || 'Name Lastname'}`,
+        `[*][b]Crew Chief:[/b] ${value('air-crew-chief') || 'Name Lastname'}`,
+        '[/list]', '[u][b]RESPONDING PERSONNEL[/b][/u]', '[list]',
+        ...respondingPersonnel('air-members', 3).map(name => `[*]${name}`),
+        '[/list][/size]', '[/divbox]', '',
+        '[divbox=black][color=white][b][center]NARRATIVE[/center][/b][/color][/divbox]',
+        '[divbox=white][center][size=85][b]INCIDENT NARRATIVE & EXTERNAL REFERENCES[/b][/size][/center]',
+        '[size=85]', value('air-narrative'), '', '[/size][/divbox]'
+      ];
+      document.getElementById('bbcode-output').value = lines.join('\n');
+      showToast('Air rescue BBCode generated.');
+    }
+
     const callsignInput = document.getElementById('callsign');
     const callsignPreview = document.getElementById('callsign-preview');
     const savedCallsign = localStorage.getItem(storageKeys.callsign) || '';
@@ -1150,6 +1290,8 @@
     document.getElementById('generate-incident').addEventListener('click', generateIncident);
     document.getElementById('generate-schedule').addEventListener('click', generateTrainingSchedule);
     document.getElementById('generate-attendance').addEventListener('click', generateTrainingAttendance);
+    document.getElementById('generate-ground-rescue').addEventListener('click', generateGroundRescue);
+    document.getElementById('generate-air-rescue').addEventListener('click', generateAirRescue);
     document.getElementById('clear-bbcode').addEventListener('click', () => { document.getElementById('bbcode-output').value = ''; });
     document.getElementById('copy-bbcode').addEventListener('click', async () => {
       const output = document.getElementById('bbcode-output');
@@ -1158,10 +1300,10 @@
       catch { output.select(); document.execCommand('copy'); showToast('BBCode copied to clipboard.'); }
     });
 
-    for (const tabName of ['incident', 'schedule', 'attendance']) {
+    for (const tabName of ['incident', 'schedule', 'attendance', 'ground-rescue', 'air-rescue']) {
       document.getElementById(`${tabName}-tab`).addEventListener('click', () => {
         activeFormat = tabName;
-        for (const name of ['incident', 'schedule', 'attendance']) {
+        for (const name of ['incident', 'schedule', 'attendance', 'ground-rescue', 'air-rescue']) {
           const selected = name === tabName;
           document.getElementById(`${name}-tab`).setAttribute('aria-selected', String(selected));
           document.getElementById(`${name}-form`).classList.toggle('hidden', !selected);
@@ -1173,6 +1315,8 @@
     for (let index = 0; index < 3; index++) addMember('attendance-instructors', '', 'FIRSTNAME LASTNAME');
     for (let index = 0; index < 7; index++) addMember('attendance-team-members', '', 'FIRSTNAME LASTNAME');
     for (let index = 0; index < 3; index++) addMember('attendance-other-participants', '', 'FIRSTNAME LASTNAME');
+    for (let index = 0; index < 3; index++) addMember('ground-members');
+    for (let index = 0; index < 3; index++) addMember('air-members');
 
     document.getElementById('add-area').addEventListener('click', () => {
       const select = document.getElementById('new-area-name');
@@ -1201,6 +1345,26 @@
         customs[areaIndex].slots.splice(slotIndex, 1); persistCustoms(); renderCustoms();
       }
       if (target.matches('[data-remove-uniform]')) { uniforms.splice(Number(target.dataset.removeUniform), 1); persistUniforms(); renderUniforms(); }
+      const customMove = target.closest('[data-move-custom]');
+      if (customMove) {
+        const [areaIndex, slotIndex] = customMove.dataset.moveCustom.split(':').map(Number);
+        const direction = Number(customMove.dataset.moveDirection);
+        const nextIndex = moveArrayItem(customs[areaIndex].slots, slotIndex, direction);
+        if (nextIndex !== -1) {
+          persistCustoms(); renderCustoms();
+          document.querySelector(`[data-move-custom="${areaIndex}:${nextIndex}"][data-move-direction="${direction}"]`)?.focus();
+        }
+      }
+      const uniformMove = target.closest('[data-move-uniform]');
+      if (uniformMove) {
+        const index = Number(uniformMove.dataset.moveUniform);
+        const direction = Number(uniformMove.dataset.moveDirection);
+        const nextIndex = moveArrayItem(uniforms, index, direction);
+        if (nextIndex !== -1) {
+          persistUniforms(); renderUniforms();
+          document.querySelector(`[data-move-uniform="${nextIndex}"][data-move-direction="${direction}"]`)?.focus();
+        }
+      }
       if (target.matches('[data-animation]')) {
         const animation = animations[Number(target.dataset.animation)];
         navigator.clipboard.writeText(animation.name).then(() => showToast(`Copied ${animation.name}.`)).catch(() => showToast('Clipboard access is unavailable.'));
