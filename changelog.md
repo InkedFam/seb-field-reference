@@ -4,3 +4,4 @@
 - Added Ground Rescue and Air Rescue 5 deployment-log generators for ESD.
 - Grouped quick links by SEB, SED, ESD, and CSD; added new SEB, SED, and ESD links.
 - Added four ESD equipment pieces, missing some IDs and descriptions still.
+- Reordered glossary entries alphabetically.

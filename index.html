@@ -706,18 +706,22 @@
 
   <script>
     const glossary = [
-      { term: 'Charlie Ocean', definition: 'A phonetic phrase to refer to a \"Call Out\" or deployment of SEB personnel.' },
-      { term: 'Tactical Commander', definition: 'The team member responsible for overseeing and coordinating tactical operations within an incident.' },
-      { term: 'Designated Scout', definition: 'The team member whom prepares and executes tactical plans authorized by the Tactical Commander.' },
-      { term: 'Point Man', definition: 'The team member who leads the formation and is responsible for navigating and identifying threats during tactical operations. They must make quick decisions to ensure the safety and effectiveness of the team.' },
+      { term: '417 Boy (417B)', definition: 'A term used to refer to a Barricaded Suspects incident.' },
+      { term: 'Air/Rescue 5', definition: 'The name of the Special Operations Division based airship. When conducting Rescue Operations, entitled Rescue 5.' },
       { term: 'Breacher', definition: 'The team member responsible for gaining entry to a structure or area, typically using specialized tools or explosives.' },
-      { term: 'Cover (Assignment)', definition: 'In the context of team assignments, the team member responsible for providing lethal cover to the CORE camera operator or other specific team assignments during a tactical operation.'},
-      { term: 'CORE Camera Operator "Cam" (Assignment)', definition: 'The team member responsible for operating the CORE camera system, capturing real-time footage of tactical operations while coordinating with the team for optimal coverage.' },
-      { term: 'Tactical Support Patrol (TSP)', definition: 'A patrol in which SEB personnel provide tactical support and reinforcement to ongoing operations or incidents.\n Low-Risk, Medium Risk, and High-Risk TSPs may be authorized. See manual for details. Low-Risk TSPs immediately authorized during weekends. Phase Mobilizations may automatically authorize TSPs.' },
+      { term: 'Bunker (Equipment)', definition: 'A nickname of the Protech Body Bunker Level IIIA Shield.' },
+      { term: 'Charlie Ocean', definition: 'A phonetic phrase to refer to a \"Call Out\" or deployment of SEB personnel.' },
+      { term: 'CORE Camera Operator \"Cam\" (Assignment)', definition: 'The team member responsible for operating the CORE camera system, capturing real-time footage of tactical operations while coordinating with the team for optimal coverage.' },
+      { term: 'Cover (Assignment)', definition: 'In the context of team assignments, the team member responsible for providing lethal cover to the CORE camera operator or other specific team assignments during a tactical operation.' },
       { term: 'Crime Suppression Patrol (CSP)', definition: 'A type of patrol that SEB personnel may conduct to proactively address and reduce criminal activity within the jurisdiction. These patrols are less-restrictive than TSPs and permanently authorized except when a Phase Mobilization is active, during which assets shall transition to a TSP. See manual for details.' },
+      { term: 'Designated Scout', definition: 'The team member whom prepares and executes tactical plans authorized by the Tactical Commander.' },
       { term: 'Dive Team', definition: 'A specialized team within SEB responsible for underwater operations, including search and rescue, evidence recovery, and tactical interventions in aquatic environments.' },
       { term: 'Long Rifle Team (LRT)', definition: 'A specialized team within SEB responsible for engaging targets at long distances with precision rifles, providing overwatch and support during tactical operations.' },
-      { term: '417 Boy (417B)', definition: 'A term used to refer to a Barricaded Suspects incident.'}
+      { term: 'LRT', definition: 'Abbreviation referring to the Long Rifle Team; a sub-team of SED deputies whom are certified in the use of long-range shooting marksmanship capabilities.' },
+      { term: 'Point Man', definition: 'The team member who leads the formation and is responsible for navigating and identifying threats during tactical operations. They must make quick decisions to ensure the safety and effectiveness of the team.' },
+      { term: 'Snakecam', definition: 'A term used to refer to the CORE Camera.' },
+      { term: 'Tactical Commander', definition: 'The team member responsible for overseeing and coordinating tactical operations within an incident.' },
+      { term: 'Tactical Support Patrol (TSP)', definition: 'A patrol in which SEB personnel provide tactical support and reinforcement to ongoing operations or incidents.\n Low-Risk, Medium Risk, and High-Risk TSPs may be authorized. See manual for details. Low-Risk TSPs immediately authorized during weekends. Phase Mobilizations may automatically authorize TSPs.' }
     ];
     const equipment = [
       { name: 'Team Wendy EXFIL Ballistic SL', category: 'Uniforms / PPE', image: 'https://i.postimg.cc/yYJX3yd5/opplanet-team-wendy-exfil-ballistic-sl-helmet-led-left-eye-dominant-retention-green-2xl-76-72s-e72-l.png', description: 'Ranger-green ballistic helmet with EXFIL Rail 3.0 and CAM FIT retention system. The manual lists NIJ Level III-A protection.', slot: 'Hats', model: '116 / 117 (w/ battery)', texture: '1 (GREEN)' },
@@ -789,6 +793,7 @@
       { name: "Rapid Assault Tools 16' Telescoping Ladder", category: 'Team Equipment', image: 'https://i.imgur.com/Hxg8reV.png', description: 'Portable 16-foot tactical telescoping ladder with a carrying kit.' },
       { name: "Phantom Sniper Pack, Coyote Brown", category: 'Team Equipment', image: 'https://i.ibb.co/M5pD36mD/seblrt.png', description: 'Pack designed for sniper with easy drag-bag conversion and can contain a long rifle, bi/tripod, and associated long-rifle gear. The bag may also be used as a makeshift brace.' },
       { name: "Deathgrip Infinite Tripod", category: 'Team Equipment', image: 'https://i.ibb.co/F4chg8Nm/sebtripod.png', description: 'Rigid and adjustable support system for a marksman rifle, allowing the operator to maintain a consistent firing position and reducing movement and fatigue during extended overwatch assignments. Collapses and fits inside Phantom Pack.' },
+      { name: "Boonie Hat (Ranger Green)", category: 'Team Equipment', image: 'https://i.postimg.cc/MHV2v3QC/boonie.png', description: 'Optional Boonie Hat for use by LRT teams.', slot: 'Hats', model: '104', texture: '23'},
       { name: "Reactor-2 3/2mm Back Zip Full Wetsuit (Black)", category: 'Team Equipment', image: 'https://i.postimg.cc/YC7RPF9D/wetsuit.png', description: 'Wetsuit worn by SEB personnel during maritime operations. Provides body temperature insulation.', slot: 'Torso/Pants', model: '53/94', texture: '0' },
       { name: "Ocean Reef Space Extender", category: 'Team Equipment', image: 'https://i.postimg.cc/GmjKnp8x/extender.png', description: 'Directional exhaust valve, scratch resistant diving mask. Diving Mask system; the Space Extender, is the mask for the avid diver, advanced adventurer and diving professional.', slot: 'Glasses', model: '26', texture: '0' },
       { name: "Tecline Rubber Fins Jetstream", category: 'Team Equipment', image: 'https://i.postimg.cc/y8TjCNgj/fins.png', description: 'Diving fins improve movement in the water. Allowing to reach the objective safely and fast.', slot: 'Shoes', model: '67', texture: '0' },
