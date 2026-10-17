@@ -835,7 +835,7 @@
       { name: "Tattoo Cover", category: 'Team Equipment', image: 'https://i.postimg.cc/x1mLTbDC/tattoocover.png', description: 'Black, green, tan, or white tattoo covers for concealing sleeve tattoos during operations.', slot: 'Armor/Masks', model: '74 (Armor) / 237 (Masks)', texture: 'MULTI', modelF: "100", textureF: "MULTI" },
 
     ].map(item => ({ model: '', texture: '', modelF: '', textureF: '', ...item }));
-    const presetSlotNames = ['Face', 'Masks', 'Hair', 'Torso', 'Legs', 'Bags / Parachute', 'Shoes', 'Accessories', 'Undershirts', 'Armor', 'Decals', 'Tops', 'Hats', 'Glasses', 'Ears', 'Hands', 'Watches', 'Bracelets'];
+    const presetSlotNames = ['Masks', 'Torso', 'Pants', 'Shoes', 'Accessories', 'Undershirts', 'Armor', 'Decals', 'Shirts', 'Hats', 'Glasses', 'Ears', 'Hands', 'Watches', 'Bracelets'];
     const makePresetSlots = (maleIds, femaleIds = {}) => presetSlotNames.map(name => ({
       name,
       male: maleIds[name] || { model: '', texture: '' },
@@ -843,9 +843,9 @@
     }));
     const maritimePresetIds = {
       male: {
-        Tops: { model: '53', texture: '0' },
+        Shirts: { model: '53', texture: '0' },
         Undershirts: { model: '243', texture: '0' },
-        Legs: { model: '94', texture: '0' },
+        Pants: { model: '94', texture: '0' },
         Shoes: { model: '67', texture: '0' },
         Hats: { model: '116', texture: '1' },
         Glasses: { model: '26', texture: '0' },
@@ -854,9 +854,9 @@
         Torso: { model: '96', texture: '0' }
       },
       female: {
-        Tops: { model: '608', texture: '24' },
+        Shirts: { model: '608', texture: '24' },
         Undershirts: { model: '317', texture: '0' },
-        Legs: { model: '97', texture: '0' },
+        Pants: { model: '97', texture: '0' },
         Shoes: { model: '70', texture: '0' },
         Hats: { model: '115', texture: '0' },
         Glasses: { model: '28', texture: '0' },
@@ -865,46 +865,83 @@
         Torso: { model: '111', texture: '0' }
       }
     };
+    const combatUniformPresetIds = {
+      male: {
+        Torso: { model: '36', texture: '0' },
+        Pants: { model: '293', texture: '1' },
+        Shoes: { model: '63', texture: '1' },
+        Accessories: { model: '281', texture: '0' },
+        Undershirts: { model: '213', texture: '0' },
+        Armor: { model: '121', texture: '1' },
+        Decals: { model: '0', texture: '0' },
+        Shirts: { model: '846', texture: '2' },
+        Hats: { model: '116', texture: '1' },
+        Glasses: { model: '67', texture: '0' },
+        Ears: { model: '', texture: '' },
+        Hands: { model: '0', texture: '0' },
+      },
+      female: {
+        Torso: { model: '213', texture: '0' },
+        Pants: { model: '306', texture: '1' },
+        Shoes: { model: '66', texture: '0' },
+        Accessories: { model: '154', texture: '0' },
+        Undershirts: { model: '292', texture: '0' },
+        Armor: { model: '85', texture: '1' },
+        Decals: { model: '', texture: '' },
+        Shirts: { model: '934', texture: '4' },
+        Hats: { model: '115', texture: '1' },
+        Glasses: { model: '80', texture: '0' },
+        Ears: { model: '', texture: '' },
+        Hands: { model: '', texture: '' },
+      }
+    };
+    const cbrnPresetIds = {
+      male: {
+        Masks: { model: '', texture: '' },
+        Torso: { model: '96', texture: '0' },
+        Pants: { model: '40', texture: '1' },
+        Shoes: { model: '62', texture: '1' },
+        Accessories: { model: '0', texture: '0' },
+        Undershirts: { model: '243', texture: '0' },
+        Armor: { model: '122', texture: '1' },
+        Decals: { model: '0', texture: '0' },
+        Shirts: { model: '67', texture: '1' },
+        Hats: { model: '116', texture: '1' },
+        Glasses: { model: '67', texture: '0' },
+        Ears: { model: '', texture: '' },
+        Hands: { model: '0', texture: '0' },
+      },
+      female: {
+        Masks: { model: '', texture: '' },
+        Torso: { model: '111', texture: '0' },
+        Pants: { model: '40', texture: '1' },
+        Shoes: { model: '65', texture: '0' },
+        Accessories: { model: '', texture: '' },
+        Undershirts: { model: '316', texture: '0' },
+        Armor: { model: '85', texture: '1' },
+        Decals: { model: '', texture: '' },
+        Shirts: { model: '61', texture: '1' },
+        Hats: { model: '115', texture: '1' },
+        Glasses: { model: '', texture: '' },
+        Ears: { model: '', texture: '' },
+        Hands: { model: '', texture: '' },
+      },
+    };
     const uniformPresets = [{
       name: 'Maritime',
       image: 'https://i.postimg.cc/WpJQPvvq/maritimemale.png',
-      imageF: 'https://i.postimg.cc/gkpdSJZv/maritimefemale.png',
       imageF: 'https://i.postimg.cc/gkpdSJZv/maritimefemale.png',
       slots: makePresetSlots(maritimePresetIds.male, maritimePresetIds.female)
     }, {
       name: 'Combat Uniform',
       image: 'https://i.postimg.cc/ydzSYRd9/combatuniform.png',
-      imageF: '',
-      slots: makePresetSlots({
-        Tops: { model: '846', texture: '2' },
-        Undershirts: { model: '213', texture: '0' },
-        Legs: { model: '293', texture: '1' },
-        Shoes: { model: '63', texture: '1' },
-        Torso: { model: '36', texture: '0' },
-        Hats: { model: '116', texture: '1' },
-        Glasses: { model: '67', texture: '0' },
-        Accessories: { model: '281', texture: '0' },
-        Decals: { model: '0', texture: '0' },
-        Hands: { model: '0', texture: '0' },
-        Armor: { model: '121', texture: '1' }
-      })
+      imageF: 'https://i.postimg.cc/rmYqsXyz/combatfem2.png',
+      slots: makePresetSlots(combatUniformPresetIds.male, combatUniformPresetIds.female)
     }, {
       name: 'CBRN',
       image: 'https://i.postimg.cc/k4dtXS4K/cbrn.png',
-      imageF: '',
-      slots: makePresetSlots({
-        Tops: { model: '67', texture: '1' },
-        Undershirts: { model: '243', texture: '0' },
-        Legs: { model: '40', texture: '1' },
-        Shoes: { model: '62', texture: '1' },
-        Torso: { model: '96', texture: '0' },
-        Hats: { model: '116', texture: '1' },
-        Glasses: { model: '67', texture: '0' },
-        Accessories: { model: '0', texture: '0' },
-        Decals: { model: '0', texture: '0' },
-        Hands: { model: '0', texture: '0' },
-        Armor: { model: '122', texture: '1' }
-      })
+      imageF: 'https://i.postimg.cc/wMTs8dfJ/cbrnfem.png',
+      slots: makePresetSlots(cbrnPresetIds.male, cbrnPresetIds.female)
     }];
     const weapons = [
       { name: 'Carbine Rifle', image: 'https://i.postimg.cc/prbHKyLf/carbinerifle.png', description: 'Hawk & Little Carbine Rifle; authorized 5.56x45mm NATO carbine rifle.', take: '1' },
