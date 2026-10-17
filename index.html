@@ -480,10 +480,11 @@
           <div class="team-link"><span aria-hidden="true">📚</span><a href="https://docs.google.com/spreadsheets/d/1jJFC9-c2xmW4rMvGKRXDH1GTEXAAZuKqlykBqS9A4i8/edit?gid=952360740#gid=952360740" target="_blank" rel="noopener noreferrer" data-resource-placeholder>SEB: Uniforms Spreadsheet</a></div>
           <div class="team-link"><span aria-hidden="true">👥</span><a href="https://fp.booskit.dev/lssd/roster?roster=SOD" target="_blank" rel="noopener noreferrer" data-resource-placeholder>SEB: Roster</a></div>
           <div class="team-link"><span aria-hidden="true">📡</span><a href="https://lssd.gta.world/viewtopic.php?t=35031" target="_blank" rel="noopener noreferrer" data-resource-placeholder>SEB: Orders Book</a></div>
-          <div class="team-link"><span aria-hidden="true">🌊</span><a href="https://lssd.gta.world/viewtopic.php?t=28362" target="_blank" rel="noopener noreferrer">Maritime Operations</a></div>
+          <div class="team-link"><span aria-hidden="true">🌊</span><a href="https://lssd.gta.world/viewtopic.php?t=28362" target="_blank" rel="noopener noreferrer">Maritime Operations Manual</a></div>
           <div class="team-link"><span aria-hidden="true">🗣️</span><a href="https://lssd.gta.world/viewtopic.php?t=6064" target="_blank" rel="noopener noreferrer">Crisis Negotiation Manual</a></div>
           <div class="team-link"><span aria-hidden="true">🚁</span><a href="https://lssd.gta.world/viewtopic.php?t=27037" target="_blank" rel="noopener noreferrer">Air Operations Manual</a></div>
           <div class="team-link"><span aria-hidden="true">🗺️</span><a href="https://cdn.discordapp.com/attachments/1353490387859148827/1557118647468691566/seb_parking_planV2.png?backend=b2&ex=6ac6a33f&is=6ac551bf&hm=66b4f30d5c8a2758f38601dabe1e7bd90a0029afab28e79c2afa872130804e3e&" target="_blank" rel="noopener noreferrer">EBTF Parking Plan Map</a></div>
+          <div class="team-link"><span aria-hidden="true">🚓</span><a href="https://fp.booskit.dev/lssd/roster?roster=FLEETR" target="_blank" rel="noopener noreferrer">Fleet Roster</a></div>
         </div></div>
         <div class="quick-link-group"><strong>SED</strong><div class="quick-link-items">
           <div class="team-link"><span aria-hidden="true">🎯</span><a href="https://lssd.gta.world/viewtopic.php?t=32646" target="_blank" rel="noopener noreferrer">Long Rifle Team Manual</a></div>
@@ -802,7 +803,7 @@
       { name: "Ocean Reef Space Extender", category: 'Team Equipment', image: 'https://i.postimg.cc/GmjKnp8x/extender.png', description: 'Directional exhaust valve, scratch resistant diving mask. Diving Mask system; the Space Extender, is the mask for the avid diver, advanced adventurer and diving professional.', slot: 'Glasses', model: '26', texture: '0' },
       { name: "Tecline Rubber Fins Jetstream", category: 'Team Equipment', image: 'https://i.postimg.cc/y8TjCNgj/fins.png', description: 'Diving fins improve movement in the water. Allowing to reach the objective safely and fast.', slot: 'Shoes', model: '67', texture: '0' },
       { name: "Regulator", category: 'Team Equipment', image: 'https://i.postimg.cc/L8VDFsYB/regulator.png', description: 'A diving regulator is a pressure regulator that controls the pressure of breathing gas for diving.', slot: 'Glasses', model: '26', texture: '0' },
-      { name: "Scuba Cylinder", category: 'Team Equipment', image: 'https://i.postimg.cc/T3c0vPL9/scubacylinder.png', description: 'A diving cylinder or diving gas cylinder is a gas cylinder used to store and transport high pressure gas used in diving operations.', slot: 'Undershirts', model: '243', texture: '0' },
+      { name: "Scuba Cylinder", category: 'Team Equipment', image: 'https://i.postimg.cc/T3c0vPL9/scubacylinder.png', description: 'A diving cylinder or diving gas cylinder is a gas cylinder used to store and transport high pressure gas used in diving operations.', slot: 'Undershirts (/scuba)', model: '243', texture: '0' },
       { name: "Tattoo Cover", category: 'Team Equipment', image: 'https://i.postimg.cc/x1mLTbDC/tattoocover.png', description: 'Black, green, tan, or white tattoo covers for concealing sleeve tattoos during operations.', slot: 'Armor/Masks', model: '74 (Armor) / 237 (Masks)', texture: 'MULTI' },
 
     ].map(item => ({ model: '', texture: '', modelF: '', textureF: '', ...item }));
@@ -876,6 +877,35 @@
       { name: 'leotorchhigh', description: 'Flashlight standard.' },
       { name: 'leotorchlow', description: 'Flashlight pointed down.' },
       { name: 'sitguninspect', description: 'Sit looking at long gun.' },
+      { name: 'copmic1', description: 'Police microphone pose, variant 1.' },
+      { name: 'copmic2', description: 'Police microphone pose, variant 2.' },
+      { name: 'copmic3', description: 'Police microphone pose, variant 3.' },
+      { name: 'copidle1', description: 'Police idle stance.' },
+      { name: 'copnotepad', description: 'Holding and using a notepad.' },
+      { name: 'copcheckdoor', description: 'Checking a door.' },
+      { name: 'emscheckpulse', description: "Checking a patient's pulse." },
+      { name: 'emspatient', description: 'Assisting a patient.' },
+      { name: 'firehose', description: 'Operating a fire hose.' },
+      { name: 'fireaxepose', description: 'Holding a fire axe.' },
+      { name: 'copbelt1', description: 'Police belt interaction, variant 1.' },
+      { name: 'copbelt2', description: 'Police belt interaction, variant 2.' },
+      { name: 'copbelt3', description: 'Police belt interaction, variant 3.' },
+      { name: 'k9hold', description: 'K-9 handler hold stance.' },
+      { name: 'copleanwall2', description: 'Leaning against a wall.' },
+      { name: 'radiowithgun', description: 'Using a radio while carrying a firearm.' },
+      { name: 'riflecar', description: 'Carrying a rifle.' },
+      { name: 'riflemegaphone', description: 'Holding a rifle and megaphone.' },
+      { name: 'rifleholdhelmet', description: 'Holding a rifle and helmet.' },
+      { name: 'riflecover', description: 'Rifle-cover stance.' },
+      { name: 'shieldcarry', description: 'Carrying a shield.' },
+      { name: 'sniperprone', description: 'Prone sniper stance.' },
+      { name: 'copholdleft', description: 'Police hold stance facing left.' },
+      { name: 'copholdright', description: 'Police hold stance facing right.' },
+      { name: 'suspectarrest', description: 'Arresting a suspect.' },
+      { name: 'copbelt4', description: 'Police belt interaction, variant 4.' },
+      { name: 'copbelt5', description: 'Police belt interaction, variant 5.' },
+      { name: 'code4airship', description: 'Code 4 airship stance.' },
+      { name: 'code4', description: 'Code 4 stance.' },
       { name: '/ca tablet ub fkneel1 slf', description: 'CORE reviewing.' }
     ].sort((left, right) => left.name.localeCompare(right.name, undefined, { numeric: true, sensitivity: 'base' }));
     const storageKeys = { callsign: 'seb-callsign', customs: 'seb-customs', uniforms: 'seb-uniforms', gender: 'seb-id-gender' };
