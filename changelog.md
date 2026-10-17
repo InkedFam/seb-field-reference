@@ -1,3 +1,8 @@
+## 1.5 - Housekeeping Update - 2026-10-17
+
+- Added a Changelog tab with the version history and contributors.
+- Added a collapsible /wa Strings section to SEB Resources.
+
 ## 1.4 - The Uniforms Update - 2026-10-17
 
 - Added Mechanix Gloves, Earcup Headset, Earpiece with Mic, SEB Hoodie, and SEB T-Shirt equipment entries.
@@ -13,3 +18,14 @@
 - Grouped quick links by SEB, SED, ESD, and CSD; added new SEB, SED, and ESD links.
 - Added four ESD equipment pieces, missing some IDs and descriptions still.
 - Reordered glossary entries alphabetically.
+
+## Contributors
+
+- **Erik Russo / Inked - Creation**
+- Luke Harrison / Mossey - Mina Kye Foot Pictures
+- Victor Heidrich / Kappa - Platforming/Spread
+- Liberty Martin / Humour - Various IDs, suggestions, female stuff
+- Ashlynn Hall / Walkers - Various IDs, female stuff
+- Jeremy Grabelski / Space Cowboy - Various suggestions
+- Chirstopher Young / Aarons - ESD material
+- All SEB Personnel - Support, creation of material, fire emojis.

@@ -93,7 +93,8 @@
     .callsign-patch input { width: 105px; padding: 0; color: #26372b; background: transparent; border: 0; outline: 0; font-weight: 800; letter-spacing: .04em; }
     .callsign-patch input::placeholder { color: #74806f; }
     .patch-label { color: #616c5d; font-size: 9px; text-transform: uppercase; }
-    .view-tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .view-tabs { display: grid; grid-template-columns: repeat(3, max-content); align-items: center; gap: 8px; }
+    #changelog-tab { grid-column: 1 / -1; justify-self: start; }
     .nav-tab { min-height: 36px; padding: 7px 12px; color: #dfe6da; background: transparent; border: 1px solid rgba(255,255,255,.25); border-radius: 3px; font-size: 11px; font-weight: 700; }
     .nav-tab[aria-selected="true"] { color: #1e2b20; background: #dce4d3; border-color: #dce4d3; }
     .view-tabs .nav-tab { white-space: nowrap; }
@@ -217,6 +218,21 @@
     .catalog-nickname { margin-bottom: 5px; color: #53674f; font-size: 12px; font-style: italic; }
     .catalog-description { margin-bottom: 0; color: #5e685f; font-size: 11px; }
     .take-code { display: inline-block; margin: 0 0 5px; padding: 2px 6px; color: #e9ecdf; background: #35483a; font-size: 10px; font-weight: 800; }
+    .weapon-key-panel { margin-top: 16px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 3px; }
+    .weapon-key-panel > summary { padding: 13px 15px; cursor: pointer; }
+    .weapon-key-panel > summary::marker { color: var(--orange); }
+    .weapon-key-title { margin-left: 5px; font-family: var(--serif); font-size: 18px; }
+    .weapon-key-content { padding: 0 15px 16px; }
+    .weapon-key-note { margin: 0 0 12px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .weapon-key-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .weapon-key-entry { min-width: 0; }
+    .weapon-key-entry h4, .weapon-key-import h4 { margin: 0 0 5px; color: var(--ink); font-size: 11px; }
+    .weapon-key-code { max-width: 100%; margin: 0; padding: 10px; overflow-x: auto; color: var(--ink); background: rgba(0, 0, 0, .2); border: 1px solid var(--line); font-family: Consolas, monospace; font-size: 10px; line-height: 1.5; white-space: pre; user-select: text; }
+      .weapon-key-code[data-copy-code] { cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
+      .weapon-key-code[data-copy-code]:hover { border-color: var(--orange); }
+      .weapon-key-code[data-copy-code]:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+      .weapon-key-import .weapon-key-code { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .weapon-key-import { margin-top: 16px; }
     .animation-card { display: flex; align-items: center; justify-content: space-between; gap: 15px; min-height: 66px; padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 3px; }
     .animation-copy { min-width: 0; }
     .animation-name { padding: 0; color: #344638; background: none; border: 0; font-family: var(--serif); font-size: 16px; font-weight: 700; text-align: left; text-decoration: underline; text-decoration-color: #aeb9a8; text-underline-offset: 3px; }
@@ -276,6 +292,13 @@
     .preset-slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; margin: 0; padding: 0; list-style: none; }
     .preset-slots li { padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 11px; overflow-wrap: anywhere; }
     .preset-empty-note { margin: 12px 0 0; color: var(--muted); font-size: 11px; }
+    .changelog-content { max-width: 900px; }
+    .changelog-entry { padding: 17px 0; border-top: 1px solid var(--line); }
+    .changelog-entry h3 { margin-bottom: 10px; font-family: var(--serif); font-size: 20px; font-weight: 500; }
+    .changelog-entry ul { display: grid; gap: 8px; margin: 0; padding-left: 20px; color: var(--muted); font-size: 12px; }
+    .changelog-entry li { padding-left: 3px; }
+    .changelog-entry li::marker { color: var(--orange); }
+    .changelog-contributors ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .form-hint { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
     .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 65px; padding: 20px 0 28px; color: #667066; border-top: 1px solid var(--line); font-size: 10px; }
     .site-footer a { color: #ff8a24; font-weight: 700; text-underline-offset: 2px; -webkit-text-stroke: .35px #080a08; paint-order: stroke fill; }
@@ -371,7 +394,8 @@
     @media (max-width: 760px) {
       .site-header { padding: 9px 14px; }
       .header-inner { flex-wrap: wrap; gap: 8px; }
-      .header-right { flex: 1; gap: 10px; }
+      .header-right { flex: 1; flex-wrap: wrap; gap: 10px; }
+      .view-tabs { grid-template-columns: repeat(2, max-content); }
       .callsign-info { flex-basis: 130px; }
       .callsign-help { font-size: 9px; }
       .callsign-patch { width: 68px; height: 68px; }
@@ -384,6 +408,8 @@
       .back-to-top { right: 14px; bottom: 62px; width: 42px; height: 42px; }
       .format-layout { grid-template-columns: 1fr; }
       .preset-detail, .preset-slots { grid-template-columns: 1fr; }
+      .weapon-key-grid { grid-template-columns: 1fr; }
+      .changelog-contributors ul { grid-template-columns: 1fr; }
       .output-panel { position: static; }
       .output-panel textarea { min-height: 300px; }
     }
@@ -441,6 +467,7 @@
         <button class="nav-tab" id="resources-tab" type="button" role="tab" aria-selected="true" aria-controls="resources-view" data-view-target="resources">🧭 SEB Resources</button>
         <button class="nav-tab" id="formats-tab" type="button" role="tab" aria-selected="false" aria-controls="formats-view" data-view-target="formats">📝 Paperwork Generators</button>
         <button class="nav-tab" id="presets-tab" type="button" role="tab" aria-selected="false" aria-controls="presets-view" data-view-target="presets">👕 Preset Uniforms</button>
+        <button class="nav-tab" id="changelog-tab" type="button" role="tab" aria-selected="false" aria-controls="changelog-view" data-view-target="changelog">📜 Changelog</button>
       </nav>
       <label class="callsign-patch" title="Your callsign is saved in this browser">
         <span class="callsign-designator"><span class="callsign-value" id="callsign-preview" aria-hidden="true">241S</span><input id="callsign" list="callsign-options" maxlength="5" placeholder="1S" aria-label="Callsign identifier after 24"></span>
@@ -552,6 +579,26 @@
         <p>See Bureau Orders for the latest information on weapon availability and specifications.</p>
       </div>
       <div class="catalog-grid" id="weapon-list"></div>
+
+      <details class="weapon-key-panel" id="wa-strings-section">
+        <summary><span class="section-kicker">Weapon placement strings</span><strong class="weapon-key-title">/wa Strings</strong></summary>
+        <div class="weapon-key-content">
+          <p class="weapon-key-note">Note: Re-check the 'visible' setting after paste. UPDATED 28/SEP/2026.</p>
+          <div class="weapon-key-grid">
+            <div class="weapon-key-entry"><h4>RIFLE</h4><pre class="weapon-key-code" data-copy-code role="button" tabindex="0" aria-label="Copy RIFLE key" title="Click to copy"><code>eyJ3ZWFwb24iOiIweEZBRDFGMUM5Iiwib2Zmc2V0Ijp7IngiOi0wLjEyLCJ5IjowLjIzMiwieiI6LTAuMTJ9LCJyb3RhdGlvbiI6eyJ4IjoxNTUsInkiOjE4NSwieiI6MH0sImJvbmUiOiIyNDgxOCIsInZpc2libGUiOnRydWV9</code></pre></div>
+            <div class="weapon-key-entry"><h4>RIFLE MAGAZINE</h4><pre class="weapon-key-code" data-copy-code role="button" tabindex="0" aria-label="Copy RIFLE MAGAZINE key" title="Click to copy"><code>eyJ3ZWFwb24iOiJDTElQXzB4RkFEMUYxQzkiLCJvZmZzZXQiOnsieCI6LTAuMTU1LCJ5IjowLjIzLCJ6IjotMC4xM30sInJvdGF0aW9uIjp7IngiOjE0OSwieSI6MTg1LCJ6IjowfSwiYm9uZSI6IjI0ODE4IiwidmlzaWJsZSI6dHJ1ZX0=</code></pre></div>
+            <div class="weapon-key-entry"><h4>SMG</h4><pre class="weapon-key-code" data-copy-code role="button" tabindex="0" aria-label="Copy SMG key" title="Click to copy"><code>eyJ3ZWFwb24iOiIweDJCRTY3NjZCIiwib2Zmc2V0Ijp7IngiOi0wLjEsInkiOjAuMjEsInoiOi0wLjEyfSwicm90YXRpb24iOnsieCI6MTU1LCJ5IjoxODUsInoiOjB9LCJib25lIjoiMjQ4MTgiLCJ2aXNpYmxlIjp0cnVlfQ==</code></pre></div>
+            <div class="weapon-key-entry"><h4>SMG MAGAZINE</h4><pre class="weapon-key-code" data-copy-code role="button" tabindex="0" aria-label="Copy SMG MAGAZINE key" title="Click to copy"><code>eyJ3ZWFwb24iOiJDTElQXzB4MkJFNjc2NkIiLCJvZmZzZXQiOnsieCI6LTAuMjE5LCJ5IjowLjIxLCJ6IjotMC4xMn0sInJvdGF0aW9uIjp7IngiOjE1NSwieSI6MTg1LCJ6IjowfSwiYm9uZSI6IjI0ODE4IiwidmlzaWJsZSI6dHJ1ZX0=</code></pre></div>
+            <div class="weapon-key-entry"><h4>SHOTGUN(S)</h4><pre class="weapon-key-code" data-copy-code role="button" tabindex="0" aria-label="Copy SHOTGUN(S) key" title="Click to copy"><code>eyJ3ZWFwb24iOiIweDU1NUFGOTlBIiwib2Zmc2V0Ijp7IngiOjAuMDM2LCJ5IjowLjIwMywieiI6LTAuMDV9LCJyb3RhdGlvbiI6eyJ4IjoxNjcuNSwieSI6MTU4LCJ6IjozNTd9LCJib25lIjoiMjQ4MTgiLCJ2aXNpYmxlIjp0cnVlfQ==</code></pre></div>
+            <div class="weapon-key-entry"><h4>40MM LESS LETHAL LAUNCHER</h4><pre class="weapon-key-code" data-copy-code role="button" tabindex="0" aria-label="Copy 40MM LESS LETHAL LAUNCHER key" title="Click to copy"><code>eyJ3ZWFwb24iOiIweEY0NjcyOTY5Iiwib2Zmc2V0Ijp7IngiOiItMC4wOTgwIiwieSI6Ii0wLjAxMDAiLCJ6IjoiMC4yMTAwIn0sInJvdGF0aW9uIjp7IngiOiI4NC41MDAwIiwieSI6IjE2NS4wMDAwIiwieiI6IjMxNS41MDAwIn0sImJvbmUiOiIyNDgxOCIsInZpc2libGUiOnRydWV9</code></pre></div>
+          </div>
+          <div class="weapon-key-import">
+            <h4>OR USE IMPORT ALL:</h4>
+            <pre class="weapon-key-code" data-copy-code role="button" tabindex="0" aria-label="Copy Import All keys" title="Click to copy"><code id="wa-import-all"></code></pre>
+            <p class="weapon-key-note"><br />Note: IMPORT ALL INCLUDES /TAKE NUMBERS: CARBINE RIFLE (1), REMINGTON SHOTGUN (2), SMG (4), BEANBAG SHOTGUN (5), CARBINE RIFLE MKII (6), TACTICAL SHOTGUN (7), BREACHING SHOTGUN (18), 40MM LESS-LETHAL LAUNCHER (19), VOM FEUER OPERATOR (22), VOM FEUER VF416 (23), VOM FEUER VFMP5 (24), VOM FEUER VFMP5K (25), VOM FEUER VFMP5SD (26), VOM FEUER VFMP7 (31). /take 22/23/24/25/26/31 DO NOT SUPPORT MAGAZINES.</p>
+          </div>
+        </div>
+      </details>
 
       <div class="section-heading" style="margin-top:38px">
         <div><span class="section-kicker" id="animations-section">04 / Movement</span><h2>Animations</h2></div>
@@ -715,6 +762,15 @@
         </div>
         <div class="preset-buttons" id="preset-uniform-buttons" role="group" aria-label="Preset uniforms"></div>
         <div id="preset-uniform-detail" aria-live="polite"></div>
+      </section>
+    </div>
+
+    <div class="page-view hidden" id="changelog-view" role="tabpanel" aria-labelledby="changelog-tab" aria-hidden="true">
+      <section class="section" id="changelog-section" aria-labelledby="changelog-title">
+        <div class="section-heading">
+          <div><span class="section-kicker">Project record</span><h2 id="changelog-title">Changelog</h2></div>
+        </div>
+        <div class="changelog-content" id="changelog-content" aria-live="polite"></div>
       </section>
     </div>
 
@@ -1143,6 +1199,68 @@
         </div>`;
     }
 
+    const localChangelogFallback = `## 1.5 - Housekeeping Update - 2026-10-17
+
+- Added a Changelog tab with the version history and contributors.
+- Added a collapsible /wa Strings section to SEB Resources.
+
+## 1.4 - The Uniforms Update - 2026-10-17
+
+- Added Mechanix Gloves, Earcup Headset, Earpiece with Mic, SEB Hoodie, and SEB T-Shirt equipment entries.
+- Added a Preset Uniforms tab with gender-specific model and texture IDs, plus a hero-card tab switcher.
+- Constrained preset images to the preview frame and enabled hover-to-expand previews.
+- Added female model and texture IDs for supported equipment entries.
+- Removed duplicate glossary entries and restored alphabetical order.
+
+## 1.3 - 2026-10-05
+
+- Added controls to reorder individual Customs slots within their clothing areas and slots in Uniforms. Changes save in the browser; clothing-area categories are not reordered.
+- Added Ground Rescue and Air Rescue 5 deployment-log generators for ESD.
+- Grouped quick links by SEB, SED, ESD, and CSD; added new SEB, SED, and ESD links.
+- Added four ESD equipment pieces, missing some IDs and descriptions still.
+- Reordered glossary entries alphabetically.
+
+## Contributors
+
+- **Erik Russo / Inked - Creation**
+- Luke Harrison / Mossey - Mina Kye Foot Pictures
+- Victor Heidrich / Kappa - Platforming/Spread
+- Liberty Martin / Humour - Various IDs, suggestions, female stuff
+- Ashlynn Hall / Walkers - Various IDs, female stuff
+- Jeremy Grabelski / Space Cowboy - Various suggestions
+- Chirstopher Young / Aarons - ESD material
+- All SEB Personnel - Support, creation of material, fire emojis.`;
+
+    function renderChangelogMarkdown(markdown) {
+      const sections = [];
+      let section;
+      for (const line of markdown.split(/\r?\n/)) {
+        const heading = line.match(/^##\s+(.+)$/);
+        if (heading) {
+          section = { heading: heading[1], bullets: [] };
+          sections.push(section);
+        } else if (section && line.startsWith('- ')) {
+          section.bullets.push(line.slice(2));
+        }
+      }
+      return sections.map(item => `
+        <article class="changelog-entry${item.heading === 'Contributors' ? ' changelog-contributors' : ''}">
+          <h3>${escapeHtml(item.heading)}</h3>
+          ${item.bullets.length ? `<ul>${item.bullets.map(bullet => `<li>${escapeHtml(bullet).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}</ul>` : ''}
+        </article>`).join('');
+    }
+
+    async function renderChangelog() {
+      let markdown = localChangelogFallback;
+      if (location.protocol !== 'file:') {
+        try {
+          const response = await fetch('changelog.md', { cache: 'no-cache' });
+          if (response.ok) markdown = await response.text();
+        } catch {}
+      }
+      document.getElementById('changelog-content').innerHTML = renderChangelogMarkdown(markdown);
+    }
+
     const imagePreview = document.getElementById('image-preview');
     const imagePreviewPhoto = document.getElementById('image-preview-photo');
     const imagePreviewCaption = document.getElementById('image-preview-caption');
@@ -1170,6 +1288,42 @@
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => toast.classList.remove('visible'), 2300);
     }
+
+    const importAllWeaponKey = `eyIweDFEMDczQTg5Ijp7ImJvbmUiOjI0ODE4LCJvZmZzZXQiOnsieCI6LTAuMSwieSI6LTAuMTUsInoiOjAuMTF9LCJyb3RhdGlvbiI6eyJ4IjoxODAsInkiOjAsInoiOjB9LCJ2aXNpYmxlIjpmYWxzZSwid2VhcG9uIjoiMHgxRDA3M0E4OSJ9LCIweDVGQzNDMTEiOnsiYm9uZSI6MjQ4MTgsIm9mZnNldCI6eyJ4IjotMC4xLCJ5IjotMC4xNSwieiI6LTAuMTN9LCJyb3RhdGlvbiI6eyJ4IjowLCJ5IjowLCJ6IjozLjV9LCJ2aXNpYmxlIjpmYWxzZSwid2VhcG9uIjoiMHg1RkMzQzExIn0sIjB4MkJFNjc2NkIiOnsiYm9uZSI6MjQ4MTgsIm9mZnNldCI6eyJ4IjotMC4wNTQsInkiOjAuMTksInoiOi0wLjE4Mn0sInJvdGF0aW9uIjp7IngiOjEyNCwieSI6MTY5LjUsInoiOjAuNX0sInZpc2libGUiOnRydWUsIndlYXBvbiI6IjB4MkJFNjc2NkIifSwiMHhGQUQxRjFDOSI6eyJib25lIjoyNDgxOCwib2Zmc2V0Ijp7IngiOi0wLjA3NiwieSI6MC4xOSwieiI6LTAuMTgyfSwicm90YXRpb24iOnsieCI6MTI0LCJ5IjoxNjkuNSwieiI6MC41fSwidmlzaWJsZSI6dHJ1ZSwid2VhcG9uIjoiMHhGQUQxRjFDOSJ9LCJDTElQXzB4RkFEMUYxQzkiOnsiYm9uZSI6MjQ4MTgsIm9mZnNldCI6eyJ4IjotMC4xMiwieSI6MC4xOSwieiI6LTAuMTgyfSwicm90YXRpb24iOnsieCI6MTI0LCJ5IjoxNjkuNSwieiI6MC41fSwidmlzaWJsZSI6dHJ1ZSwid2VhcG9uIjoiQ0xJUF8weEZBRDFGMUM5In0sIkNMSVBfMHgyQkU2NzY2QiI6eyJib25lIjoyNDgxOCwib2Zmc2V0Ijp7IngiOi0wLjE1LCJ5IjowLjIxLCJ6IjotMC4xNjR9LCJyb3RhdGlvbiI6eyJ4IjoxMjMuOTI2LCJ5IjoxNjkuNSwieiI6MC41fSwidmlzaWJsZSI6dHJ1ZSwid2VhcG9uIjoiQ0xJUF8weDJCRTY3NjZCIn0sIjB4NTU1QUY5OUEiOnsiYm9uZSI6MjQ4MTgsIm9mZnNldCI6eyJ4IjotMC4wMzIsInkiOi0wLjEyLCJ6IjotMC4xNjR9LCJyb3RhdGlvbiI6eyJ4Ijo3NSwieSI6MTEwLCJ6IjowfSwidmlzaWJsZSI6dHJ1ZSwid2VhcG9uIjoiMHg1NTVBRjk5QSJ9LCIweDRDOTFFOTNGIjp7ImJvbmUiOjI0ODE4LCJvZmZzZXQiOnsieCI6MC4wNzgsInkiOjAuMjUsInoiOi0wLjA1NH0sInJvdGF0aW9uIjp7IngiOjExLCJ5IjozMzIuNSwieiI6MTc2LjV9LCJ2aXNpYmxlIjp0cnVlLCJ3ZWFwb24iOiIweDRDOTFFOTNGIn0sIjB4QkREREE1NjIiOnsiYm9uZSI6MjQ4MTgsIm9mZnNldCI6eyJ4IjotMC4xMiwieSI6MC4yMzIsInoiOi0wLjEyfSwicm90YXRpb24iOnsieCI6MTU1LCJ5IjoxODUsInoiOjB9LCJ2aXNpYmxlIjp0cnVlLCJ3ZWFwb24iOiIweEJERERBNTYyIn0sIjB4NzlDMDA3MSI6eyJib25lIjoyNDgxOCwib2Zmc2V0Ijp7IngiOi0wLjEsInkiOjAuMjEsInoiOi0wLjEyfSwicm90YXRpb24iOnsieCI6MTU1LCJ5IjoxODUsInoiOjB9LCJ2aXNpYmxlIjp0cnVlLCJ3ZWFwb24iOiIweDc5QzAwNzEifSwiMHhBM0ZGNjg2NiI6eyJib25lIjoyNDgxOCwib2Zmc2V0Ijp7IngiOi0wLjEyLCJ5IjowLjIzMiwieiI6LTAuMTJ9LCJyb3RhdGlvbiI6eyJ4IjoxNTUsInkiOjE4NSwieiI6MH0sInZpc2libGUiOnRydWUsIndlYXBvbiI6IjB4QTNGRjY4NjYifSwiMHg1RkY4QjE0OSI6eyJib25lIjoyNDgxOCwib2Zmc2V0Ijp7IngiOi0wLjEsInkiOjAuMjEsInoiOi0wLjEyfSwicm90YXRpb24iOnsieCI6MTU1LCJ5IjoxODUsInoiOjB9LCJ2aXNpYmxlIjp0cnVlLCJ3ZWFwb24iOiIweDVGRjhCMTQ5In0sIjB4MTUyMjE3RUYiOnsiYm9uZSI6MjQ4MTgsIm9mZnNldCI6eyJ4IjotMC4xLCJ5IjowLjIxLCJ6IjotMC4xMn0sInJvdGF0aW9uIjp7IngiOjE1NSwieSI6MTg1LCJ6IjowfSwidmlzaWJsZSI6dHJ1ZSwid2VhcG9uIjoiMHgxNTIyMTdFRiJ9LCIweDI0MTYwRTUyIjp7ImJvbmUiOjI0ODE4LCJvZmZzZXQiOnsieCI6LTAuMSwieSI6MC4yMSwieiI6LTAuMTJ9LCJyb3RhdGlvbiI6eyJ4IjoxNTUsInkiOjE4NSwieiI6MH0sInZpc2libGUiOnRydWUsIndlYXBvbiI6IjB4MjQxNjBFNTIifX0=`;
+    document.getElementById('wa-import-all').textContent = importAllWeaponKey;
+
+    async function copyWeaponKey(element) {
+      let copied = false;
+      try {
+        await navigator.clipboard.writeText(element.textContent.trim());
+        copied = true;
+      } catch {
+        const fallback = document.createElement('textarea');
+        fallback.value = element.textContent.trim();
+        fallback.setAttribute('readonly', '');
+        fallback.style.position = 'fixed';
+        fallback.style.top = '-9999px';
+        document.body.append(fallback);
+        fallback.select();
+        copied = document.execCommand('copy');
+        fallback.remove();
+      }
+      showToast(copied ? `${element.getAttribute('aria-label').replace(/^Copy /, '')} copied to clipboard.` : 'Clipboard access is unavailable.');
+    }
+
+    document.addEventListener('click', event => {
+      if (!(event.target instanceof Element)) return;
+      const copyBlock = event.target.closest('[data-copy-code]');
+      if (copyBlock) copyWeaponKey(copyBlock);
+    });
+
+    document.addEventListener('keydown', event => {
+      if (!['Enter', ' '].includes(event.key) || !(event.target instanceof Element)) return;
+      const copyBlock = event.target.closest('[data-copy-code]');
+      if (!copyBlock) return;
+      event.preventDefault();
+      copyWeaponKey(copyBlock);
+    });
 
     function loadStored(key, fallback) {
       try {
@@ -1467,7 +1621,7 @@
     });
     document.querySelectorAll('[data-view-target]').forEach(button => button.addEventListener('click', () => {
       const selectedView = button.dataset.viewTarget;
-      for (const view of ['resources', 'formats', 'presets']) {
+      for (const view of ['resources', 'formats', 'presets', 'changelog']) {
         const isSelected = view === selectedView;
         document.getElementById(`${view}-view`).classList.toggle('hidden', !isSelected);
         document.getElementById(`${view}-view`).setAttribute('aria-hidden', String(!isSelected));
@@ -1609,6 +1763,7 @@
 
     renderCatalog();
     renderUniformPresets();
+    renderChangelog();
     renderCustoms();
     renderUniforms();
   </script>
