@@ -1667,6 +1667,12 @@
         return '';
       }
     }
+    function plainEventDescription(value) {
+      const markup = String(value || '')
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<\/(?:p|div|li|h[1-6])\s*>/gi, '\n');
+      return new DOMParser().parseFromString(markup, 'text/html').body.textContent.trim();
+    }
     function showSodEventMessage(message) {
       const status = document.createElement('div');
       status.className = 'empty-state';
@@ -1691,7 +1697,7 @@
           allDay,
           photoUrl: safeEventUrl(event.photoUrl),
           location: String(event.location || '').trim(),
-          description: String(event.description || '').trim(),
+          description: plainEventDescription(event.description),
           url: safeEventUrl(event.url)
         };
       }).filter(event => event.name && !Number.isNaN(event.start.getTime()) && event.end.getTime() >= oneDayAgo)
