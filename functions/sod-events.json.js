@@ -161,7 +161,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
   }
 
   const cache = caches.default;
-  const cacheKey = new Request(new URL('/__sod-events-cache', request.url));
+  const cacheKey = new Request(new URL('/__sod-events-cache-v2', request.url));
   const cached = await cache.match(cacheKey);
   if (cached) return cached;
 
@@ -177,7 +177,8 @@ export async function onRequestGet({ request, env, waitUntil }) {
     stage = 'parse';
     const events = parseCalendar(ics);
     stage = 'cache';
-    const result = jsonResponse({ events }, 200, 'public, max-age=300, s-maxage=300');
+    const maxAge = events.length ? 300 : 15;
+    const result = jsonResponse({ events }, 200, `public, max-age=${maxAge}, s-maxage=${maxAge}`);
     waitUntil(cache.put(cacheKey, result.clone()));
     return result;
   } catch (error) {
