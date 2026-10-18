@@ -5,6 +5,31 @@ const MAX_FEED_BYTES = 1024 * 1024;
 const MAX_EVENTS = 100;
 const MAX_OCCURRENCES_PER_SERIES = 100;
 const EVENT_WINDOW_DAYS = 180;
+const GOOGLE_CALENDAR_HOSTS = new Set(['calendar.google.com', 'www.google.com']);
+
+function isGoogleCalendarUrl(url) {
+  return url.protocol === 'https:' && GOOGLE_CALENDAR_HOSTS.has(url.hostname) && url.pathname.startsWith('/calendar/ical/');
+}
+
+async function fetchCalendarFeed(url) {
+  const signal = AbortSignal.timeout(8000);
+  let currentUrl = url;
+
+  for (let redirects = 0; redirects <= 3; redirects += 1) {
+    const response = await fetch(currentUrl, { redirect: 'manual', signal });
+    if (response.status < 300 || response.status >= 400) return response;
+
+    const location = response.headers.get('location');
+    await response.body?.cancel();
+    if (!location) throw new Error('Calendar redirect had no location');
+
+    const redirectUrl = new URL(location, currentUrl);
+    if (!isGoogleCalendarUrl(redirectUrl)) throw new Error('Calendar redirect target is not allowed');
+    currentUrl = redirectUrl;
+  }
+
+  throw new Error('Calendar feed redirected too many times');
+}
 
 function safeHttpUrl(value) {
   if (typeof value !== 'string' || !value.trim()) return '';
@@ -131,7 +156,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
     return jsonResponse({ error: 'SOD event feed is not configured.' }, 503);
   }
 
-  if (feedUrl.protocol !== 'https:' || !['calendar.google.com', 'www.google.com'].includes(feedUrl.hostname) || !feedUrl.pathname.startsWith('/calendar/ical/')) {
+  if (!isGoogleCalendarUrl(feedUrl)) {
     return jsonResponse({ error: 'SOD event feed configuration is invalid.' }, 503);
   }
 
@@ -142,7 +167,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
 
   let stage = 'fetch';
   try {
-    const response = await fetch(feedUrl, { redirect: 'error', signal: AbortSignal.timeout(8000) });
+    const response = await fetchCalendarFeed(feedUrl);
     if (!response.ok) {
       console.error('SOD calendar feed returned HTTP status', response.status);
       return jsonResponse({ error: 'SOD events are unavailable right now.' }, 502);
