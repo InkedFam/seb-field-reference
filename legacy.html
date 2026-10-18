@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#29382c">
+  <title>The Legacy | Special Enforcement Bureau</title>
+  <link rel="icon" type="image/png" href="gfx/seblogo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #e8ede4;
+      --muted: #b2beb0;
+      --paper: #18251b;
+      --panel: rgba(38, 54, 41, .96);
+      --green: #52694f;
+      --green-deep: #152219;
+      --green-light: #dce5d5;
+      --orange: #d4a176;
+      --line: #4d614f;
+      --shadow: 0 14px 38px rgba(0, 0, 0, .28);
+      --serif: Georgia, 'Times New Roman', serif;
+      --sans: 'Trebuchet MS', 'Arial Narrow', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: #17241a; scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body { min-height: 100vh; margin: 0; color: var(--ink); background: transparent; font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+    body::before { position: fixed; z-index: -1; inset: 0; background-color: #17241a; background-image: linear-gradient(rgba(20, 33, 23, .84), rgba(20, 33, 23, .88)), url('gfx/seblogo.png'); background-position: center, center; background-repeat: no-repeat; background-size: cover, min(94vw, 940px) auto; content: ''; pointer-events: none; }
+    a { color: inherit; }
+    button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .site-header { position: sticky; z-index: 10; top: 0; padding: 0 clamp(16px, 5vw, 72px); color: #f7f6ef; background: rgba(21, 34, 25, .97); border-bottom: 3px solid #77836e; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; width: min(100%, 1240px); min-height: 80px; margin: 0 auto; }
+    .brand-lockup { display: flex; align-items: center; gap: 12px; min-width: 0; text-decoration: none; }
+    .brand-lockup img { flex: 0 0 auto; width: 39px; height: 39px; object-fit: contain; }
+    .brand-copy { display: grid; line-height: 1.08; }
+    .brand-copy strong { font-family: var(--serif); font-size: 15px; font-weight: 700; }
+    .brand-copy span { margin-top: 4px; color: #c2cbbb; font-size: 10px; text-transform: uppercase; }
+    .back-link { padding: 8px 11px; color: #e5e8df; border: 1px solid rgba(255,255,255,.28); border-radius: 3px; font-size: 11px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .back-link:hover { color: white; border-color: #e3c522; }
+    main { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
+    .legacy-hero { position: relative; display: flex; align-items: center; min-height: 260px; margin: 26px 0 32px; padding: clamp(28px, 5vw, 58px); overflow: hidden; color: #f6f4eb; background: rgba(42, 61, 45, .9); border: 1px solid rgba(194, 208, 187, .14); border-radius: 3px; isolation: isolate; }
+    .legacy-hero::before { position: absolute; z-index: -1; inset: 0; background: repeating-linear-gradient(135deg, transparent 0 16px, rgba(255,255,255,.025) 16px 17px), linear-gradient(105deg, rgba(19,32,22,.34), transparent 70%); content: ''; }
+    .hero-copy { max-width: 700px; }
+    .eyebrow { margin: 0 0 9px; color: #c8d1bd; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    .hero-copy h1 { max-width: none; margin-bottom: 8px; font-family: var(--serif); font-size: 48px; font-style: italic; font-weight: 700; line-height: 1.02; }
+    .motto { margin: 0 0 15px; color: #e3c522; font-family: var(--serif); font-size: 22px; font-style: italic; font-weight: 700; line-height: 1.2; }
+    .hero-description { max-width: 620px; margin: 0; color: #dce1d6; font-size: 13px; line-height: 1.65; }
+    .hero-badge { position: absolute; z-index: -1; top: 50%; right: 10%; width: min(30vw, 260px); max-height: 220px; object-fit: contain; opacity: .9; transform: translateY(-50%); }
+    .legacy-section { padding-bottom: 12px; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 18px; padding-bottom: 13px; border-bottom: 1px solid var(--line); }
+    .section-heading h2 { margin: 0; font-family: var(--serif); font-size: 27px; font-weight: 500; }
+    .section-kicker { display: block; margin-bottom: 4px; color: var(--orange); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .tab { position: relative; min-height: 42px; padding: 9px 13px; color: var(--muted); background: transparent; border: 1px solid transparent; border-bottom: 0; border-radius: 3px 3px 0 0; font-size: 12px; font-weight: 700; }
+    .tab[aria-selected="true"] { color: var(--ink); background: var(--panel); border-color: var(--line); }
+    .tab:focus-visible, .back-link:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+    .entry-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 16px; }
+    .legacy-entry { display: grid; grid-template-columns: minmax(120px, 180px) minmax(0, 1fr); align-items: center; gap: 18px; min-width: 0; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 3px; box-shadow: var(--shadow); animation: arrive .35s ease-out both; }
+    .entry-image { display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 5; margin: 0; padding: 14px; overflow: hidden; background: #1c2a20; border: 1px solid #4b5e4b; }
+    .entry-image img { width: 100%; height: 100%; object-fit: contain; cursor: zoom-in; }
+    .entry-image-cover { padding: 0; }
+    .entry-image-cover img { object-fit: cover; }
+    .image-preview { position: fixed; z-index: 30; top: 50%; left: 50%; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; width: min(560px, 84vw); height: min(620px, 76vh); margin: 0; padding: 12px; overflow: hidden; color: var(--ink); background: rgba(20, 33, 23, .98); border: 1px solid #7c8b70; border-radius: 3px; box-shadow: 0 18px 60px rgba(0,0,0,.55); opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, -47%) scale(.97); transition: opacity .14s ease, transform .14s ease, visibility .14s ease; }
+    .image-preview.visible { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+    .image-preview img { width: 100%; height: 100%; min-height: 0; object-fit: contain; background: rgba(0,0,0,.22); }
+    .image-preview figcaption { overflow: hidden; color: #dce5d5; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .entry-type { margin: 0 0 4px; color: var(--orange); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .entry-title { margin: 0 0 8px; font-family: var(--serif); font-size: 21px; font-weight: 500; line-height: 1.2; }
+    .entry-date { display: grid; gap: 1px; width: max-content; max-width: 100%; margin: 0 0 10px; padding: 6px 9px; background: rgba(21, 34, 25, .72); border-left: 2px solid var(--orange); }
+    .entry-date-label { color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .entry-date time { color: var(--ink); font-family: var(--serif); font-size: 13px; font-weight: 700; line-height: 1.3; }
+    .entry-description { margin: 0; color: #c5d0c2; font-size: 13px; font-style: italic; line-height: 1.65; text-align: center; }
+    .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 56px; padding: 20px 0 28px; color: var(--muted); border-top: 1px solid var(--line); font-size: 10px; }
+    .site-footer a { color: #ff8a24; font-weight: 700; text-underline-offset: 2px; -webkit-text-stroke: .35px #080a08; paint-order: stroke fill; }
+    .site-footer .github-link { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 4px 7px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 3px; text-decoration: none; vertical-align: middle; -webkit-text-stroke: 0; }
+    .github-link svg { width: 14px; height: 14px; fill: currentColor; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 680px) {
+      .header-inner { min-height: 70px; }
+      .brand-copy strong { font-size: 12px; }
+      .brand-copy span { font-size: 9px; }
+      .legacy-hero { min-height: 250px; margin-top: 16px; padding: 25px 22px; }
+      .hero-copy h1 { font-size: 36px; }
+      .motto { font-size: 19px; }
+      .hero-badge { right: 2%; width: 200px; }
+      .section-heading { align-items: start; flex-direction: column; gap: 5px; }
+      .tabs { display: grid; grid-template-columns: 1fr; gap: 4px; border: 0; }
+      .tab { text-align: left; border: 1px solid var(--line); border-radius: 3px; }
+      .tab[aria-selected="true"] { border-color: var(--green); }
+      .legacy-entry { grid-template-columns: minmax(0, 1fr); }
+      .entry-image { width: min(100%, 210px); margin: 0 auto; aspect-ratio: 16 / 9; }
+      .entry-image-cover { aspect-ratio: 4 / 5; }
+      .image-preview { width: min(460px, 90vw); height: min(540px, 72vh); }
+      .site-footer { align-items: stretch; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand-lockup" href="index.html" aria-label="Return to SEB Field Reference">
+        <img src="gfx/seblogo.png" alt="">
+        <span class="brand-copy"><strong>LOS SANTOS COUNTY SHERIFF'S DEPARTMENT</strong><span>Special Enforcement Bureau · The Legacy</span></span>
+      </a>
+      <a class="back-link" href="index.html">Field Reference</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="legacy-hero" aria-labelledby="legacy-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Los Santos County · Special Enforcement Bureau</p>
+        <h1 id="legacy-title">SHERIFF'S 24</h1>
+        <p class="motto">RULERS OF THE NIGHT</p>
+        <p class="hero-description">The Special Enforcement Bureau provides specialized tactical, rescue, and counter-terrorism support services to Sheriff's Department personnel and the County. Our primary goal is to save lives through experience, training, and highly specialized equipment.</p>
+      </div>
+      <img class="hero-badge" src="gfx/sed3.png" alt="Los Santos County Sheriff's Department Special Weapons Team SEB badge">
+    </section>
+
+    <section class="legacy-section" aria-labelledby="legacy-section-title">
+      <div class="section-heading">
+        <div><span class="section-kicker">A Tradition of Service</span><h2 id="legacy-section-title">The Legacy</h2></div>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Legacy records">
+        <button class="tab" id="fallen-tab" type="button" role="tab" aria-selected="true" aria-controls="fallen-panel" tabindex="0">Fallen Deputies</button>
+        <button class="tab" id="historic-tab" type="button" role="tab" aria-selected="false" aria-controls="historic-panel" tabindex="-1">Historic Operations</button>
+        <button class="tab" id="training-tab" type="button" role="tab" aria-selected="false" aria-controls="training-panel" tabindex="-1">Training Operations</button>
+      </div>
+      <section class="tab-panel" id="fallen-panel" role="tabpanel" aria-labelledby="fallen-tab" tabindex="0"><div class="entry-list" id="fallen-list"></div></section>
+      <section class="tab-panel" id="historic-panel" role="tabpanel" aria-labelledby="historic-tab" tabindex="0" hidden><div class="entry-list" id="historic-list"></div></section>
+      <section class="tab-panel" id="training-panel" role="tabpanel" aria-labelledby="training-tab" tabindex="0" hidden><div class="entry-list" id="training-list"></div></section>
+    </section>
+
+    <footer class="site-footer">
+      <span>Los Santos County Sheriff's Department · Special Enforcement Bureau</span>
+      <span>Like my work and want to support me? Shoot me <a href="https://ucp.gta.world/view/user/33836">world points</a> or a <a href="https://www.paypal.com/donate/?business=8NZSXB8H2D9MS&amp;no_recurring=0&amp;item_name=I+try+to+make+useful+stuff.+Thanks+for+helping+me+out+as+I+look+for+employment.&amp;currency_code=USD">donation</a>.</span>
+      <span>Created by <a href="https://lssd.gta.world/memberlist.php?mode=viewprofile&amp;u=1638" data-credit-placeholder>Inked</a> for the best bureau in the world. <a class="github-link" href="https://github.com/InkedFam/seb-field-reference" target="_blank" rel="noopener noreferrer" aria-label="View SEB Field Reference on GitHub" title="View SEB Field Reference on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>GitHub</span></a></span>
+    </footer>
+  </main>
+  <figure class="image-preview" id="image-preview" aria-hidden="true">
+    <img id="image-preview-photo" alt="">
+    <figcaption id="image-preview-caption"></figcaption>
+  </figure>
+
+  <script>
+    const placeholderImage = 'gfx/sed3.png';
+    const fallenDeputies = [{ name: 'Fallen Deputy Placeholder', image: 'https://i.imgur.com/2vwpCGu.png', imageAlt: 'Deputy Sheriff Erik Russo', imageFit: 'cover', date: 'HOPEFULLY SOON', description: 'Replace with a centered account of who this deputy was and how they fell in the line of duty.' }];
+
+    const historicOperations = [{ name: 'Historic Operation Placeholder', image: placeholderImage, imageAlt: 'Placeholder operation image to be replaced', date: '', description: 'Replace with a centered account of the operation and how it helped make the city and community safer.' }];
+
+    const trainingOperations = [{ name: 'Training Operation Placeholder', image: placeholderImage, imageAlt: 'Placeholder operation challenge coin image to be replaced', date: '', description: 'Replace with a centered description of the operation and its learning objectives.' }];
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+    }
+
+    function formatEntryDate(value) {
+      if (!value) return { label: 'Date to be added', datetime: '' };
+      const parsedDate = new Date(`${value}T00:00:00Z`);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(parsedDate.getTime()) || parsedDate.toISOString().slice(0, 10) !== value) {
+        return { label: value, datetime: '' };
+      }
+      return {
+        label: new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(parsedDate),
+        datetime: value
+      };
+    }
+
+    function renderEntries(entries, targetId, type, dateLabel) {
+      const target = document.getElementById(targetId);
+      target.innerHTML = entries.slice().reverse().map(entry => `
+        <article class="legacy-entry">
+          ${entry.image ? `<figure class="entry-image${entry.imageFit === 'cover' ? ' entry-image-cover' : ''}"><img src="${escapeHtml(entry.image)}" alt="${escapeHtml(entry.imageAlt || '')}"></figure>` : ''}
+          <div>
+            <p class="entry-type">${type}</p>
+            <h3 class="entry-title">${escapeHtml(entry.name)}</h3>
+            <div class="entry-date"><span class="entry-date-label">${escapeHtml(dateLabel)}</span><time${formatEntryDate(entry.date).datetime ? ` datetime="${escapeHtml(formatEntryDate(entry.date).datetime)}"` : ''}>${escapeHtml(formatEntryDate(entry.date).label)}</time></div>
+            <p class="entry-description">${escapeHtml(entry.description)}</p>
+          </div>
+        </article>`).join('');
+    }
+
+    renderEntries(fallenDeputies, 'fallen-list', 'In Memoriam', 'End of Watch');
+    renderEntries(historicOperations, 'historic-list', 'Historic Operation', 'Operation Date');
+    renderEntries(trainingOperations, 'training-list', 'Training Operation', 'Operation Date');
+
+    const imagePreview = document.getElementById('image-preview');
+    const imagePreviewPhoto = document.getElementById('image-preview-photo');
+    const imagePreviewCaption = document.getElementById('image-preview-caption');
+    const previewableImageSelector = '.entry-image img';
+    document.addEventListener('pointerover', event => {
+      if (!(event.target instanceof Element)) return;
+      const image = event.target.closest(previewableImageSelector);
+      if (!image) return;
+      imagePreviewPhoto.src = image.currentSrc || image.src;
+      imagePreviewCaption.textContent = image.alt;
+      imagePreview.classList.add('visible');
+      imagePreview.setAttribute('aria-hidden', 'false');
+    });
+    document.addEventListener('pointerout', event => {
+      if (!(event.target instanceof Element) || !event.target.closest(previewableImageSelector)) return;
+      if (event.relatedTarget instanceof Element && event.relatedTarget.closest(previewableImageSelector)) return;
+      imagePreview.classList.remove('visible');
+      imagePreview.setAttribute('aria-hidden', 'true');
+    });
+
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    function selectTab(tab, moveFocus = false) {
+      for (const item of tabs) {
+        const selected = item === tab;
+        item.setAttribute('aria-selected', String(selected));
+        item.tabIndex = selected ? 0 : -1;
+        document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+      }
+      if (moveFocus) tab.focus();
+    }
+
+    for (const tab of tabs) {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', event => {
+        const currentIndex = tabs.indexOf(tab);
+        let nextIndex;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (currentIndex + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') nextIndex = 0;
+        else if (event.key === 'End') nextIndex = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        selectTab(tabs[nextIndex], true);
+      });
+    }
+  </script>
+</body>
+</html>

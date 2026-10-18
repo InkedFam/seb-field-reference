@@ -1,3 +1,11 @@
+
+## 1.6 - The Calendar Update - 2026-10-18
+
+- Added an SOD Calendar panel for current and upcoming operations and training events.
+- Connected the event feed to a private Google Calendar iCal address through a Cloudflare Pages Function.
+- Added local-time display, recurring and all-day event support, and optional event links, locations, descriptions, and photos.
+
+
 ## 1.5 - Housekeeping Update - 2026-10-17
 
 - Added a Changelog tab with the version history and contributors.

@@ -1,0 +1,11 @@
+{
+  "name": "seb-field-reference",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "ical.js": "^2.2.1"
+  }
+}
