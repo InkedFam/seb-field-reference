@@ -890,7 +890,7 @@
       { name: "Scuba Cylinder", category: 'Team Equipment', image: 'https://i.postimg.cc/T3c0vPL9/scubacylinder.png', description: 'A diving cylinder or diving gas cylinder is a gas cylinder used to store and transport high pressure gas used in diving operations.', slot: 'Undershirts (/scuba)', model: '243', texture: '0', modelF: "317" },
       { name: "Tattoo Cover", category: 'Team Equipment', image: 'https://i.postimg.cc/x1mLTbDC/tattoocover.png', description: 'Black, green, tan, or white tattoo covers for concealing sleeve tattoos during operations.', slot: 'Armor/Masks', model: '74 (Armor) / 237 (Masks)', texture: 'MULTI', modelF: "100", textureF: "MULTI" },
 
-    ].map(item => ({ model: '', texture: '', modelF: '', textureF: '', ...item }));
+  ].map(item => ({ model: '', texture: '', modelF: '', textureF: '', imageF: '', ...item }));
     const presetSlotNames = ['Masks', 'Torso', 'Pants', 'Shoes', 'Accessories', 'Undershirts', 'Armor', 'Decals', 'Shirts', 'Hats', 'Glasses', 'Ears', 'Hands', 'Watches', 'Bracelets'];
     const makePresetSlots = (maleIds, femaleIds = {}) => presetSlotNames.map(name => ({
       name,
@@ -1123,6 +1123,7 @@
       equipmentList.innerHTML = equipment.map(item => {
         const selectedModel = selectedIdGender === 'female' ? item.modelF : item.model;
         const selectedTexture = selectedIdGender === 'female' ? item.textureF : item.texture;
+        const selectedImage = selectedIdGender === 'female' ? item.imageF || item.image : item.image;
         const hasMaleIds = Boolean(item.model || item.texture);
         const femaleIdsUnavailable = selectedIdGender === 'female' && !selectedModel && !selectedTexture && hasMaleIds;
         const metadata = [
@@ -1136,7 +1137,7 @@
         const searchText = [item.category, item.slot, item.name, item.nickname, item.description, selectedModel, selectedTexture, item.take].join(' ');
         return `
           <article class="catalog-card searchable" data-search="${escapeHtml(searchText)}">
-            <div class="catalog-image"><img src="${escapeHtml(item.image)}" alt="Image of ${escapeHtml(item.name)}"></div>
+            <div class="catalog-image"><img src="${escapeHtml(selectedImage)}" alt="Image of ${escapeHtml(item.name)}"></div>
             <div class="catalog-content"><div class="catalog-meta">${escapeHtml(metadata)}</div><h3>${escapeHtml(item.name)}</h3>${item.nickname ? `<p class="catalog-nickname">${escapeHtml(item.nickname)}</p>` : ''}<p class="catalog-description">${escapeHtml(item.description)}</p></div>
           </article>`;
       }).join('');
