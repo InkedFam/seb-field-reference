@@ -94,7 +94,7 @@
     .callsign-patch input::placeholder { color: #74806f; }
     .patch-label { color: #616c5d; font-size: 9px; text-transform: uppercase; }
     .view-tabs { display: grid; grid-template-columns: repeat(3, max-content); align-items: center; gap: 8px; }
-    #changelog-tab { grid-column: 1 / -1; justify-self: start; }
+    #changelog-tab { justify-self: start; }
     .nav-tab { min-height: 36px; padding: 7px 12px; color: #dfe6da; background: transparent; border: 1px solid rgba(255,255,255,.25); border-radius: 3px; font-size: 11px; font-weight: 700; }
     .nav-tab[aria-selected="true"] { color: #1e2b20; background: #dce4d3; border-color: #dce4d3; }
     .view-tabs .nav-tab { white-space: nowrap; }
@@ -305,6 +305,19 @@
     .site-footer .github-link { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 4px 7px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 3px; text-decoration: none; vertical-align: middle; -webkit-text-stroke: 0; }
     .site-footer .github-link svg { width: 14px; height: 14px; fill: currentColor; }
     .site-footer .github-link:hover { color: var(--orange); border-color: var(--orange); }
+    .sod-event-list { display: grid; gap: 12px; }
+    .sod-event-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 14px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-left: 3px solid #78846f; border-radius: 3px; }
+    .sod-event-card.has-photo { grid-template-columns: minmax(130px, 190px) minmax(0, 1fr); }
+    .sod-event-photo { min-height: 130px; overflow: hidden; background: #1c2a20; border: 1px solid #4b5e4b; }
+    .sod-event-photo img { display: block; width: 100%; height: 100%; min-height: 130px; object-fit: cover; cursor: zoom-in; }
+    .sod-event-content { min-width: 0; }
+    .sod-event-content h3 { margin: 0 0 6px; color: var(--ink); font-family: var(--serif); font-size: 20px; line-height: 1.2; }
+    .sod-event-time { display: block; margin-bottom: 8px; color: #c8d1bd; font-size: 12px; font-weight: 700; }
+    .sod-event-time.is-soon { color: #e3c522; font-weight: 800; text-transform: uppercase; }
+    .sod-event-location { margin: 0 0 7px; color: #c8d1bd; font-size: 11px; font-weight: 700; }
+    .sod-event-description { margin: 0 0 12px; color: var(--muted); font-size: 12px; white-space: pre-line; }
+    .sod-event-link { display: inline-flex; align-items: center; min-height: 34px; padding: 7px 10px; color: #e9eee5; background: #35483a; border: 1px solid #61745f; border-radius: 3px; font-size: 11px; font-weight: 700; text-decoration: none; }
+    .sod-event-link:hover { color: white; background: #405941; }
     .toast { position: fixed; z-index: 20; right: 18px; bottom: 18px; max-width: min(340px, calc(100% - 36px)); padding: 11px 15px; color: white; background: #26372b; border: 1px solid #758570; border-radius: 3px; box-shadow: var(--shadow); font-size: 12px; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .18s ease, transform .18s ease; }
     .toast.visible { opacity: 1; transform: translateY(0); }
     .back-to-top { position: fixed; z-index: 25; right: 22px; bottom: 68px; display: grid; place-items: center; width: 46px; height: 46px; padding: 0; color: #17241a; background: #e3c522; border: 1px solid #090b08; border-radius: 50%; box-shadow: 0 4px 14px rgba(0,0,0,.4); font-size: 25px; font-weight: 700; line-height: 1; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); transition: opacity .18s ease, transform .18s ease, visibility .18s ease; }
@@ -405,6 +418,7 @@
       .hero-logo { right: 12%; width: min(52vw, 240px); }
       .catalog-grid, .personal-grid { grid-template-columns: 1fr; }
       .image-preview { width: min(460px, 90vw); height: min(540px, 72vh); }
+      .sod-event-card.has-photo { grid-template-columns: minmax(0, 145px) minmax(0, 1fr); gap: 12px; }
       .back-to-top { right: 14px; bottom: 62px; width: 42px; height: 42px; }
       .format-layout { grid-template-columns: 1fr; }
       .preset-detail, .preset-slots { grid-template-columns: 1fr; }
@@ -439,6 +453,8 @@
       .search-field { width: 100%; }
       .search-count { text-align: left; }
       .catalog-card { grid-template-columns: 82px minmax(0, 1fr); padding: 8px; }
+      .sod-event-card.has-photo { grid-template-columns: 1fr; }
+      .sod-event-photo, .sod-event-photo img { min-height: 0; height: 190px; }
       .search-results { grid-template-columns: 1fr; }
       .catalog-image { min-height: 88px; }
       .catalog-image img { height: 82px; }
@@ -512,6 +528,8 @@
           <button class="button-link primary" type="button" data-view-target="resources">🧭 SEB Resources</button>
           <button class="button-link secondary" type="button" data-view-target="formats">📝 Paperwork Generators</button>
           <button class="button-link secondary" type="button" data-view-target="presets">👕 Preset Uniforms</button>
+          <button class="button-link secondary" id="sod-calendar-button" type="button" aria-controls="sod-calendar-view" data-view-target="sod-calendar">📅 SOD Calendar</button>
+          <!-- <a class="button-link secondary" href="legacy.html">The Legacy</a> -->
         </div>
       </div>
       <img class="hero-stamp" src="gfx/sed3.png" alt="Los Santos County Sheriff's Department Special Weapons Team SEB badge">
@@ -547,6 +565,18 @@
         <div class="team-link"><a href="#uniforms-section" data-section-target>Uniforms</a></div> -->
       </nav>
     </section>
+
+    <div class="page-view hidden" id="sod-calendar-view" role="tabpanel" aria-labelledby="sod-calendar-button" aria-hidden="true">
+      <section class="section" id="sod-calendar" aria-labelledby="sod-calendar-title">
+        <div class="section-heading">
+          <div><span class="section-kicker">Operations and training</span><h2 id="sod-calendar-title">SOD Calendar</h2></div>
+          <button class="button secondary small" id="sod-calendar-refresh" type="button" aria-label="Refresh SOD events" title="Refresh events">↻</button>
+        </div>
+        <div class="sod-event-list" id="sod-event-list" aria-live="polite">
+          <div class="empty-state">Select the calendar tab to load events.</div>
+        </div>
+      </section>
+    </div>
 
     <div class="page-view" id="resources-view" role="tabpanel" aria-labelledby="resources-tab">
     <section class="section" id="resources" aria-labelledby="resources-title">
@@ -1265,7 +1295,7 @@
     const imagePreview = document.getElementById('image-preview');
     const imagePreviewPhoto = document.getElementById('image-preview-photo');
     const imagePreviewCaption = document.getElementById('image-preview-caption');
-    const previewableImageSelector = '.catalog-image img, .preset-image-frame img';
+    const previewableImageSelector = '.catalog-image img, .preset-image-frame img, .sod-event-photo img';
     document.addEventListener('pointerover', event => {
       if (!(event.target instanceof Element)) return;
       const image = event.target.closest(previewableImageSelector);
@@ -1620,9 +1650,132 @@
       button.setAttribute('aria-pressed', String(button.dataset.idGender === selectedIdGender));
       button.addEventListener('click', () => selectIdGender(button.dataset.idGender));
     });
+    const sodEventsEndpoint = 'sod-events.json';
+    const sodEventDateFormatter = new Intl.DateTimeFormat(undefined, {
+      weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+      hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
+    });
+    const sodEventAllDayFormatter = new Intl.DateTimeFormat(undefined, {
+      weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+    });
+    function safeEventUrl(value) {
+      if (typeof value !== 'string' || !value.trim()) return '';
+      try {
+        const url = new URL(value, location.href);
+        return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+      } catch {
+        return '';
+      }
+    }
+    function showSodEventMessage(message) {
+      const status = document.createElement('div');
+      status.className = 'empty-state';
+      status.textContent = message;
+      document.getElementById('sod-event-list').replaceChildren(status);
+    }
+    function renderSodEvents(events) {
+      const list = document.getElementById('sod-event-list');
+      const now = Date.now();
+      const oneDayAgo = now - 24 * 60 * 60 * 1000;
+      const soonLimit = now + 6 * 60 * 60 * 1000;
+      const visibleEvents = events.map(event => {
+        const allDay = event.allDay === true && /^\d{4}-\d{2}-\d{2}$/.test(event.startTime);
+        const start = new Date(allDay ? `${event.startTime}T00:00:00` : event.startTime);
+        const endDate = event.endTime ? new Date(allDay ? `${event.endTime}T00:00:00` : event.endTime) : start;
+        const end = allDay && event.endTime ? new Date(endDate.getTime() - 1) : endDate;
+        return {
+          name: String(event.name || '').trim(),
+          start,
+          startDateTime: event.startTime,
+          end: Number.isNaN(end.getTime()) ? start : end,
+          allDay,
+          photoUrl: safeEventUrl(event.photoUrl),
+          location: String(event.location || '').trim(),
+          description: String(event.description || '').trim(),
+          url: safeEventUrl(event.url)
+        };
+      }).filter(event => event.name && !Number.isNaN(event.start.getTime()) && event.end.getTime() >= oneDayAgo)
+        .sort((left, right) => {
+          const leftUpcoming = left.end.getTime() >= now;
+          const rightUpcoming = right.end.getTime() >= now;
+          if (leftUpcoming !== rightUpcoming) return leftUpcoming ? -1 : 1;
+          return leftUpcoming ? left.start - right.start : right.start - left.start;
+        });
+
+      if (!visibleEvents.length) {
+        showSodEventMessage('No current or upcoming events.');
+        return;
+      }
+
+      const cards = visibleEvents.map(event => {
+        const card = document.createElement('article');
+        card.className = 'sod-event-card';
+        if (event.photoUrl) {
+          card.classList.add('has-photo');
+          const photoFrame = document.createElement('div');
+          photoFrame.className = 'sod-event-photo';
+          const photo = document.createElement('img');
+          photo.src = event.photoUrl;
+          photo.alt = event.name;
+          photo.loading = 'lazy';
+          photo.addEventListener('error', () => photoFrame.remove(), { once: true });
+          photoFrame.append(photo);
+          card.append(photoFrame);
+        }
+
+        const content = document.createElement('div');
+        content.className = 'sod-event-content';
+        const title = document.createElement('h3');
+        title.textContent = event.name;
+        const time = document.createElement('time');
+        time.className = 'sod-event-time';
+        time.dateTime = event.allDay ? event.startDateTime : event.start.toISOString();
+        const dateIcon = document.createElement('span');
+        dateIcon.setAttribute('aria-hidden', 'true');
+        dateIcon.textContent = '🗓️ ';
+        const formattedDate = event.allDay ? sodEventAllDayFormatter.format(event.start) : sodEventDateFormatter.format(event.start);
+        time.append(dateIcon, document.createTextNode(formattedDate));
+        if (!event.allDay && event.start.getTime() >= now && event.start.getTime() <= soonLimit) time.classList.add('is-soon');
+        const locationText = document.createElement('p');
+        locationText.className = 'sod-event-location';
+        const locationIcon = document.createElement('span');
+        locationIcon.setAttribute('aria-hidden', 'true');
+        locationIcon.textContent = '📍 ';
+        locationText.append(locationIcon, document.createTextNode(event.location || 'Location not listed'));
+        const description = document.createElement('p');
+        description.className = 'sod-event-description';
+        description.textContent = event.description || 'No description provided.';
+        content.append(title, time, locationText, description);
+        if (event.url) {
+          const link = document.createElement('a');
+          link.className = 'sod-event-link';
+          link.href = event.url;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.textContent = 'Open event ↗';
+          content.append(link);
+        }
+        card.append(content);
+        return card;
+      });
+      list.replaceChildren(...cards);
+    }
+    async function loadSodEvents() {
+      showSodEventMessage('Loading SOD events...');
+      try {
+        const response = await fetch(sodEventsEndpoint, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`Event feed request failed (${response.status})`);
+        const payload = await response.json();
+        if (!Array.isArray(payload.events)) throw new Error('Event feed has an invalid format');
+        renderSodEvents(payload.events);
+      } catch {
+        showSodEventMessage('SOD events are unavailable right now.');
+      }
+    }
+    document.getElementById('sod-calendar-refresh').addEventListener('click', loadSodEvents);
     document.querySelectorAll('[data-view-target]').forEach(button => button.addEventListener('click', () => {
       const selectedView = button.dataset.viewTarget;
-      for (const view of ['resources', 'formats', 'presets', 'changelog']) {
+      for (const view of ['resources', 'formats', 'presets', 'sod-calendar', 'changelog']) {
         const isSelected = view === selectedView;
         document.getElementById(`${view}-view`).classList.toggle('hidden', !isSelected);
         document.getElementById(`${view}-view`).setAttribute('aria-hidden', String(!isSelected));
@@ -1633,6 +1786,7 @@
         action.classList.toggle('primary', isSelected);
         action.classList.toggle('secondary', !isSelected);
       });
+      if (selectedView === 'sod-calendar') loadSodEvents();
     }));
     document.getElementById('preset-uniform-buttons').addEventListener('click', event => {
       const button = event.target.closest('[data-preset-index]');
