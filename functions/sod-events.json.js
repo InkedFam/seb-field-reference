@@ -41,6 +41,11 @@ function safeHttpUrl(value) {
   }
 }
 
+function imageUrlFromDescription(description) {
+  const match = String(description || '').match(/<img\b[^>]*\bsrc\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i);
+  return safeHttpUrl(match?.[1] || match?.[2] || match?.[3] || '');
+}
+
 function serializeTime(time) {
   if (time.isDate) {
     return `${String(time.year).padStart(4, '0')}-${String(time.month).padStart(2, '0')}-${String(time.day).padStart(2, '0')}`;
@@ -59,7 +64,7 @@ function makeEvent(item, startDate, endDate) {
     endTime,
     allDay: startDate.isDate,
     url: safeHttpUrl(component.getFirstPropertyValue('url')),
-    photoUrl: safeHttpUrl(typeof attachment === 'string' ? attachment : ''),
+    photoUrl: safeHttpUrl(typeof attachment === 'string' ? attachment : '') || imageUrlFromDescription(item.description),
     location: String(item.location || '').trim().slice(0, 300),
     description: String(item.description || '').trim().slice(0, 2000)
   };
