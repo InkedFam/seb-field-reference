@@ -1,3 +1,8 @@
+## Calendar Status
+
+- The live SOD Calendar is on hold while the event workflow is unresolved; the calendar view now presents the explanation in `calendar-hold.md`.
+- The existing iCal feed function and parser tests are retained, but the page no longer requests the event feed.
+
 ## 1.7 - Vehicles & K9 Logs - 2026-10-23
 
 - Added a searchable Vehicles section with fleet images, license plates, station details, and seat IDs.

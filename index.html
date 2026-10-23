@@ -310,6 +310,14 @@
     .site-footer .github-link { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 4px 7px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 3px; text-decoration: none; vertical-align: middle; -webkit-text-stroke: 0; }
     .site-footer .github-link svg { width: 14px; height: 14px; fill: currentColor; }
     .site-footer .github-link:hover { color: var(--orange); border-color: var(--orange); }
+    .calendar-hold-content { display: grid; gap: 12px; max-width: 900px; }
+    .calendar-hold-content h2, .calendar-hold-content h3 { margin: 8px 0 0; color: var(--ink); font-family: var(--serif); font-weight: 500; }
+    .calendar-hold-content h2 { font-size: 24px; }
+    .calendar-hold-content h3 { font-size: 19px; }
+    .calendar-hold-content p, .calendar-hold-content ul { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .calendar-hold-content ul { display: grid; gap: 6px; padding-left: 22px; }
+    .calendar-hold-content li::marker { color: var(--orange); }
+    .calendar-hold-content strong { color: var(--ink); }
     .sod-event-list { display: grid; gap: 12px; }
     .sod-event-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 14px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-left: 3px solid #78846f; border-radius: 3px; }
     .sod-event-card.has-photo { grid-template-columns: minmax(130px, 190px) minmax(0, 1fr); }
@@ -575,12 +583,10 @@
     <div class="page-view hidden" id="sod-calendar-view" role="tabpanel" aria-labelledby="sod-calendar-button" aria-hidden="true">
       <section class="section" id="sod-calendar" aria-labelledby="sod-calendar-title">
         <div class="section-heading">
-          <div><span class="section-kicker">Operations and training</span><h2 id="sod-calendar-title">SOD Calendar</h2></div>
-          <button class="button secondary small" id="sod-calendar-refresh" type="button" aria-label="Refresh SOD events" title="Refresh events">↻</button>
+          <div><span class="section-kicker">Operations and training</span><h2 id="sod-calendar-title">Calendar status</h2></div>
+          <p>The Events Calendar is temporarily on hold.</p>
         </div>
-        <div class="sod-event-list" id="sod-event-list" aria-live="polite">
-          <div class="empty-state">Select the calendar tab to load events.</div>
-        </div>
+        <div class="calendar-hold-content" id="calendar-hold-content" aria-live="polite"></div>
       </section>
     </div>
 
@@ -1310,7 +1316,12 @@
         </div>`;
     }
 
-    const localChangelogFallback = `## 1.6 - The Calendar Update - 2026-10-18
+    const localChangelogFallback = `## Calendar Status
+
+- The live SOD Calendar is on hold while the event workflow is unresolved; the calendar view now presents the explanation in calendar-hold.md.
+- The existing iCal feed function and parser tests are retained, but the page no longer requests the event feed.
+
+## 1.6 - The Calendar Update - 2026-10-18
 
   - Added an SOD Calendar panel for current and upcoming operations and training events.
   - Connected the event feed to a private Google Calendar iCal address through a Cloudflare Pages Function.
@@ -1347,6 +1358,95 @@
 - Jeremy Grabelski / Space Cowboy - Various suggestions
 - Chirstopher Young / Aarons - ESD material
 - All SEB Personnel - Support, creation of material, fire emojis.`;
+
+    const calendarHoldFallback = `# The Events Calendar Is on Hold
+
+The Events Calendar is on hold until an appropriate solution can be reached. There are three possible solutions, however each is currently being blockaded.
+
+## 1. Change how SEB handles event posts
+
+Currently, SESH does not allow its iCalendar/Google Calendar sync to work when an event is created as a **Discord Forum Thread**, which is how our events are created presently.
+
+For the website sync to work, SEB Command would need to post the SESH event in a normal **Discord Text Channel** that I can access. I could then sync it to a Google account with a calendar for SEB events, which the website could pull and display.
+
+## 2. Buy the API Token
+
+SESH offers a version of its bot for servers on the **Pro plan** that provides API access. This would be the easiest and simplest option, but the plan costs **$25 per month**.
+
+## 3. Use of Sesh /link
+
+This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it would disrupt the faction.`;
+
+    function appendCalendarInlineMarkdown(parent, text) {
+      for (const part of text.split(/(\*\*[^*]+\*\*)/g)) {
+        if (!part) continue;
+        const bold = part.match(/^\*\*(.+)\*\*$/);
+        if (bold) {
+          const strong = document.createElement('strong');
+          strong.textContent = bold[1];
+          parent.append(strong);
+        } else {
+          parent.append(document.createTextNode(part));
+        }
+      }
+    }
+
+    function renderCalendarMarkdown(markdown) {
+      const content = document.createDocumentFragment();
+      let list;
+      let paragraph = [];
+      const flushParagraph = () => {
+        if (!paragraph.length) return;
+        const element = document.createElement('p');
+        appendCalendarInlineMarkdown(element, paragraph.join(' '));
+        content.append(element);
+        paragraph = [];
+      };
+
+      for (const line of markdown.split(/\r?\n/)) {
+        const heading = line.match(/^(#{1,3})\s+(.+)$/);
+        if (heading) {
+          flushParagraph();
+          list = null;
+          const element = document.createElement(heading[1].length === 1 ? 'h2' : 'h3');
+          element.textContent = heading[2];
+          content.append(element);
+        } else if (line.startsWith('- ')) {
+          flushParagraph();
+          if (!list) {
+            list = document.createElement('ul');
+            content.append(list);
+          }
+          const item = document.createElement('li');
+          appendCalendarInlineMarkdown(item, line.slice(2));
+          list.append(item);
+        } else if (!line.trim()) {
+          flushParagraph();
+          list = null;
+        } else {
+          list = null;
+          paragraph.push(line.trim());
+        }
+      }
+      flushParagraph();
+      return content;
+    }
+
+    async function renderCalendarHold() {
+      let markdown = calendarHoldFallback;
+      if (location.protocol !== 'file:') {
+        try {
+          const response = await fetch('calendar-hold.md', { cache: 'no-cache' });
+          if (!response.ok) throw new Error(`Calendar status request failed (${response.status})`);
+          markdown = await response.text();
+        } catch (error) {
+          console.error('Unable to load calendar-hold.md; using the embedded copy.', error);
+        }
+      }
+      document.getElementById('calendar-hold-content').replaceChildren(renderCalendarMarkdown(markdown));
+    }
+
+    renderCalendarHold();
 
     function renderChangelogMarkdown(markdown) {
       const sections = [];
@@ -1930,7 +2030,6 @@
         showSodEventMessage('SOD events are unavailable right now.');
       }
     }
-    document.getElementById('sod-calendar-refresh').addEventListener('click', loadSodEvents);
     document.querySelectorAll('[data-view-target]').forEach(button => button.addEventListener('click', () => {
       const selectedView = button.dataset.viewTarget;
       for (const view of ['resources', 'formats', 'presets', 'sod-calendar', 'changelog']) {
@@ -1944,7 +2043,6 @@
         action.classList.toggle('primary', isSelected);
         action.classList.toggle('secondary', !isSelected);
       });
-      if (selectedView === 'sod-calendar') loadSodEvents();
     }));
     document.getElementById('preset-uniform-buttons').addEventListener('click', event => {
       const button = event.target.closest('[data-preset-index]');
