@@ -217,6 +217,7 @@
     .catalog-content h3 { margin-bottom: 2px; font-family: var(--serif); font-size: 17px; line-height: 1.2; }
     .catalog-nickname { margin-bottom: 5px; color: #53674f; font-size: 12px; font-style: italic; }
     .catalog-description { margin-bottom: 0; color: #5e685f; font-size: 11px; }
+    .vehicle-description { white-space: pre-line; }
     .take-code { display: inline-block; margin: 0 0 5px; padding: 2px 6px; color: #e9ecdf; background: #35483a; font-size: 10px; font-weight: 800; }
     .weapon-key-panel { margin-top: 16px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 3px; }
     .weapon-key-panel > summary { padding: 13px 15px; cursor: pointer; }
@@ -272,6 +273,10 @@
     .form-field.full { grid-column: 1 / -1; }
     .form-field label, .member-label { display: block; margin-bottom: 4px; color: #596459; font-size: 10px; font-weight: 800; }
     .form-field input, .form-field textarea { font-size: 12px; }
+    .form-field select { font-size: 12px; }
+    .form-options { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+    .form-field .form-option { display: flex; align-items: center; gap: 6px; margin: 0; color: var(--ink); font-size: 12px; font-weight: 500; }
+    .form-option input { width: 16px; min-height: 16px; margin: 0; accent-color: var(--green); }
     .member-list { display: grid; gap: 7px; }
     .member-row { display: grid; grid-template-columns: 1fr 34px; gap: 6px; }
     .member-row input { min-width: 0; font-size: 12px; }
@@ -559,7 +564,8 @@
         <div class="team-link"><a href="#glossary-section" data-section-target>Glossary</a></div>
         <div class="team-link"><a href="#equipment-section" data-section-target>Equipment</a></div>
         <div class="team-link"><a href="#weapons-section" data-section-target>Weapons</a></div>
-        <div class="team-link"><a href="#animations-section"" data-section-target>Animations</a></div>
+        <div class="team-link"><a href="#vehicles-section" data-section-target>Vehicles</a></div>
+        <div class="team-link"><a href="#animations-section" data-section-target>Animations</a></div>
         <div class="team-link"><a href="#personal" data-section-target>Personal Kit</a></div>
 <!--         <div class="team-link"><a href="#customs-section" data-section-target>Customs</a></div>
         <div class="team-link"><a href="#uniforms-section" data-section-target>Uniforms</a></div> -->
@@ -585,7 +591,7 @@
         <p>Search the reference by name, take number, model, or description.</p>
       </div>
       <div class="search-row">
-        <label class="search-field"><span aria-hidden="true">⌕</span><input id="catalog-search" type="search" placeholder="Search glossary, equipment, weapons, animations, and personal kit" aria-label="Search all reference entries"></label>
+        <label class="search-field"><span aria-hidden="true">⌕</span><input id="catalog-search" type="search" placeholder="Search glossary, equipment, weapons, vehicles, animations, and personal kit" aria-label="Search all reference entries"></label>
         <span class="search-count" id="search-count" aria-live="polite"></span>
       </div>
       <div id="search-results" class="search-results hidden" aria-live="polite"></div>
@@ -630,8 +636,14 @@
         </div>
       </details>
 
+      <div class="section-heading" id="vehicles-section" style="margin-top:38px">
+        <div><span class="section-kicker">04 / Fleet</span><h2>Vehicles</h2></div>
+        <p>Vehicle plates are listed here; seat IDs are included in each description.</p>
+      </div>
+      <div class="catalog-grid" id="vehicle-list"><div class="empty-state">No vehicles have been added yet.</div></div>
+
       <div class="section-heading" style="margin-top:38px">
-        <div><span class="section-kicker" id="animations-section">04 / Movement</span><h2>Animations</h2></div>
+        <div><span class="section-kicker" id="animations-section">05 / Movement</span><h2>Animations</h2></div>
         <p>Select an animation name to copy its command.</p>
       </div>
       <div class="catalog-grid" id="animation-list"></div>
@@ -694,6 +706,7 @@
         <button class="format-tab" type="button" id="attendance-tab" role="tab" aria-selected="false" aria-controls="attendance-form">Training Attendance</button>
         <button class="format-tab" type="button" id="ground-rescue-tab" role="tab" aria-selected="false" aria-controls="ground-rescue-form">Ground Rescue Log</button>
         <button class="format-tab" type="button" id="air-rescue-tab" role="tab" aria-selected="false" aria-controls="air-rescue-form">Air Rescue 5 Log</button>
+        <button class="format-tab" type="button" id="k9-tab" role="tab" aria-selected="false" aria-controls="k9-form">K9 Deployment Log</button>
       </div>
       <div class="format-layout">
         <div class="format-panel" id="incident-form" role="tabpanel" aria-labelledby="incident-tab">
@@ -769,6 +782,28 @@
             <div class="form-field full"><label for="air-narrative">Incident Narrative &amp; External References</label><textarea id="air-narrative" placeholder="List as needed."></textarea></div>
           </div>
           <div class="form-actions"><button class="button" id="generate-air-rescue" type="button">Generate Air Rescue BBCode</button></div>
+        </div>
+
+        <div class="format-panel hidden" id="k9-form" role="tabpanel" aria-labelledby="k9-tab">
+          <h3>K9 Deployment Report</h3>
+          <div class="form-grid">
+            <div class="form-field"><label for="k9-unit">Unit / Station</label><select id="k9-unit"><option value="csd">SEB Canine Services Detail</option><option value="senora">Senora Station</option><option value="davis">Davis Station</option></select></div>
+            <div class="form-field"><label for="k9-date">Time and Date</label><input id="k9-date" placeholder="HH:MM, DD/MMM/YYYY"></div>
+            <div class="form-field"><label for="k9-location">Location</label><input id="k9-location" placeholder="Address, area, San Andreas"></div>
+            <div class="form-field"><label for="k9-callsign">Callsign</label><input id="k9-callsign" placeholder="Callsign"></div>
+            <div class="form-field full"><span class="member-label">Deployment Type</span><div class="form-options">
+              <label class="form-option"><input id="k9-bite" type="checkbox"> Bite</label>
+              <label class="form-option"><input id="k9-search-warrant" type="checkbox"> Search Warrant</label>
+              <label class="form-option"><input id="k9-tracking" type="checkbox"> Tracking</label>
+              <label class="form-option"><input id="k9-other" type="checkbox"> Other (Detail in narrative)</label>
+            </div></div>
+            <div class="form-field full hidden" id="k9-bite-details-field"><label for="k9-bite-details">Providing Unit / Reason for Lack of Provided Care</label><textarea id="k9-bite-details" placeholder="Provide the unit or reason care was not provided."></textarea></div>
+            <div class="form-field full"><label for="k9-narrative">Deployment Narrative</label><textarea id="k9-narrative" placeholder="Describe the deployment."></textarea></div>
+            <div class="form-field full"><label for="k9-evidence">Evidence Found</label><textarea id="k9-evidence" placeholder="Describe evidence found, or enter N/A."></textarea></div>
+            <div class="form-field"><label for="k9-signed-by">Signed By</label><input id="k9-signed-by" placeholder="Deputy FirstLast"></div>
+            <div class="form-field"><label for="k9-badge">Badge Number</label><input id="k9-badge" placeholder="#Badge Number"></div>
+          </div>
+          <div class="form-actions"><button class="button" id="generate-k9" type="button">Generate K9 BBCode</button></div>
         </div>
 
         <aside class="format-panel output-panel">
@@ -1063,6 +1098,22 @@
       { name: 'Duke Hunter 700', image: 'https://i.postimg.cc/rsXk5zwQ/duke-700.png', description: 'Only used by Long Rifle Team.', take: '33' },
       { name: 'Precision Carbine', image: 'https://i.postimg.cc/6qrNcw81/precision-carbine.png', description: 'DO NOT USE', take: '34' }
     ];
+    const vehicles = [
+      { name: 'Tactical Armored Response Vehicle #1', image: 'https://i.postimg.cc/FRQsJ8bx/arv.png', plate: '12400865', description: 'Armored Response Vehicle for Tactical Incidents. Stationed at Eugene Biskaraat Training Facility.\n\nSeat 5: Bay Back Left\nSeat 6: Bay Back Right\nSeat 7: Hang Left Side\nSeat 8: Hang Right Side\nSeat 9: Hang Rear Left\nSeat 10: Hang Rear Right' },
+      { name: 'Tactical Armored Response Vehicle #2', image: 'https://i.postimg.cc/FRQsJ8bx/arv.png', plate: '12400999', description: 'Armored Response Vehicle for Tactical Incidents. Stationed at Eugene Biskaraat Training Facility.\n\nSeat 5: Bay Back Left\nSeat 6: Bay Back Right\nSeat 7: Hang Left Side\nSeat 8: Hang Right Side\nSeat 9: Hang Rear Left\nSeat 10: Hang Rear Right' },
+      { name: 'Tactical Armored Response Vehicle (MEDCAT)', image: 'https://i.postimg.cc/VNtkvmtB/medcat.png', plate: '12400870', description: 'Armored Response Vehicle for Tactical Incidents. Contains tactical medical equipment. Stationed at Eugene Biskaraat Training Facility.\n\nSeat 5: Bay Back Left\nSeat 6: Bay Back Right\nSeat 7: Hang Left Side\nSeat 8: Hang Right Side\nSeat 9: Hang Rear Left\nSeat 10: Hang Rear Right' },
+      { name: 'Tactical Armored Response Vehicle (SENORA)', image: 'https://i.postimg.cc/FRQsJ8bx/arv.png', plate: '12400001', description: 'Armored Response Vehicle for Tactical Incidents. Stationed at Senora Station.\n\nSeat 5: Bay Back Left\nSeat 6: Bay Back Right\nSeat 7: Hang Left Side\nSeat 8: Hang Right Side\nSeat 9: Hang Rear Left\nSeat 10: Hang Rear Right' },
+      { name: 'Executioner Special Purpose Interceptor #1', image: 'https://i.postimg.cc/JhXz0MX3/exec.png', plate: '12400959', description: 'Armored Special Purpose Interceptor for tactical incidents. Stationed at Eugene Biskaraat Training Facility.\n\nSeat 5: Hang Center Left\nSeat 6: Hang Center Right\nSeat 7: Hang Back Left\nSeat 8: Hang Back Right' },
+      { name: 'Executioner Special Purpose Interceptor #2', image: 'https://i.postimg.cc/JhXz0MX3/exec.png', plate: '12400960', description: 'Armored Special Purpose Interceptor for tactical incidents. Stationed at Eugene Biskaraat Training Facility.\n\nSeat 5: Hang Center Left\nSeat 6: Hang Center Right\nSeat 7: Hang Back Left\nSeat 8: Hang Back Right' },
+      { name: 'Special Purpose Tactical Jogger', image: 'https://i.postimg.cc/W4Z1zTZg/jogger.png', plate: '12400962', description: 'Special Purpose Tactical Jogger for tactical incidents. Stationed at Eugene Biskaraat Training Facility.\n\nSeat 5: Back Far Left\nSeat 6: Back Far Right\nSeat 7: Back Mid Left\nSeat 8: Back Mid Right\nSeat 9: Back Forward Left\nSeat 10: Back Forward Right' },
+      { name: 'MTL Packer Mobile Operations Command Center', image: '', plate: '10300674', description: 'Mobile Operations Command Center for Tactical Command Post Operations.' },
+      { name: 'Vapid Stanier Training Vehicle', image: 'https://i.postimg.cc/vmnZTbnW/trainier.png', plate: '10300959', description: 'Vapid Stanier with Protective Bullbars and Cage for training operations. Located at Eugene Biskaraat Training Facility.' },
+      { name: 'Vapid Sandstorm Utility (Paramedic) #1', image: 'https://i.postimg.cc/ZnwwNkN5/esdstorm1.png', plate: '12300558', description: 'Vapid Sandstorm Utility for Paramedic and Search and Rescue Operations. Able to transport patient in rear. Located at Eugene Biskaraat Training Facility.\n\nSeat 5: Middle Back Seat' },
+      { name: 'Vapid Sandstorm Utility (Paramedic) #2', image: 'https://i.postimg.cc/j2MMfVfd/esdstorm2.png', plate: '12300263', description: 'Vapid Sandstorm Utility for Paramedic and Search and Rescue Operations. Contains medical equipment used by ESD. Located at Eugene Biskaraat Training Facility.\n\nSeat 3: Far Back Left\n Seat 4: Far Back Right\nSeat 5: Mid Back Left\nSeat 6: Mid Back Right\nSeat 7: Forward Back Left\nSeat 8: Forward Back Right' },
+      { name: 'Vapid Sadler Utility Truck (PARAMEDIC)', image: 'https://i.postimg.cc/fy88d4dz/esdutil.png', plate: '12300392', description: 'Vapid Sadler Utility Vehicle designed for Paramedic and Search and Rescue Operations. Contains medical equipment used by ESD. Located at Eugene Biskaraat Training Facility.' },
+      { name: 'Vapid Sadler Utility Truck (MARITIME)', image: 'https://i.postimg.cc/C5cc8y8M/martruck.png', plate: '12400393', description: 'Vapid Sadler Utility Vehicle designed for Maritime Operations. Contains Maritime Equipment & LSSD Dhingy affixed to roof. Located at Eugene Biskaraat Training Facility.' },
+
+    ];
     const animations = [
       { name: 'tactical1', description: 'Kneel pistol lowready.' },
       { name: 'tactical10', description: 'Kneel rifle aiming.' },
@@ -1174,6 +1225,26 @@
       addCatalogImageFallbacks(equipmentList);
     }
 
+    function renderVehicles() {
+      const vehicleList = document.getElementById('vehicle-list');
+      if (!vehicles.length) {
+        vehicleList.innerHTML = '<div class="empty-state">No vehicles have been added yet.</div>';
+        return;
+      }
+
+      vehicleList.innerHTML = vehicles.map(vehicle => {
+        const metadata = `PLATE — ${vehicle.plate || 'Not listed'}`;
+        const searchText = [vehicle.name, vehicle.plate, vehicle.description].join(' ');
+        const description = escapeHtml(vehicle.description || '').replace(/(^|\n)(Seat\s+\d+:)/gi, '$1<strong>$2</strong>');
+        return `
+          <article class="catalog-card searchable" data-search="${escapeHtml(searchText)}">
+            <div class="catalog-image"><img src="${escapeHtml(vehicle.image || 'gfx/seblogo.png')}" alt="Image of ${escapeHtml(vehicle.name)}"></div>
+            <div class="catalog-content"><div class="catalog-meta">${escapeHtml(metadata)}</div><h3>${escapeHtml(vehicle.name)}</h3><p class="catalog-description vehicle-description">${description}</p></div>
+          </article>`;
+      }).join('');
+      addCatalogImageFallbacks(vehicleList);
+    }
+
     function renderCatalog() {
       const glossaryList = document.getElementById('glossary-list');
       glossaryList.innerHTML = glossary.length ? glossary.map(item => {
@@ -1184,6 +1255,7 @@
           </article>`;
       }).join('') : '<div class="empty-state">No glossary entries have been added yet.</div>';
       renderEquipment();
+      renderVehicles();
       const weaponList = document.getElementById('weapon-list');
       weaponList.innerHTML = weapons.map(item => `
         <article class="catalog-card searchable" data-search="${escapeHtml([item.name, item.description, item.take].join(' '))}">
@@ -1412,7 +1484,7 @@
 
     function applySearch() {
       const query = document.getElementById('catalog-search').value.trim().toLocaleLowerCase();
-      const sourceSelector = '#glossary-list .searchable, #equipment-list .searchable, #weapon-list .searchable, #animation-list .searchable, #custom-areas .searchable, #uniform-slots .searchable';
+      const sourceSelector = '#glossary-list .searchable, #equipment-list .searchable, #weapon-list .searchable, #vehicle-list .searchable, #animation-list .searchable, #custom-areas .searchable, #uniform-slots .searchable';
       const entries = [...document.querySelectorAll(sourceSelector)];
       const results = document.getElementById('search-results');
       const catalogSections = document.getElementById('catalog-sections');
@@ -1433,6 +1505,7 @@
         'glossary-list': 'Glossary',
         'equipment-list': 'Equipment',
         'weapon-list': 'Weapons',
+        'vehicle-list': 'Vehicles',
         'animation-list': 'Animations',
         'custom-areas': 'Customs',
         'uniform-slots': 'Uniforms'
@@ -1629,6 +1702,60 @@
       ];
       document.getElementById('bbcode-output').value = lines.join('\n');
       showToast('Air rescue BBCode generated.');
+    }
+
+    function generateK9Report() {
+      const unitLogos = {
+        csd: 'https://i.imgur.com/Oln4e7O.png',
+        senora: 'https://i.imgur.com/L7VGicz.png',
+        davis: 'https://i.imgur.com/Q2JgKiN.png'
+      };
+      const deploymentTypes = [
+        ['Bite', 'k9-bite'],
+        ['Search Warrant', 'k9-search-warrant'],
+        ['Tracking', 'k9-tracking'],
+        ['Other (Detail in narrative)', 'k9-other']
+      ];
+      const biteSelected = document.getElementById('k9-bite').checked;
+      const logo = unitLogos[value('k9-unit')];
+      const lines = [
+        '[divbox=white]',
+        ...(logo ? [`[center][img]${logo}[/img][/center]`] : []),
+        '[b][u][center]Canine Deployment Report[/center][/u][/b]',
+        '',
+        '[center][table=Arial]',
+        '[tr]',
+        '[td][b]TIME AND DATE:[/b][/td]',
+        '[td][b]LOCATION:[/b][/td]',
+        '[td][b]CALLSIGN:[/b][/td]',
+        '[/tr]',
+        '[tr]',
+        `[td]${value('k9-date') || 'HH:MM'}[/td]`,
+        `[td]${value('k9-location') || ', , San Andreas'}[/td]`,
+        `[td]${value('k9-callsign') || 'Callsign'}[/td]`,
+        '[/tr]',
+        '[/table][/center]',
+        '[divbox=white]',
+        'DEPLOYMENT TYPE:',
+        deploymentTypes.map(([label, id]) => document.getElementById(id).checked ? `[cbc]${label}` : `[cb] ${label}`).join(' [br]'),
+        '',
+        '[hr][/hr]',
+        '[center][b][u]DEPLOYMENT NARRATIVE:[/u][/b][/center]',
+        '',
+        value('k9-narrative') || 'Narrative',
+        ...(biteSelected ? ['', 'Providing Unit / Reason for lack of provided care', value('k9-bite-details') || 'Details'] : []),
+        '[hr][/hr]',
+        '[u][b][center]EVIDENCE FOUND:[/center][/b][/u]',
+        value('k9-evidence') || 'Evidence',
+        '[hr][/hr]',
+        '',
+        'Signed by:',
+        value('k9-signed-by') || 'Deputy FirstLast',
+        value('k9-badge') || '#Badge Number',
+        '[/divbox]'
+      ];
+      document.getElementById('bbcode-output').value = lines.join('\n');
+      showToast('K9 deployment BBCode generated.');
     }
 
     const callsignInput = document.getElementById('callsign');
@@ -1832,6 +1959,10 @@
     document.getElementById('generate-attendance').addEventListener('click', generateTrainingAttendance);
     document.getElementById('generate-ground-rescue').addEventListener('click', generateGroundRescue);
     document.getElementById('generate-air-rescue').addEventListener('click', generateAirRescue);
+    document.getElementById('generate-k9').addEventListener('click', generateK9Report);
+    document.getElementById('k9-bite').addEventListener('change', event => {
+      document.getElementById('k9-bite-details-field').classList.toggle('hidden', !event.target.checked);
+    });
     document.getElementById('clear-bbcode').addEventListener('click', () => { document.getElementById('bbcode-output').value = ''; });
     document.getElementById('copy-bbcode').addEventListener('click', async () => {
       const output = document.getElementById('bbcode-output');
@@ -1840,10 +1971,10 @@
       catch { output.select(); document.execCommand('copy'); showToast('BBCode copied to clipboard.'); }
     });
 
-    for (const tabName of ['incident', 'schedule', 'attendance', 'ground-rescue', 'air-rescue']) {
+    for (const tabName of ['incident', 'schedule', 'attendance', 'ground-rescue', 'air-rescue', 'k9']) {
       document.getElementById(`${tabName}-tab`).addEventListener('click', () => {
         activeFormat = tabName;
-        for (const name of ['incident', 'schedule', 'attendance', 'ground-rescue', 'air-rescue']) {
+        for (const name of ['incident', 'schedule', 'attendance', 'ground-rescue', 'air-rescue', 'k9']) {
           const selected = name === tabName;
           document.getElementById(`${name}-tab`).setAttribute('aria-selected', String(selected));
           document.getElementById(`${name}-form`).classList.toggle('hidden', !selected);

@@ -1,3 +1,9 @@
+## 1.7 - Vehicles & K9 Logs - 2026-10-23
+
+- Added a searchable Vehicles section with fleet images, license plates, station details, and seat IDs.
+- Added a K9 Deployment Report generator with CSD, Senora Station, and Davis Station header images.
+- Added deployment types, narrative, evidence, and signature fields; Bite reports conditionally include providing-unit or care details.
+
 ~~## 1.6 - The Calendar Update - 2026-10-18
 
 - Added an SOD Calendar panel for current and upcoming operations and training events.
