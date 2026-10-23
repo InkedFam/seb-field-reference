@@ -797,6 +797,14 @@
               <label class="form-option"><input id="k9-tracking" type="checkbox"> Tracking</label>
               <label class="form-option"><input id="k9-other" type="checkbox"> Other (Detail in narrative)</label>
             </div></div>
+            <div class="form-field full hidden" id="k9-medical-care-field">
+              <span class="member-label" id="k9-medical-care-label">Medical Care Provided</span>
+              <div class="form-options" role="radiogroup" aria-labelledby="k9-medical-care-label">
+                <label class="form-option"><input type="radio" name="k9-medical-care" id="k9-care-scene" value="YES, CLEARED ON SCENE"> YES, CLEARED ON SCENE</label>
+                <label class="form-option"><input type="radio" name="k9-medical-care" id="k9-care-er" value="YES, TAKEN TO ER"> YES, TAKEN TO ER</label>
+                <label class="form-option"><input type="radio" name="k9-medical-care" id="k9-care-no" value="NO"> NO</label>
+              </div>
+            </div>
             <div class="form-field full hidden" id="k9-bite-details-field"><label for="k9-bite-details">Providing Unit / Reason for Lack of Provided Care</label><textarea id="k9-bite-details" placeholder="Provide the unit or reason care was not provided."></textarea></div>
             <div class="form-field full"><label for="k9-narrative">Deployment Narrative</label><textarea id="k9-narrative" placeholder="Describe the deployment."></textarea></div>
             <div class="form-field full"><label for="k9-evidence">Evidence Found</label><textarea id="k9-evidence" placeholder="Describe evidence found, or enter N/A."></textarea></div>
@@ -1717,6 +1725,11 @@
         ['Other (Detail in narrative)', 'k9-other']
       ];
       const biteSelected = document.getElementById('k9-bite').checked;
+      const medicalCareOptions = [
+        ['YES, CLEARED ON SCENE', 'k9-care-scene'],
+        ['YES, TAKEN TO ER', 'k9-care-er'],
+        ['NO', 'k9-care-no']
+      ];
       const logo = unitLogos[value('k9-unit')];
       const lines = [
         '[divbox=white]',
@@ -1743,7 +1756,13 @@
         '[center][b][u]DEPLOYMENT NARRATIVE:[/u][/b][/center]',
         '',
         value('k9-narrative') || 'Narrative',
-        ...(biteSelected ? ['', 'Providing Unit / Reason for lack of provided care', value('k9-bite-details') || 'Details'] : []),
+        ...(biteSelected ? [
+          '',
+          'MEDICAL CARE PROVIDED',
+          ...medicalCareOptions.map(([label, id]) => document.getElementById(id).checked ? `[cbc] ${label}` : `[cb] ${label}`),
+          'Providing Unit / Reason for lack of provided care',
+          value('k9-bite-details') || 'Details'
+        ] : []),
         '[hr][/hr]',
         '[u][b][center]EVIDENCE FOUND:[/center][/b][/u]',
         value('k9-evidence') || 'Evidence',
@@ -1962,6 +1981,7 @@
     document.getElementById('generate-k9').addEventListener('click', generateK9Report);
     document.getElementById('k9-bite').addEventListener('change', event => {
       document.getElementById('k9-bite-details-field').classList.toggle('hidden', !event.target.checked);
+      document.getElementById('k9-medical-care-field').classList.toggle('hidden', !event.target.checked);
     });
     document.getElementById('clear-bbcode').addEventListener('click', () => { document.getElementById('bbcode-output').value = ''; });
     document.getElementById('copy-bbcode').addEventListener('click', async () => {
