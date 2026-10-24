@@ -687,10 +687,10 @@
     <section class="section" id="personal" aria-labelledby="personal-title">
       <div class="section-heading">
         <div><!-- <span class="section-kicker">Saved on this device</span> --><h2 id="personal-title">Personal Kit</h2></div>
-        <p>Customs, outfits, and uniforms save in your browser as a personal kit reference. Don't forget to /kit off.</p>
+        <p>Customs and uniforms save in your browser as a personal kit reference. Don't forget to /kit off.</p>
       </div>
       <div class="add-row kit-transfer-row">
-        <p>Import or export Customs, Outfits, and Uniforms with Character Vault.</p>
+        <p>Import or export Customs and Uniforms as .json.</p>
         <button class="button secondary small" id="import-clothing-kit" type="button">Import Clothing Kit</button>
         <button class="button secondary small" id="export-clothing-kit" type="button">Export Clothing Kit</button>
         <input id="clothing-kit-file" type="file" accept=".json,application/json" hidden>
@@ -720,15 +720,6 @@
           </div>
           <div id="custom-areas"></div>
           <p class="quiet-note">Add clothing slots such as Armour, Hat, Decals, Glasses, or Hands. Each slot holds up to five customs.</p>
-        </section>
-        <section class="personal-section" id="outfits-section" aria-labelledby="outfits-title">
-          <div class="section-heading"><div><span class="section-kicker">Up to 40 slots</span><h2 id="outfits-title">Outfits</h2></div></div>
-          <div class="add-row">
-            <button class="button small" id="add-outfit" type="button">＋ Add Outfit Slot</button>
-            <span class="search-count" id="outfit-count"></span>
-          </div>
-          <div id="outfit-slots"></div>
-          <p class="quiet-note">Enter an outfit slot and a short description. Empty slots are not exported.</p>
         </section>
         <section class="personal-section" id="uniforms-section" aria-labelledby="uniforms-title">
           <div class="section-heading"><div><span class="section-kicker">Up to 40 slots</span><h2 id="uniforms-title">Uniforms</h2></div></div>
@@ -1245,7 +1236,8 @@
       { name: 'code4', description: 'Code 4 stance.' },
       { name: '/ca tablet ub fkneel1 slf', description: 'CORE reviewing.' }
     ].sort((left, right) => left.name.localeCompare(right.name, undefined, { numeric: true, sensitivity: 'base' }));
-    const storageKeys = { callsign: 'seb-callsign', customs: 'seb-customs', outfits: 'seb-outfits', uniforms: 'seb-uniforms', gender: 'seb-id-gender' };
+    const storageKeys = { callsign: 'seb-callsign', customs: 'seb-customs', uniforms: 'seb-uniforms', gender: 'seb-id-gender' };
+    try { localStorage.removeItem('seb-outfits'); } catch {}
     const CLOTHING_KIT_FORMAT = 'nomadlabs-clothing-kit';
     const PERSONAL_DATA_FORMAT = 'seb-field-reference-personal-data';
     let selectedIdGender = loadStored(storageKeys.gender, 'male');
@@ -1607,11 +1599,9 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
     }
 
     let customs = loadStored(storageKeys.customs, []);
-    let outfits = loadStored(storageKeys.outfits, []);
     let uniforms = loadStored(storageKeys.uniforms, []);
 
     function persistCustoms() { return saveStored(storageKeys.customs, customs); }
-    function persistOutfits() { return saveStored(storageKeys.outfits, outfits); }
     function persistUniforms() { return saveStored(storageKeys.uniforms, uniforms); }
     function moveArrayItem(items, index, offset) {
       const targetIndex = index + offset;
@@ -1644,23 +1634,11 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
       applySearch();
     }
 
-    function renderOutfits() {
-      const host = document.getElementById('outfit-slots');
-      host.innerHTML = outfits.map((slot, index) => `
-        <section class="area-block searchable" data-search="${escapeHtml([slot.slot, slot.description].join(' '))}">
-          <div class="area-heading"><h3>Outfit ${index + 1}</h3><div class="slot-heading-actions"><button class="slot-move" type="button" data-move-outfit="${index}" data-move-direction="-1" aria-label="Move outfit ${index + 1} up" title="Move up" ${index === 0 ? 'disabled' : ''}>↑</button><button class="slot-move" type="button" data-move-outfit="${index}" data-move-direction="1" aria-label="Move outfit ${index + 1} down" title="Move down" ${index === outfits.length - 1 ? 'disabled' : ''}>↓</button><button class="slot-remove" type="button" data-remove-outfit="${index}" aria-label="Remove outfit ${index + 1}" title="Remove slot">×</button></div></div>
-          <div class="slot-row"><input value="${escapeHtml(slot.slot)}" placeholder="Slot number or name" aria-label="Outfit slot designation" data-outfit-field="slot" data-outfit="${index}"><input value="${escapeHtml(slot.description)}" placeholder="Outfit description" aria-label="Outfit description" data-outfit-field="description" data-outfit="${index}"><span></span></div>
-        </section>`).join('');
-      document.getElementById('outfit-count').textContent = `${outfits.length}/40 slots`;
-      document.getElementById('add-outfit').disabled = outfits.length >= 40;
-      applySearch();
-    }
-
     function normalizeClothingKit(data) {
       if (!data || typeof data !== 'object' || Array.isArray(data) || data.format !== CLOTHING_KIT_FORMAT || data.schemaVersion !== 1) {
         throw new Error('Choose a NomadLabs clothing kit JSON file.');
       }
-      for (const collection of ['customs', 'outfits', 'uniforms']) {
+      for (const collection of ['customs', 'uniforms']) {
         if (!Array.isArray(data[collection])) throw new Error(`The clothing kit is missing a valid ${collection} list.`);
       }
       const toText = value => String(value == null ? '' : value);
@@ -1689,7 +1667,6 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
       }).filter(record => record.slot.trim() || record.description.trim());
       return {
         customs: normalizedCustoms,
-        outfits: normalizeWearables(data.outfits, 'Outfit'),
         uniforms: normalizeWearables(data.uniforms, 'Uniform')
       };
     }
@@ -1703,7 +1680,6 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
           name: area.name,
           slots: area.slots.map(({ slot, description }) => ({ slot, description }))
         })),
-        outfits: outfits.map(({ slot, description }) => ({ slot, description })),
         uniforms: uniforms.map(({ slot, description }) => ({ slot, description }))
       };
       const blob = new Blob([JSON.stringify(clothingKit, null, 2)], { type: 'application/json' });
@@ -1721,13 +1697,11 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
     async function importClothingKit(file) {
       try {
         const kit = normalizeClothingKit(JSON.parse(await file.text()));
-        if (!window.confirm('Replace your Customs, Outfits, and Uniforms with the clothing kit in this file?')) return;
+        if (!window.confirm('Replace your Customs and Uniforms with the clothing kit in this file?')) return;
         customs = kit.customs;
-        outfits = kit.outfits;
         uniforms = kit.uniforms;
-        const saved = [persistCustoms(), persistOutfits(), persistUniforms()].every(Boolean);
+        const saved = [persistCustoms(), persistUniforms()].every(Boolean);
         renderCustoms();
-        renderOutfits();
         renderUniforms();
         if (saved) showToast('Imported clothing kit.');
         else showToast('The clothing kit loaded, but this browser could not save all changes.');
@@ -1748,7 +1722,6 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         format: CLOTHING_KIT_FORMAT,
         schemaVersion: 1,
         customs: data.customs,
-        outfits: data.outfits,
         uniforms: data.uniforms
       });
       return { ...kit, callsign: data.callsign.trim().toUpperCase(), gender: data.gender };
@@ -1763,7 +1736,6 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
           callsign: document.getElementById('callsign').value,
           gender: selectedIdGender,
           customs,
-          outfits,
           uniforms
         }
       };
@@ -1782,13 +1754,12 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
     async function importPersonalData(file) {
       try {
         const data = normalizePersonalData(JSON.parse(await file.text()));
-        if (!window.confirm('Replace this browser\'s callsign, model gender, Customs, Outfits, and Uniforms with the data in this file?')) return;
+        if (!window.confirm('Replace this browser\'s callsign, model gender, Customs, and Uniforms with the data in this file?')) return;
 
         const updates = new Map([
           [storageKeys.callsign, data.callsign],
           [storageKeys.gender, JSON.stringify(data.gender)],
           [storageKeys.customs, JSON.stringify(data.customs)],
-          [storageKeys.outfits, JSON.stringify(data.outfits)],
           [storageKeys.uniforms, JSON.stringify(data.uniforms)]
         ]);
         const previous = new Map([...updates.keys()].map(key => [key, localStorage.getItem(key)]));
@@ -1805,13 +1776,11 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         }
 
         customs = data.customs;
-        outfits = data.outfits;
         uniforms = data.uniforms;
         const callsign = document.getElementById('callsign');
         callsign.value = data.callsign;
         updateCallsignPreview(data.callsign);
         renderCustoms();
-        renderOutfits();
         renderUniforms();
         selectIdGender(data.gender);
         showToast('Imported personalized data.');
@@ -1822,7 +1791,7 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
 
     function applySearch() {
       const query = document.getElementById('catalog-search').value.trim().toLocaleLowerCase();
-      const sourceSelector = '#glossary-list .searchable, #equipment-list .searchable, #weapon-list .searchable, #vehicle-list .searchable, #animation-list .searchable, #custom-areas .searchable, #outfit-slots .searchable, #uniform-slots .searchable';
+      const sourceSelector = '#glossary-list .searchable, #equipment-list .searchable, #weapon-list .searchable, #vehicle-list .searchable, #animation-list .searchable, #custom-areas .searchable, #uniform-slots .searchable';
       const entries = [...document.querySelectorAll(sourceSelector)];
       const results = document.getElementById('search-results');
       const catalogSections = document.getElementById('catalog-sections');
@@ -1846,7 +1815,6 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         'vehicle-list': 'Vehicles',
         'animation-list': 'Animations',
         'custom-areas': 'Customs',
-        'outfit-slots': 'Outfits',
         'uniform-slots': 'Uniforms'
       };
       const matches = entries.filter(entry => (entry.dataset.search || '').toLocaleLowerCase().includes(query));
@@ -1876,7 +1844,7 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
 
       for (const entry of matches) {
         const category = categories[entry.parentElement.id];
-        if (category === 'Customs' || category === 'Outfits' || category === 'Uniforms') {
+        if (category === 'Customs' || category === 'Uniforms') {
           const card = document.createElement('article');
           card.className = 'catalog-card search-result-note';
           const content = document.createElement('div');
@@ -2373,12 +2341,6 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
       persistUniforms(); renderUniforms();
       document.querySelector('#uniform-slots .area-block:last-child input').focus();
     });
-    document.getElementById('add-outfit').addEventListener('click', () => {
-      if (outfits.length >= 40) { showToast('Outfit slots are limited to 40.'); return; }
-      outfits.push({ slot: '', description: '' });
-      persistOutfits(); renderOutfits();
-      document.querySelector('#outfit-slots .area-block:last-child input').focus();
-    });
     document.addEventListener('click', event => {
       const target = event.target;
       if (target.matches('[data-add-custom]')) {
@@ -2390,7 +2352,6 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         const [areaIndex, slotIndex] = target.dataset.removeCustom.split(':').map(Number);
         customs[areaIndex].slots.splice(slotIndex, 1); persistCustoms(); renderCustoms();
       }
-      if (target.matches('[data-remove-outfit]')) { outfits.splice(Number(target.dataset.removeOutfit), 1); persistOutfits(); renderOutfits(); }
       if (target.matches('[data-remove-uniform]')) { uniforms.splice(Number(target.dataset.removeUniform), 1); persistUniforms(); renderUniforms(); }
       const customMove = target.closest('[data-move-custom]');
       if (customMove) {
@@ -2410,16 +2371,6 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         if (nextIndex !== -1) {
           persistUniforms(); renderUniforms();
           document.querySelector(`[data-move-uniform="${nextIndex}"][data-move-direction="${direction}"]`)?.focus();
-        }
-      }
-      const outfitMove = target.closest('[data-move-outfit]');
-      if (outfitMove) {
-        const index = Number(outfitMove.dataset.moveOutfit);
-        const direction = Number(outfitMove.dataset.moveDirection);
-        const nextIndex = moveArrayItem(outfits, index, direction);
-        if (nextIndex !== -1) {
-          persistOutfits(); renderOutfits();
-          document.querySelector(`[data-move-outfit="${nextIndex}"][data-move-direction="${direction}"]`)?.focus();
         }
       }
       if (target.matches('[data-animation]')) {
@@ -2443,19 +2394,12 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         target.closest('.area-block').dataset.search = [uniforms[Number(target.dataset.uniform)].slot, uniforms[Number(target.dataset.uniform)].description].join(' ');
         applySearch();
       }
-      if (target.matches('[data-outfit-field]')) {
-        outfits[Number(target.dataset.outfit)][target.dataset.outfitField] = target.value;
-        persistOutfits();
-        target.closest('.area-block').dataset.search = [outfits[Number(target.dataset.outfit)].slot, outfits[Number(target.dataset.outfit)].description].join(' ');
-        applySearch();
-      }
     });
 
     renderCatalog();
     renderUniformPresets();
     renderChangelog();
     renderCustoms();
-    renderOutfits();
     renderUniforms();
   </script>
 </body>

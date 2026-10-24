@@ -1,8 +1,9 @@
 ## Misc Updates
 
-- Added site-wide JSON import/export for callsign, model gender, Customs, Outfits, and Uniforms.
+- Added site-wide JSON import/export for callsign, model gender, Customs, and Uniforms.
 - Added Quick Links to open Ground Rescue, Air Rescue 5, and K9 report generators directly from the ESD and CSD groups.
 - Added medical-care choices to Bite reports and matched the Quick Link button text to its surrounding links.
+- Removed the Outfits editor and stored data; clothing-kit imports and exports now contain Customs and Uniforms only.
 
 ## 1.8 - Clothing Kit Exchange - 2026-10-24
 
