@@ -50,12 +50,12 @@
       border-bottom: 3px solid #77836e;
     }
     .header-inner {
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
+      gap: 8px 18px;
       width: min(100%, 1240px);
-      min-height: 96px;
+      padding: 8px 0;
       margin: 0 auto;
     }
     .brand-lockup { display: flex; align-items: center; gap: 12px; min-width: 0; text-decoration: none; }
@@ -63,7 +63,8 @@
     .brand-copy { display: grid; line-height: 1.08; }
     .brand-copy strong { font-family: var(--serif); font-size: 15px; font-weight: 700; letter-spacing: .04em; }
     .brand-copy span { margin-top: 4px; color: #c2cbbb; font-size: 10px; text-transform: uppercase; }
-    .header-right { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
+    .header-right { display: flex; grid-column: 2; grid-row: 1; flex-wrap: wrap; justify-self: end; gap: 8px; width: 430px; max-width: 100%; min-width: 0; }
+    .header-profile { display: flex; grid-column: 3; grid-row: 1; align-items: center; justify-self: end; gap: 18px; }
     .callsign-info { display: flex; flex: 0 1 150px; flex-direction: column; gap: 6px; min-width: 0; }
     .callsign-help { width: 100%; margin: 0; color: #c2cbbb; font-size: 10px; line-height: 1.35; }
     .id-gender-control { display: flex; align-items: center; flex: 0 0 auto; }
@@ -93,11 +94,10 @@
     .callsign-patch input { width: 105px; padding: 0; color: #26372b; background: transparent; border: 0; outline: 0; font-weight: 800; letter-spacing: .04em; }
     .callsign-patch input::placeholder { color: #74806f; }
     .patch-label { color: #616c5d; font-size: 9px; text-transform: uppercase; }
-    .view-tabs { display: grid; grid-template-columns: repeat(3, max-content); align-items: center; gap: 8px; }
-    #changelog-tab { justify-self: start; }
+    .view-tabs, .personal-data-actions { display: contents; }
     .nav-tab { min-height: 36px; padding: 7px 12px; color: #dfe6da; background: transparent; border: 1px solid rgba(255,255,255,.25); border-radius: 3px; font-size: 11px; font-weight: 700; }
     .nav-tab[aria-selected="true"] { color: #1e2b20; background: #dce4d3; border-color: #dce4d3; }
-    .view-tabs .nav-tab { white-space: nowrap; }
+    .header-right .nav-tab { min-height: 36px; padding: 7px 10px; white-space: nowrap; }
     main { width: min(1120px, calc(100% - 36px)); margin: 0 auto; }
     .hero {
       position: relative;
@@ -171,8 +171,22 @@
     .hero-team-links .team-link { display: inline-flex; align-items: center; gap: 5px; padding: 0 10px; }
     .hero-team-links .team-link + .team-link { border-left: 1px solid rgba(220,229,213,.35); }
     .hero-team-links .team-link a { padding: 0; }
+    .hero-team-links .quick-link-action { padding: 0; color: #e3eadc; background: transparent; border: 0; font-size: 12px; text-align: left; }
+    .hero-team-links .quick-link-action:hover { color: var(--orange); text-decoration: underline; }
     .hero-team-links .quick-link-group { display: grid; grid-template-columns: 42px minmax(0, 1fr); align-items: start; gap: 8px; width: 100%; padding: 5px 0; border-bottom: 1px solid rgba(220,229,213,.18); }
     .hero-team-links .quick-link-group > strong { color: #dce5d5; font-size: 10px; line-height: 1.5; }
+    @media (max-width: 900px) {
+      .header-inner { grid-template-columns: minmax(0, 1fr); align-items: flex-start; }
+      .header-profile { grid-column: 1; grid-row: 2; justify-self: start; }
+      .header-right { grid-column: 1; grid-row: 3; justify-content: flex-start; flex-wrap: wrap; }
+      .view-tabs { display: grid; grid-template-columns: repeat(2, max-content); }
+    }
+    @media (max-width: 900px) {
+      .header-inner { grid-template-columns: minmax(0, 1fr); align-items: flex-start; }
+      .header-profile { grid-column: 1; grid-row: 2; justify-self: start; }
+      .header-right { grid-column: 1; grid-row: 3; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .view-tabs { grid-column: span 2; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
     .hero-team-links .quick-link-items { display: flex; flex-wrap: wrap; gap: 6px 12px; min-width: 0; }
     .hero-team-links .quick-link-items .team-link { padding: 0; }
     .hero-team-links .quick-link-items .team-link + .team-link { border-left: 0; }
@@ -240,7 +254,9 @@
     .animation-name:hover { color: var(--orange); }
     .animation-description { margin: 3px 0 0; color: #687166; font-size: 11px; }
     .empty-state { grid-column: 1 / -1; padding: 25px; color: var(--muted); background: rgba(255,255,255,.48); border: 1px dashed var(--line); font-size: 13px; text-align: center; }
-    .personal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; align-items: start; }
+    .personal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; align-items: start; }
+    .kit-transfer-row { justify-content: flex-end; }
+    .kit-transfer-row p { flex: 1; margin: 0; color: var(--muted); font-size: 12px; }
     .personal-section { min-width: 0; }
     .personal-section .section-heading { margin-bottom: 15px; }
     .personal-section .section-heading h2 { font-size: 25px; }
@@ -305,7 +321,10 @@
     .changelog-entry li::marker { color: var(--orange); }
     .changelog-contributors ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .form-hint { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
-    .site-footer { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 65px; padding: 20px 0 28px; color: #667066; border-top: 1px solid var(--line); font-size: 10px; }
+    .site-footer { display: flex; flex-direction: column; align-items: stretch; gap: 12px; margin-top: 65px; padding: 20px 0 28px; color: #667066; border-top: 1px solid var(--line); font-size: 10px; }
+    .footer-copy { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; }
+    .footer-data-actions { display: flex; flex: 0 0 auto; align-items: center; justify-content: flex-end; gap: 6px; }
+    .footer-data-actions .button { min-height: 30px; padding: 5px 8px; font-size: 10px; }
     .site-footer a { color: #ff8a24; font-weight: 700; text-underline-offset: 2px; -webkit-text-stroke: .35px #080a08; paint-order: stroke fill; }
     .site-footer .github-link { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 4px 7px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 3px; text-decoration: none; vertical-align: middle; -webkit-text-stroke: 0; }
     .site-footer .github-link svg { width: 14px; height: 14px; fill: currentColor; }
@@ -419,9 +438,11 @@
     @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     @media (max-width: 760px) {
       .site-header { padding: 9px 14px; }
-      .header-inner { flex-wrap: wrap; gap: 8px; }
-      .header-right { flex: 1; flex-wrap: wrap; gap: 10px; }
-      .view-tabs { grid-template-columns: repeat(2, max-content); }
+      .header-inner { gap: 8px; }
+      .header-right { gap: 8px; }
+      .header-right { display: grid; grid-template-columns: minmax(0, 1fr); }
+      .view-tabs, .personal-data-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .header-right .nav-tab { width: 100%; min-width: 0; padding: 7px 8px; }
       .callsign-info { flex-basis: 130px; }
       .callsign-help { font-size: 9px; }
       .callsign-patch { width: 68px; height: 68px; }
@@ -446,7 +467,7 @@
       .brand-lockup img { width: 32px; height: 32px; }
       .brand-copy strong { font-size: 12px; }
       .brand-copy span { font-size: 8px; }
-      .header-right { flex-basis: 100%; justify-content: flex-start; gap: 8px; padding-left: 43px; }
+      .header-right, .view-tabs, .personal-data-actions { gap: 5px; }
       .callsign-info { flex-basis: 180px; }
       .view-tabs { gap: 5px; }
       .nav-tab { min-height: 33px; padding: 6px 8px; font-size: 10px; }
@@ -478,6 +499,7 @@
       .form-field.full { grid-column: auto; }
       .format-panel { padding: 13px; }
       .site-footer { flex-direction: column; align-items: stretch; }
+      .footer-copy { align-items: flex-start; flex-direction: column; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
@@ -491,13 +513,7 @@
       <img src="gfx/seblogo.png" alt="">
       <span class="brand-copy"><strong>LOS SANTOS COUNTY SHERIFF'S DEPARTMENT</strong><span>Special Enforcement Bureau · Field Reference</span></span>
     </a>
-    <div class="header-right">
-      <nav class="view-tabs" role="tablist" aria-label="Field guide section">
-        <button class="nav-tab" id="resources-tab" type="button" role="tab" aria-selected="true" aria-controls="resources-view" data-view-target="resources">🧭 SEB Resources</button>
-        <button class="nav-tab" id="formats-tab" type="button" role="tab" aria-selected="false" aria-controls="formats-view" data-view-target="formats">📝 Paperwork Generators</button>
-        <button class="nav-tab" id="presets-tab" type="button" role="tab" aria-selected="false" aria-controls="presets-view" data-view-target="presets">👕 Preset Uniforms</button>
-        <button class="nav-tab" id="changelog-tab" type="button" role="tab" aria-selected="false" aria-controls="changelog-view" data-view-target="changelog">📜 Changelog</button>
-      </nav>
+    <div class="header-profile">
       <label class="callsign-patch" title="Your callsign is saved in this browser">
         <span class="callsign-designator"><span class="callsign-value" id="callsign-preview" aria-hidden="true">241S</span><input id="callsign" list="callsign-options" maxlength="5" placeholder="1S" aria-label="Callsign identifier after 24"></span>
       </label>
@@ -510,6 +526,14 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="header-right">
+      <nav class="view-tabs" role="tablist" aria-label="Field guide section">
+        <button class="nav-tab" id="resources-tab" type="button" role="tab" aria-selected="true" aria-controls="resources-view" data-view-target="resources">🧭 SEB Resources</button>
+        <button class="nav-tab" id="formats-tab" type="button" role="tab" aria-selected="false" aria-controls="formats-view" data-view-target="formats">📝 Paperwork Generators</button>
+        <button class="nav-tab" id="presets-tab" type="button" role="tab" aria-selected="false" aria-controls="presets-view" data-view-target="presets">👕 Preset Uniforms</button>
+        <button class="nav-tab" id="changelog-tab" type="button" role="tab" aria-selected="false" aria-controls="changelog-view" data-view-target="changelog">📜 Changelog</button>
+      </nav>
 <!--       <datalist id="callsign-options">
         <option value="1S" label="Sam"></option>
         <option value="1A" label="Adam"></option>
@@ -564,8 +588,12 @@
         </div></div>
         <div class="quick-link-group"><strong>ESD</strong><div class="quick-link-items">
           <div class="team-link"><span aria-hidden="true">📋</span><a href="https://lsfd.gta.world/LSCC/protocols" target="_blank" rel="noopener noreferrer">ESD: Protocols</a></div>
+          <div class="team-link"><span aria-hidden="true">🛟</span><button class="quick-link-action" type="button" data-format-target="ground-rescue">Ground Rescue Log</button></div>
+          <div class="team-link"><span aria-hidden="true">🚁</span><button class="quick-link-action" type="button" data-format-target="air-rescue">Air Rescue 5 Log</button></div>
         </div></div>
-        <div class="quick-link-group"><strong>CSD</strong><div class="quick-link-items"></div></div>
+        <div class="quick-link-group"><strong>CSD</strong><div class="quick-link-items">
+          <div class="team-link"><span aria-hidden="true">🐕</span><button class="quick-link-action" type="button" data-format-target="k9">K9 Deployment Log</button></div>
+        </div></div>
       </nav>
       <nav class="resource-strip hero-team-links hero-section-links" aria-label="Reference sections">
         <span>SECTIONS</span>
@@ -659,7 +687,13 @@
     <section class="section" id="personal" aria-labelledby="personal-title">
       <div class="section-heading">
         <div><!-- <span class="section-kicker">Saved on this device</span> --><h2 id="personal-title">Personal Kit</h2></div>
-        <p>Customs and uniforms save in your browser as a personal kit reference. Don't forget to /kit off.</p>
+        <p>Customs, outfits, and uniforms save in your browser as a personal kit reference. Don't forget to /kit off.</p>
+      </div>
+      <div class="add-row kit-transfer-row">
+        <p>Import or export Customs, Outfits, and Uniforms with Character Vault.</p>
+        <button class="button secondary small" id="import-clothing-kit" type="button">Import Clothing Kit</button>
+        <button class="button secondary small" id="export-clothing-kit" type="button">Export Clothing Kit</button>
+        <input id="clothing-kit-file" type="file" accept=".json,application/json" hidden>
       </div>
       <div class="personal-grid">
         <section class="personal-section" id="customs-section" aria-labelledby="customs-title">
@@ -686,6 +720,15 @@
           </div>
           <div id="custom-areas"></div>
           <p class="quiet-note">Add clothing slots such as Armour, Hat, Decals, Glasses, or Hands. Each slot holds up to five customs.</p>
+        </section>
+        <section class="personal-section" id="outfits-section" aria-labelledby="outfits-title">
+          <div class="section-heading"><div><span class="section-kicker">Up to 40 slots</span><h2 id="outfits-title">Outfits</h2></div></div>
+          <div class="add-row">
+            <button class="button small" id="add-outfit" type="button">＋ Add Outfit Slot</button>
+            <span class="search-count" id="outfit-count"></span>
+          </div>
+          <div id="outfit-slots"></div>
+          <p class="quiet-note">Enter an outfit slot and a short description. Empty slots are not exported.</p>
         </section>
         <section class="personal-section" id="uniforms-section" aria-labelledby="uniforms-title">
           <div class="section-heading"><div><span class="section-kicker">Up to 40 slots</span><h2 id="uniforms-title">Uniforms</h2></div></div>
@@ -854,9 +897,16 @@
     </div>
 
     <footer class="site-footer">
+      <div class="footer-copy">
       <span>Los Santos County Sheriff's Department · Special Enforcement Bureau</span>
       <span>Like my work and want to support me? Shoot me <a href="https://ucp.gta.world/view/user/33836">world points</a> or a <a href="https://www.paypal.com/donate/?business=8NZSXB8H2D9MS&no_recurring=0&item_name=I+try+to+make+useful+stuff.+Thanks+for+helping+me+out+as+I+look+for+employment.&currency_code=USD">donation</a>.</span>
       <span>Created by <a href="https://lssd.gta.world/memberlist.php?mode=viewprofile&u=1638" data-credit-placeholder>Inked</a> for the best bureau in the world. <a class="github-link" href="https://github.com/InkedFam/seb-field-reference" target="_blank" rel="noopener noreferrer" aria-label="View SEB Field Reference on GitHub" title="View SEB Field Reference on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span>GitHub</span></a></span>
+      </div>
+      <div class="footer-data-actions" role="group" aria-label="Personal data transfer">
+        <button class="button secondary small" id="import-personal-data" type="button" aria-label="Import all personalized data">📥 Import</button>
+        <button class="button secondary small" id="export-personal-data" type="button" aria-label="Export all personalized data">📤 Export</button>
+        <input id="personal-data-file" type="file" accept=".json,application/json" hidden>
+      </div>
     </footer>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1195,7 +1245,9 @@
       { name: 'code4', description: 'Code 4 stance.' },
       { name: '/ca tablet ub fkneel1 slf', description: 'CORE reviewing.' }
     ].sort((left, right) => left.name.localeCompare(right.name, undefined, { numeric: true, sensitivity: 'base' }));
-    const storageKeys = { callsign: 'seb-callsign', customs: 'seb-customs', uniforms: 'seb-uniforms', gender: 'seb-id-gender' };
+    const storageKeys = { callsign: 'seb-callsign', customs: 'seb-customs', outfits: 'seb-outfits', uniforms: 'seb-uniforms', gender: 'seb-id-gender' };
+    const CLOTHING_KIT_FORMAT = 'nomadlabs-clothing-kit';
+    const PERSONAL_DATA_FORMAT = 'seb-field-reference-personal-data';
     let selectedIdGender = loadStored(storageKeys.gender, 'male');
     if (!['male', 'female'].includes(selectedIdGender)) selectedIdGender = 'male';
     let activeFormat = 'incident';
@@ -1550,15 +1602,17 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
     }
 
     function saveStored(key, value) {
-      try { localStorage.setItem(key, JSON.stringify(value)); }
-      catch { showToast('This browser could not save the changes.'); }
+      try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+      catch { showToast('This browser could not save the changes.'); return false; }
     }
 
     let customs = loadStored(storageKeys.customs, []);
+    let outfits = loadStored(storageKeys.outfits, []);
     let uniforms = loadStored(storageKeys.uniforms, []);
 
-    function persistCustoms() { saveStored(storageKeys.customs, customs); }
-    function persistUniforms() { saveStored(storageKeys.uniforms, uniforms); }
+    function persistCustoms() { return saveStored(storageKeys.customs, customs); }
+    function persistOutfits() { return saveStored(storageKeys.outfits, outfits); }
+    function persistUniforms() { return saveStored(storageKeys.uniforms, uniforms); }
     function moveArrayItem(items, index, offset) {
       const targetIndex = index + offset;
       if (targetIndex < 0 || targetIndex >= items.length) return -1;
@@ -1590,9 +1644,185 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
       applySearch();
     }
 
+    function renderOutfits() {
+      const host = document.getElementById('outfit-slots');
+      host.innerHTML = outfits.map((slot, index) => `
+        <section class="area-block searchable" data-search="${escapeHtml([slot.slot, slot.description].join(' '))}">
+          <div class="area-heading"><h3>Outfit ${index + 1}</h3><div class="slot-heading-actions"><button class="slot-move" type="button" data-move-outfit="${index}" data-move-direction="-1" aria-label="Move outfit ${index + 1} up" title="Move up" ${index === 0 ? 'disabled' : ''}>↑</button><button class="slot-move" type="button" data-move-outfit="${index}" data-move-direction="1" aria-label="Move outfit ${index + 1} down" title="Move down" ${index === outfits.length - 1 ? 'disabled' : ''}>↓</button><button class="slot-remove" type="button" data-remove-outfit="${index}" aria-label="Remove outfit ${index + 1}" title="Remove slot">×</button></div></div>
+          <div class="slot-row"><input value="${escapeHtml(slot.slot)}" placeholder="Slot number or name" aria-label="Outfit slot designation" data-outfit-field="slot" data-outfit="${index}"><input value="${escapeHtml(slot.description)}" placeholder="Outfit description" aria-label="Outfit description" data-outfit-field="description" data-outfit="${index}"><span></span></div>
+        </section>`).join('');
+      document.getElementById('outfit-count').textContent = `${outfits.length}/40 slots`;
+      document.getElementById('add-outfit').disabled = outfits.length >= 40;
+      applySearch();
+    }
+
+    function normalizeClothingKit(data) {
+      if (!data || typeof data !== 'object' || Array.isArray(data) || data.format !== CLOTHING_KIT_FORMAT || data.schemaVersion !== 1) {
+        throw new Error('Choose a NomadLabs clothing kit JSON file.');
+      }
+      for (const collection of ['customs', 'outfits', 'uniforms']) {
+        if (!Array.isArray(data[collection])) throw new Error(`The clothing kit is missing a valid ${collection} list.`);
+      }
+      const toText = value => String(value == null ? '' : value);
+      const normalizedCustoms = data.customs.map((area, areaIndex) => {
+        if (!area || typeof area !== 'object' || Array.isArray(area) || !Array.isArray(area.slots)) {
+          throw new Error(`Custom clothing area ${areaIndex + 1} is invalid.`);
+        }
+        const name = toText(area.name).trim();
+        if (!name) throw new Error(`Custom clothing area ${areaIndex + 1} has no name.`);
+        if (area.slots.length > 5) throw new Error(`Custom clothing area "${name}" has more than five slots.`);
+        return {
+          name,
+          slots: area.slots.map((slot, slotIndex) => {
+            if (!slot || typeof slot !== 'object' || Array.isArray(slot)) {
+              throw new Error(`Slot ${slotIndex + 1} in "${name}" is invalid.`);
+            }
+            return { slot: toText(slot.slot), description: toText(slot.description) };
+          })
+        };
+      });
+      const normalizeWearables = (records, label) => records.map((record, index) => {
+        if (!record || typeof record !== 'object' || Array.isArray(record)) {
+          throw new Error(`${label} ${index + 1} is invalid.`);
+        }
+        return { slot: toText(record.slot), description: toText(record.description) };
+      }).filter(record => record.slot.trim() || record.description.trim());
+      return {
+        customs: normalizedCustoms,
+        outfits: normalizeWearables(data.outfits, 'Outfit'),
+        uniforms: normalizeWearables(data.uniforms, 'Uniform')
+      };
+    }
+
+    function exportClothingKit() {
+      const clothingKit = {
+        format: CLOTHING_KIT_FORMAT,
+        schemaVersion: 1,
+        exportedAt: new Date().toISOString(),
+        customs: customs.map(area => ({
+          name: area.name,
+          slots: area.slots.map(({ slot, description }) => ({ slot, description }))
+        })),
+        outfits: outfits.map(({ slot, description }) => ({ slot, description })),
+        uniforms: uniforms.map(({ slot, description }) => ({ slot, description }))
+      };
+      const blob = new Blob([JSON.stringify(clothingKit, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `clothing-kit-seb-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast('Exported clothing kit.');
+    }
+
+    async function importClothingKit(file) {
+      try {
+        const kit = normalizeClothingKit(JSON.parse(await file.text()));
+        if (!window.confirm('Replace your Customs, Outfits, and Uniforms with the clothing kit in this file?')) return;
+        customs = kit.customs;
+        outfits = kit.outfits;
+        uniforms = kit.uniforms;
+        const saved = [persistCustoms(), persistOutfits(), persistUniforms()].every(Boolean);
+        renderCustoms();
+        renderOutfits();
+        renderUniforms();
+        if (saved) showToast('Imported clothing kit.');
+        else showToast('The clothing kit loaded, but this browser could not save all changes.');
+      } catch (error) {
+        showToast(error instanceof Error ? error.message : 'The clothing kit could not be imported.');
+      }
+    }
+
+    function normalizePersonalData(archive) {
+      if (!archive || typeof archive !== 'object' || Array.isArray(archive) || archive.format !== PERSONAL_DATA_FORMAT || archive.schemaVersion !== 1) {
+        throw new Error('Choose a SEB Field Reference personal data JSON file.');
+      }
+      const data = archive.data;
+      if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('The personal data file is invalid.');
+      if (typeof data.callsign !== 'string' || data.callsign.trim().length > 5) throw new Error('The callsign in this file is invalid.');
+      if (!['male', 'female'].includes(data.gender)) throw new Error('The selected model gender in this file is invalid.');
+      const kit = normalizeClothingKit({
+        format: CLOTHING_KIT_FORMAT,
+        schemaVersion: 1,
+        customs: data.customs,
+        outfits: data.outfits,
+        uniforms: data.uniforms
+      });
+      return { ...kit, callsign: data.callsign.trim().toUpperCase(), gender: data.gender };
+    }
+
+    function exportPersonalData() {
+      const archive = {
+        format: PERSONAL_DATA_FORMAT,
+        schemaVersion: 1,
+        exportedAt: new Date().toISOString(),
+        data: {
+          callsign: document.getElementById('callsign').value,
+          gender: selectedIdGender,
+          customs,
+          outfits,
+          uniforms
+        }
+      };
+      const blob = new Blob([JSON.stringify(archive, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `seb-field-reference-data-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast('Exported personalized data.');
+    }
+
+    async function importPersonalData(file) {
+      try {
+        const data = normalizePersonalData(JSON.parse(await file.text()));
+        if (!window.confirm('Replace this browser\'s callsign, model gender, Customs, Outfits, and Uniforms with the data in this file?')) return;
+
+        const updates = new Map([
+          [storageKeys.callsign, data.callsign],
+          [storageKeys.gender, JSON.stringify(data.gender)],
+          [storageKeys.customs, JSON.stringify(data.customs)],
+          [storageKeys.outfits, JSON.stringify(data.outfits)],
+          [storageKeys.uniforms, JSON.stringify(data.uniforms)]
+        ]);
+        const previous = new Map([...updates.keys()].map(key => [key, localStorage.getItem(key)]));
+        try {
+          for (const [key, value] of updates) localStorage.setItem(key, value);
+        } catch {
+          for (const [key, value] of previous) {
+            try {
+              if (value === null) localStorage.removeItem(key);
+              else localStorage.setItem(key, value);
+            } catch {}
+          }
+          throw new Error('This browser could not save the imported data.');
+        }
+
+        customs = data.customs;
+        outfits = data.outfits;
+        uniforms = data.uniforms;
+        const callsign = document.getElementById('callsign');
+        callsign.value = data.callsign;
+        updateCallsignPreview(data.callsign);
+        renderCustoms();
+        renderOutfits();
+        renderUniforms();
+        selectIdGender(data.gender);
+        showToast('Imported personalized data.');
+      } catch (error) {
+        showToast(error instanceof Error ? error.message : 'Personal data could not be imported.');
+      }
+    }
+
     function applySearch() {
       const query = document.getElementById('catalog-search').value.trim().toLocaleLowerCase();
-      const sourceSelector = '#glossary-list .searchable, #equipment-list .searchable, #weapon-list .searchable, #vehicle-list .searchable, #animation-list .searchable, #custom-areas .searchable, #uniform-slots .searchable';
+      const sourceSelector = '#glossary-list .searchable, #equipment-list .searchable, #weapon-list .searchable, #vehicle-list .searchable, #animation-list .searchable, #custom-areas .searchable, #outfit-slots .searchable, #uniform-slots .searchable';
       const entries = [...document.querySelectorAll(sourceSelector)];
       const results = document.getElementById('search-results');
       const catalogSections = document.getElementById('catalog-sections');
@@ -1616,6 +1846,7 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         'vehicle-list': 'Vehicles',
         'animation-list': 'Animations',
         'custom-areas': 'Customs',
+        'outfit-slots': 'Outfits',
         'uniform-slots': 'Uniforms'
       };
       const matches = entries.filter(entry => (entry.dataset.search || '').toLocaleLowerCase().includes(query));
@@ -1645,7 +1876,7 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
 
       for (const entry of matches) {
         const category = categories[entry.parentElement.id];
-        if (category === 'Customs' || category === 'Uniforms') {
+        if (category === 'Customs' || category === 'Outfits' || category === 'Uniforms') {
           const card = document.createElement('article');
           card.className = 'catalog-card search-result-note';
           const content = document.createElement('div');
@@ -2044,6 +2275,12 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         action.classList.toggle('secondary', !isSelected);
       });
     }));
+    document.querySelectorAll('[data-format-target]').forEach(button => button.addEventListener('click', () => {
+      const format = button.dataset.formatTarget;
+      document.getElementById('formats-tab').click();
+      document.getElementById(`${format}-tab`).click();
+      document.getElementById('formats-view').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
     document.getElementById('preset-uniform-buttons').addEventListener('click', event => {
       const button = event.target.closest('[data-preset-index]');
       if (!button) return;
@@ -2071,6 +2308,20 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
       requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     }));
     document.getElementById('catalog-search').addEventListener('input', applySearch);
+    document.getElementById('import-clothing-kit').addEventListener('click', () => document.getElementById('clothing-kit-file').click());
+    document.getElementById('export-clothing-kit').addEventListener('click', exportClothingKit);
+    document.getElementById('export-personal-data').addEventListener('click', exportPersonalData);
+    document.getElementById('import-personal-data').addEventListener('click', () => document.getElementById('personal-data-file').click());
+    document.getElementById('personal-data-file').addEventListener('change', async event => {
+      const file = event.target.files[0];
+      if (file) await importPersonalData(file);
+      event.target.value = '';
+    });
+    document.getElementById('clothing-kit-file').addEventListener('change', async event => {
+      const file = event.target.files[0];
+      if (file) await importClothingKit(file);
+      event.target.value = '';
+    });
     document.getElementById('generate-incident').addEventListener('click', generateIncident);
     document.getElementById('generate-schedule').addEventListener('click', generateTrainingSchedule);
     document.getElementById('generate-attendance').addEventListener('click', generateTrainingAttendance);
@@ -2122,6 +2373,12 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
       persistUniforms(); renderUniforms();
       document.querySelector('#uniform-slots .area-block:last-child input').focus();
     });
+    document.getElementById('add-outfit').addEventListener('click', () => {
+      if (outfits.length >= 40) { showToast('Outfit slots are limited to 40.'); return; }
+      outfits.push({ slot: '', description: '' });
+      persistOutfits(); renderOutfits();
+      document.querySelector('#outfit-slots .area-block:last-child input').focus();
+    });
     document.addEventListener('click', event => {
       const target = event.target;
       if (target.matches('[data-add-custom]')) {
@@ -2133,6 +2390,7 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         const [areaIndex, slotIndex] = target.dataset.removeCustom.split(':').map(Number);
         customs[areaIndex].slots.splice(slotIndex, 1); persistCustoms(); renderCustoms();
       }
+      if (target.matches('[data-remove-outfit]')) { outfits.splice(Number(target.dataset.removeOutfit), 1); persistOutfits(); renderOutfits(); }
       if (target.matches('[data-remove-uniform]')) { uniforms.splice(Number(target.dataset.removeUniform), 1); persistUniforms(); renderUniforms(); }
       const customMove = target.closest('[data-move-custom]');
       if (customMove) {
@@ -2152,6 +2410,16 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         if (nextIndex !== -1) {
           persistUniforms(); renderUniforms();
           document.querySelector(`[data-move-uniform="${nextIndex}"][data-move-direction="${direction}"]`)?.focus();
+        }
+      }
+      const outfitMove = target.closest('[data-move-outfit]');
+      if (outfitMove) {
+        const index = Number(outfitMove.dataset.moveOutfit);
+        const direction = Number(outfitMove.dataset.moveDirection);
+        const nextIndex = moveArrayItem(outfits, index, direction);
+        if (nextIndex !== -1) {
+          persistOutfits(); renderOutfits();
+          document.querySelector(`[data-move-outfit="${nextIndex}"][data-move-direction="${direction}"]`)?.focus();
         }
       }
       if (target.matches('[data-animation]')) {
@@ -2175,12 +2443,19 @@ This is not possible with how Sesh is used in the LSSD Discord. Per Biscuit, it 
         target.closest('.area-block').dataset.search = [uniforms[Number(target.dataset.uniform)].slot, uniforms[Number(target.dataset.uniform)].description].join(' ');
         applySearch();
       }
+      if (target.matches('[data-outfit-field]')) {
+        outfits[Number(target.dataset.outfit)][target.dataset.outfitField] = target.value;
+        persistOutfits();
+        target.closest('.area-block').dataset.search = [outfits[Number(target.dataset.outfit)].slot, outfits[Number(target.dataset.outfit)].description].join(' ');
+        applySearch();
+      }
     });
 
     renderCatalog();
     renderUniformPresets();
     renderChangelog();
     renderCustoms();
+    renderOutfits();
     renderUniforms();
   </script>
 </body>

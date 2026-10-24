@@ -1,7 +1,15 @@
-## Calendar Status
+## Misc Updates
 
-- The live SOD Calendar is on hold while the event workflow is unresolved; the calendar view now presents the explanation in `calendar-hold.md`.
-- The existing iCal feed function and parser tests are retained, but the page no longer requests the event feed.
+- Added site-wide JSON import/export for callsign, model gender, Customs, Outfits, and Uniforms.
+- Added Quick Links to open Ground Rescue, Air Rescue 5, and K9 report generators directly from the ESD and CSD groups.
+- Added medical-care choices to Bite reports and matched the Quick Link button text to its surrounding links.
+
+## 1.8 - Clothing Kit Exchange - 2026-10-24
+
+- Added a separate Outfits collection to the Personal Kit with browser storage, search, and reordering.
+- Added import/export for the shared `nomadlabs-clothing-kit` JSON format used by Character Vault, including Customs, Outfits, and Uniforms.
+- Existing Customs and Uniforms remain in their current browser storage, and Customs' five-slot limit is preserved.
+- Outfits and Uniforms support up to 40 slots each.
 
 ## 1.7 - Vehicles & K9 Logs - 2026-10-23
 
